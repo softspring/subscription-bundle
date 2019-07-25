@@ -1,0 +1,8 @@
+services:
+
+    Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface:
+        class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeSubscriptionAdapter
+
+    Softspring\SubscriptionBundle\Adapter\PlanAdapterInterface:
+        class: Softspring\SubscriptionBundle\Adapter\Stripe\StripePlanAdapter
+

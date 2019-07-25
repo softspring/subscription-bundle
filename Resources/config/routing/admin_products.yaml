@@ -1,0 +1,7 @@
+sfs_subscription_admin_products_list:
+    controller: sfs_subscription.admin.product.controller::list
+    path: /
+
+sfs_subscription_admin_products_create:
+    controller: sfs_subscription.admin.product.controller::create
+    path: /create

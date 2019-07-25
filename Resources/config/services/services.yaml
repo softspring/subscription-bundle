@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $em: '@sfs_subscription.entity_manager'
+
+    Softspring\SubscriptionBundle\Controller\:
+        resource: '../../../Controller/*'
+        public: true
+
+    Softspring\SubscriptionBundle\Form\:
+        resource: '../../../Form/*'
+
+    Softspring\SubscriptionBundle\Manager\PlanManager: ~
+    Softspring\SubscriptionBundle\Manager\ProductManager: ~

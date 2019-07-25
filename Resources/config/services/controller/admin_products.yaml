@@ -1,0 +1,32 @@
+services:
+    Softspring\SubscriptionBundle\Form\Admin\ProductListFilterFormInterface:
+        alias: 'Softspring\SubscriptionBundle\Form\Admin\ProductListFilterForm'
+
+    Softspring\SubscriptionBundle\Form\Admin\ProductCreateFormInterface:
+        alias: 'Softspring\SubscriptionBundle\Form\Admin\ProductCreateForm'
+
+    Softspring\SubscriptionBundle\Form\Admin\ProductUpdateFormInterface:
+        alias: 'Softspring\SubscriptionBundle\Form\Admin\ProductUpdateForm'
+
+    sfs_subscription.admin.product.controller:
+        class: Softspring\AdminBundle\Controller\EntityController
+        public: true
+        arguments:
+            $manager: '@Softspring\SubscriptionBundle\Manager\ProductManager'
+            $eventDispatcher: '@event_dispatcher'
+            $listFilterForm: '@Softspring\SubscriptionBundle\Form\Admin\ProductListFilterFormInterface'
+            $createForm: '@Softspring\SubscriptionBundle\Form\Admin\ProductCreateFormInterface'
+            $updateForm: '@Softspring\SubscriptionBundle\Form\Admin\ProductUpdateFormInterface'
+            $deleteForm: null
+            $config:
+                list:
+                    view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PRODUCTS_LIST_VIEW
+                    view: '@@SfsSubscription/admin/product/list.html.twig'
+                    view_page: '@@SfsSubscription/admin/product/list-page.html.twig'
+                create:
+                    initialize_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PRODUCTS_CREATE_INITIALIZE
+                    form_valid_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PRODUCTS_CREATE_FORM_VALID
+                    success_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PRODUCTS_CREATE_SUCCESS
+                    form_invalid_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PRODUCTS_CREATE_FORM_INVALID
+                    view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PRODUCTS_CREATE_VIEW
+                    view: '@@SfsSubscription/admin/product/create.html.twig'

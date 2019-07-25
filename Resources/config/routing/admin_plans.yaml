@@ -1,0 +1,7 @@
+sfs_subscription_admin_plans_list:
+    controller: sfs_subscription.admin.plan.controller::list
+    path: /
+
+sfs_subscription_admin_plans_create:
+    controller: sfs_subscription.admin.plan.controller::create
+    path: /create

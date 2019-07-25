@@ -4,11 +4,13 @@
     "license": "MIT",
     "require": {
         "php": "^7.0",
+        "softspring/admin-bundle": "*",
+        "softspring/extra-bundle": "*",
         "softspring/subscription": "*"
     },
     "autoload": {
         "psr-4": {
-            "Softspring\\Subscription\\": ""
+            "Softspring\\SubscriptionBundle\\": ""
         }
     },
     "extra": {

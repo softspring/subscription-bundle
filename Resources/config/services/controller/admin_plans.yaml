@@ -1,0 +1,32 @@
+services:
+    Softspring\SubscriptionBundle\Form\Admin\PlanListFilterFormInterface:
+        alias: 'Softspring\SubscriptionBundle\Form\Admin\PlanListFilterForm'
+
+    Softspring\SubscriptionBundle\Form\Admin\PlanCreateFormInterface:
+        alias: 'Softspring\SubscriptionBundle\Form\Admin\PlanCreateForm'
+
+    Softspring\SubscriptionBundle\Form\Admin\PlanUpdateFormInterface:
+        alias: 'Softspring\SubscriptionBundle\Form\Admin\PlanUpdateForm'
+
+    sfs_subscription.admin.plan.controller:
+        class: Softspring\AdminBundle\Controller\EntityController
+        public: true
+        arguments:
+            $manager: '@Softspring\SubscriptionBundle\Manager\PlanManager'
+            $eventDispatcher: '@event_dispatcher'
+            $listFilterForm: '@Softspring\SubscriptionBundle\Form\Admin\PlanListFilterFormInterface'
+            $createForm: '@Softspring\SubscriptionBundle\Form\Admin\PlanCreateFormInterface'
+            $updateForm: '@Softspring\SubscriptionBundle\Form\Admin\PlanUpdateFormInterface'
+            $deleteForm: null
+            $config:
+                list:
+                    view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_LIST_VIEW
+                    view: '@@SfsSubscription/admin/plan/list.html.twig'
+                    view_page: '@@SfsSubscription/admin/plan/list-page.html.twig'
+                create:
+                    initialize_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_CREATE_INITIALIZE
+                    form_valid_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_CREATE_FORM_VALID
+                    success_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_CREATE_SUCCESS
+                    form_invalid_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_CREATE_FORM_INVALID
+                    view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_CREATE_VIEW
+                    view: '@@SfsSubscription/admin/plan/create.html.twig'

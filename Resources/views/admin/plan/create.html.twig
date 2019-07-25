@@ -1,0 +1,10 @@
+{% trans_default_domain 'sfs_subscription' %}
+{% extends '@SfsSubscription/admin_layout.html.twig' %}
+
+{% block content %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_rest(form) }}
+        <input type="submit" value="{{ 'admin_plans.create.actions.create.button'|trans }}" class="btn btn-primary btn-block" />
+    {{ form_end(form) }}
+{% endblock content %}

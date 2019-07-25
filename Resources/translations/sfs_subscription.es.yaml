@@ -1,0 +1,20 @@
+admin_products:
+    list:
+        fields:
+            name.header: "Nombre"
+
+    create:
+        form:
+            name.label: "Nombre"
+            type.label: "Tipo"
+            platformId.label: "Id en la plataforma de pagos"
+        actions:
+            create.button: "Crear producto"
+
+
+admin_plans:
+    list:
+        fields:
+            name.header: "Nombre"
+            product.header: "Producto"
+

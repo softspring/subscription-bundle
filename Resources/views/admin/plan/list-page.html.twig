@@ -1,0 +1,6 @@
+{% for plan in entities %}
+    <tr>
+        <td>{{ plan.name }}</td>
+        <td>{{ plan.product ? plan.product.name : '' }}</td>
+    </tr>
+{% endfor %}
