@@ -1,5 +1,9 @@
+{% trans_default_domain 'sfs_subscription' %}
+
 {% for product in entities %}
     <tr>
+        <td>{{ product.platform ? ('platform.values.'~product.platform)|trans : '' }}</td>
+        <td>{{ product.platformId }}</td>
         <td>{{ product.name }}</td>
     </tr>
 {% endfor %}

@@ -1,8 +1,24 @@
+platform:
+    values:
+        0: 'Interno'
+        1: 'Stripe'
+        2: 'Paypal'
+
+plan:
+    interval:
+        values:
+            1: 'day'
+            2: 'week'
+            3: 'month'
+            4: 'year'
+
 admin_products:
     list:
         page_title: "Productos de suscripción"
         fields:
+            platformId.header: "ID"
             name.header: "Nombre"
+            platform.header: "Plataforma"
 
     create:
         page_title: "Nuevo producto de suscripción"
@@ -18,6 +34,9 @@ admin_plans:
     list:
         page_title: "Planes de suscripción"
         fields:
+            platformId.header: "ID"
             name.header: "Nombre"
             product.header: "Producto"
+            platform.header: "Plataforma"
+            price.header: "Precio"
 

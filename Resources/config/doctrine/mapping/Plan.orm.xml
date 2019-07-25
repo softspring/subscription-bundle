@@ -10,6 +10,12 @@
             <index name="platform_id_idx" columns="platform_id"/>
         </indexes>
 
+        <field name="platform" column="platform" type="smallint" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <field name="platformId" column="platform_id" type="string" nullable="true" />
 
         <field name="name" column="name" type="string" nullable="false" />
