@@ -5,6 +5,20 @@ namespace Softspring\SubscriptionBundle;
 class SfsSubscriptionEvents
 {
     /**
+     * @Event("Softspring\SubscriptionBundle\Event\PlanEvent")
+     */
+    const NOTIFY_PLAN_CREATE = 'sfs_subscription.notify.plan.create';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\PlanEvent")
+     */
+    const NOTIFY_PLAN_UPDATE = 'sfs_subscription.notify.plan.update';
+
+
+
+
+
+    /**
      * @Event("Softspring\AdminBundle\Event\ViewEvent")
      */
     const ADMIN_PRODUCTS_LIST_VIEW = 'sfs_subscription.admin.products.list_view';

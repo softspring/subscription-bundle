@@ -1,9 +1,11 @@
 admin_products:
     list:
+        page_title: "Productos de suscripción"
         fields:
             name.header: "Nombre"
 
     create:
+        page_title: "Nuevo producto de suscripción"
         form:
             name.label: "Nombre"
             type.label: "Tipo"
@@ -14,6 +16,7 @@ admin_products:
 
 admin_plans:
     list:
+        page_title: "Planes de suscripción"
         fields:
             name.header: "Nombre"
             product.header: "Producto"
