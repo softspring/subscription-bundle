@@ -4,9 +4,9 @@ namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Softspring\Subscription\Model\PlanInterface;
+use Softspring\Subscription\Model\SubscriptionInterface;
 
-class PlanManager implements PlanManagerInterface
+class SubscriptionManager implements SubscriptionManagerInterface
 {
     /**
      * @var EntityManagerInterface
@@ -14,7 +14,7 @@ class PlanManager implements PlanManagerInterface
     protected $em;
 
     /**
-     * PlanManager constructor.
+     * SubscriptionManager constructor.
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
@@ -24,7 +24,7 @@ class PlanManager implements PlanManagerInterface
 
     public function getClass(): string
     {
-        return PlanInterface::class;
+        return SubscriptionInterface::class;
     }
 
     public function getRepository(): EntityRepository
@@ -41,8 +41,8 @@ class PlanManager implements PlanManagerInterface
 
     public function saveEntity($entity): void
     {
-        if (!$entity instanceof PlanInterface) {
-            throw new \InvalidArgumentException(sprintf('$entity must be an instance of %s', PlanInterface::class));
+        if (!$entity instanceof SubscriptionInterface) {
+            throw new \InvalidArgumentException(sprintf('$entity must be an instance of %s', SubscriptionInterface::class));
         }
 
         $this->em->persist($entity);

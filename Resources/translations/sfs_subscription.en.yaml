@@ -39,3 +39,16 @@ admin_plans:
             product.header: "Product"
             platform.header: "Platform"
             price.header: "Price"
+
+admin_subscriptions:
+    list:
+        page_title: "Subscriptions"
+        fields:
+            client.header: "Client"
+            plan.header: "Plan"
+            status.header: "Status"
+            startDate.header: "Start date"
+            endDate.header: "End date"
+        filter_form:
+            status.label: "Status"
+            actions.search: "Search"

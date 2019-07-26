@@ -5,12 +5,17 @@ namespace Softspring\SubscriptionBundle;
 class SfsSubscriptionEvents
 {
     /**
-     * @Event("Softspring\SubscriptionBundle\Event\PlanEvent")
+     * @Event("Softspring\SubscriptionBundle\Event\GetResponseEvent")
+     */
+    const NOTIFY_INIT = 'sfs_subscription.nofify.initialize';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\GetResponsePlanEvent")
      */
     const NOTIFY_PLAN_CREATE = 'sfs_subscription.notify.plan.create';
 
     /**
-     * @Event("Softspring\SubscriptionBundle\Event\PlanEvent")
+     * @Event("Softspring\SubscriptionBundle\Event\GetResponsePlanEvent")
      */
     const NOTIFY_PLAN_UPDATE = 'sfs_subscription.notify.plan.update';
 
@@ -77,4 +82,9 @@ class SfsSubscriptionEvents
      * @Event("Softspring\AdminBundle\Event\ViewEvent")
      */
     const ADMIN_PLANS_CREATE_VIEW = 'sfs_subscription.admin.plans.create_view';
+
+    /**
+     * @Event("Softspring\AdminBundle\Event\ViewEvent")
+     */
+    const ADMIN_SUBSCRIPTIONS_LIST_VIEW = 'sfs_subscription.admin.subscriptions.list_view';
 }

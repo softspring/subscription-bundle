@@ -17,5 +17,21 @@
         <tbody>
         {% include '@SfsSubscription/admin/product/list-page.html.twig' %}
         </tbody>
+
+        {% if entities.pages|default(false) %}
+            <tfoot>
+            <tr>
+                <td colspan="20">
+                    {% if entities.prevPage %}
+                        <a href="{{ url('sfs_subscription_admin_products_list', app.request.query.all|merge({ page: entities.prevPage })) }}">Prev page</a>
+                    {% endif %}
+
+                    {% if entities.nextPage %}
+                        <a class="float-right" href="{{ url('sfs_subscription_admin_products_list', app.request.query.all|merge({ page: entities.nextPage })) }}">Next page</a>
+                    {% endif %}
+                </td>
+            </tr>
+            </tfoot>
+        {% endif %}
     </table>
 {% endblock content %}

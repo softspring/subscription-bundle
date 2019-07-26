@@ -1,0 +1,44 @@
+{% trans_default_domain 'sfs_subscription' %}
+{% extends '@SfsSubscription/admin_layout.html.twig' %}
+{% block title %}{{ 'admin_subscriptions.list.page_title'|trans }}{% endblock %}
+
+{% block content %}
+
+    {{ form_start(filterForm) }}
+    {{ form_widget(filterForm) }}
+    {{ form_rest(filterForm) }}
+    {{ form_end(filterForm) }}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">{{ 'admin_subscriptions.list.fields.client.header'|trans }}</th>
+            <th scope="col">{{ 'admin_subscriptions.list.fields.plan.header'|trans }}</th>
+            <th scope="col">{{ 'admin_subscriptions.list.fields.status.header'|trans }}</th>
+            <th scope="col">{{ 'admin_subscriptions.list.fields.startDate.header'|trans }}</th>
+            <th scope="col">{{ 'admin_subscriptions.list.fields.endDate.header'|trans }}</th>
+{#            <th>&nbsp;</th>#}
+        </tr>
+        </thead>
+
+        <tbody>
+        {% include '@SfsSubscription/admin/subscription/list-page.html.twig' %}
+        </tbody>
+
+        {% if entities.pages|default(false) %}
+            <tfoot>
+            <tr>
+                <td colspan="20">
+                    {% if entities.prevPage %}
+                        <a href="{{ url('sfs_subscription_admin_subscriptions_list', app.request.query.all|merge({ page: entities.prevPage })) }}">Prev page</a>
+                    {% endif %}
+
+                    {% if entities.nextPage %}
+                        <a class="float-right" href="{{ url('sfs_subscription_admin_subscriptions_list', app.request.query.all|merge({ page: entities.nextPage })) }}">Next page</a>
+                    {% endif %}
+                </td>
+            </tr>
+            </tfoot>
+        {% endif %}
+    </table>
+{% endblock content %}

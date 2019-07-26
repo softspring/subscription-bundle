@@ -1,0 +1,19 @@
+services:
+    Softspring\SubscriptionBundle\Form\Admin\SubscriptionListFilterFormInterface:
+        alias: 'Softspring\SubscriptionBundle\Form\Admin\SubscriptionListFilterForm'
+
+    sfs_subscription.admin.subscription.controller:
+        class: Softspring\AdminBundle\Controller\EntityController
+        public: true
+        arguments:
+            $manager: '@Softspring\SubscriptionBundle\Manager\SubscriptionManager'
+            $eventDispatcher: '@event_dispatcher'
+            $listFilterForm: '@Softspring\SubscriptionBundle\Form\Admin\SubscriptionListFilterFormInterface'
+            $createForm: null
+            $updateForm: null
+            $deleteForm: null
+            $config:
+                list:
+                    view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_SUBSCRIPTIONS_LIST_VIEW
+                    view: '@@SfsSubscription/admin/subscription/list.html.twig'
+                    view_page: '@@SfsSubscription/admin/subscription/list-page.html.twig'

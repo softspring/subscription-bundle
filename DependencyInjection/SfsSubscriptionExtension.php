@@ -38,6 +38,7 @@ class SfsSubscriptionExtension extends Extension
         $loader->load('services.yaml');
         $loader->load('controller/admin_plans.yaml');
         $loader->load('controller/admin_products.yaml');
+        $loader->load('controller/admin_subscriptions.yaml');
     }
 
 }

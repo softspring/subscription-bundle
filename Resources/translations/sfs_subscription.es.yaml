@@ -12,6 +12,12 @@ plan:
             3: 'month'
             4: 'year'
 
+subscription:
+    status:
+        values:
+            1: 'Activa'
+
+
 admin_products:
     list:
         page_title: "Productos de suscripción"
@@ -40,3 +46,15 @@ admin_plans:
             platform.header: "Plataforma"
             price.header: "Precio"
 
+admin_subscriptions:
+    list:
+        page_title: "Suscripciones"
+        fields:
+            client.header: "Cliente"
+            plan.header: "Plan"
+            status.header: "Estado"
+            startDate.header: "Fecha inicio"
+            endDate.header: "Fecha fin"
+        filter_form:
+            status.label: "Estado"
+            actions.search: "Buscar"

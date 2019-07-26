@@ -41,6 +41,10 @@ class ProductManager implements ProductManagerInterface
 
     public function saveEntity($entity): void
     {
+        if (!$entity instanceof ProductInterface) {
+            throw new \InvalidArgumentException(sprintf('$entity must be an instance of %s', ProductInterface::class));
+        }
+
         $this->em->persist($entity);
         $this->em->flush();
     }

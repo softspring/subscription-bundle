@@ -1,0 +1,11 @@
+{% trans_default_domain 'sfs_subscription' %}
+
+{% for subscription in entities %}
+    <tr>
+        <td>{{ subscription.client.name }}</td>
+        <td>{{ subscription.plan.name|default('') }}</td>
+        <td>{{ subscription.statusString }}</td>
+        <td>{{ subscription.startDate ? subscription.startDate|date('d-m-Y') : '' }}</td>
+        <td>{{ subscription.endDate ? subscription.endDate|date('d-m-Y') : '' }}</td>
+    </tr>
+{% endfor %}

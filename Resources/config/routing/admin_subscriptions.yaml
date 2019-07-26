@@ -1,0 +1,3 @@
+sfs_subscription_admin_subscriptions_list:
+    controller: sfs_subscription.admin.subscription.controller::list
+    path: /
