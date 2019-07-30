@@ -12,7 +12,7 @@ services:
         class: Softspring\AdminBundle\Controller\EntityController
         public: true
         arguments:
-            $manager: '@Softspring\SubscriptionBundle\Manager\ProductManager'
+            $manager: '@Softspring\SubscriptionBundle\Manager\ProductManagerInterface'
             $eventDispatcher: '@event_dispatcher'
             $listFilterForm: '@Softspring\SubscriptionBundle\Form\Admin\ProductListFilterFormInterface'
             $createForm: '@Softspring\SubscriptionBundle\Form\Admin\ProductCreateFormInterface'

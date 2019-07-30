@@ -16,3 +16,12 @@ services:
     Softspring\SubscriptionBundle\Manager\PlanManager: ~
     Softspring\SubscriptionBundle\Manager\ProductManager: ~
     Softspring\SubscriptionBundle\Manager\SubscriptionManager: ~
+
+    Softspring\SubscriptionBundle\Manager\PlanManagerInterface:
+        alias: 'Softspring\SubscriptionBundle\Manager\PlanManager'
+
+    Softspring\SubscriptionBundle\Manager\ProductManagerInterface:
+        alias: 'Softspring\SubscriptionBundle\Manager\ProductManager'
+
+    Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface:
+        alias: 'Softspring\SubscriptionBundle\Manager\SubscriptionManager'

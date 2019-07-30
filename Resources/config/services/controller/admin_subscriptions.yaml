@@ -6,7 +6,7 @@ services:
         class: Softspring\AdminBundle\Controller\EntityController
         public: true
         arguments:
-            $manager: '@Softspring\SubscriptionBundle\Manager\SubscriptionManager'
+            $manager: '@Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface'
             $eventDispatcher: '@event_dispatcher'
             $listFilterForm: '@Softspring\SubscriptionBundle\Form\Admin\SubscriptionListFilterFormInterface'
             $createForm: null
