@@ -19,9 +19,40 @@ class SfsSubscriptionEvents
      */
     const NOTIFY_PLAN_UPDATE = 'sfs_subscription.notify.plan.update';
 
+    /**
+     * @Event("Softspring\AdminBundle\Event\ViewEvent")
+     */
+    const SUBSCRIPTION_PRICING_LIST_VIEW = 'sfs_subscription.subscription.pricing.list_view';
 
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\PreSubscribeGetRequestEvent")
+     */
+    const SUBSCRIPTION_SUBSCRIBE_INITIALIZE = 'sfs_subscription.subscription.subscribe.initialize';
 
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionGetRequestEvent")
+     */
+    const SUBSCRIPTION_SUBSCRIBE_SUCCESS = 'sfs_subscription.subscription.subscribe.success';
 
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionFailedGetRequestEvent")
+     */
+    const SUBSCRIPTION_SUBSCRIBE_FAILED = 'sfs_subscription.subscription.subscribe.failed';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\PreSubscribeGetRequestEvent")
+     */
+    const SUBSCRIPTION_TRIAL_INITIALIZE = 'sfs_subscription.subscription.trial.initialize';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionGetRequestEvent")
+     */
+    const SUBSCRIPTION_TRIAL_SUCCESS = 'sfs_subscription.subscription.trial.success';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionFailedGetRequestEvent")
+     */
+    const SUBSCRIPTION_TRIAL_FAILED = 'sfs_subscription.subscription.trial.failed';
 
     /**
      * @Event("Softspring\AdminBundle\Event\ViewEvent")

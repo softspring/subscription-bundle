@@ -3,8 +3,9 @@
 namespace Softspring\SubscriptionBundle\Event;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\EventDispatcher\Event as EventContract;
 
-class Event
+class Event extends EventContract
 {
     /**
      * @var Request|null

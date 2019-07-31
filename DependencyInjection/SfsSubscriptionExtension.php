@@ -30,6 +30,8 @@ class SfsSubscriptionExtension extends Extension
         // load services
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
 
+        $container->setParameter('sfs_subscription.adapter.name', $config['adapter']['driver']);
+
         if ($config['adapter']['driver'] == 'stripe') {
             $container->setParameter('sfs_subscription.adapter.stripe.options', $config['adapter']['options']);
             $loader->load('adapter/stripe.yaml');
@@ -39,6 +41,7 @@ class SfsSubscriptionExtension extends Extension
         $loader->load('controller/admin_plans.yaml');
         $loader->load('controller/admin_products.yaml');
         $loader->load('controller/admin_subscriptions.yaml');
+        $loader->load('controller/subscribe.yaml');
     }
 
 }

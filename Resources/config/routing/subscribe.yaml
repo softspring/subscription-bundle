@@ -1,0 +1,12 @@
+sfs_subscription_subscribe_choose_plan:
+    controller: sfs_subscription.subscribe.controller::choosePlan
+    path: /choose-a-plan
+
+sfs_subscription_subscribe:
+    controller: sfs_subscription.subscribe.controller::subscribe
+    path: /subscribe/{plan}
+
+sfs_subscription_subscribe_trial:
+    controller: sfs_subscription.subscribe.controller::trial
+    path: /subscribe/{plan}/trial
+

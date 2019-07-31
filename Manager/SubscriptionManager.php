@@ -4,7 +4,10 @@ namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Softspring\Subscription\Model\ClientInterface;
+use Softspring\Subscription\Model\PlanInterface;
 use Softspring\Subscription\Model\SubscriptionInterface;
+use Softspring\SubscriptionBundle\Manager\Exception\SubscriptionException;
 
 class SubscriptionManager implements SubscriptionManagerInterface
 {
@@ -14,12 +17,19 @@ class SubscriptionManager implements SubscriptionManagerInterface
     protected $em;
 
     /**
+     * @var ApiManagerInterface
+     */
+    protected $api;
+
+    /**
      * SubscriptionManager constructor.
      * @param EntityManagerInterface $em
+     * @param ApiManagerInterface $api
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ApiManagerInterface $api)
     {
         $this->em = $em;
+        $this->api = $api;
     }
 
     public function getClass(): string
@@ -47,5 +57,29 @@ class SubscriptionManager implements SubscriptionManagerInterface
 
         $this->em->persist($entity);
         $this->em->flush();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function subscribe(ClientInterface $client, PlanInterface $plan): SubscriptionInterface
+    {
+        $subscription = $this->createEntity();
+
+        if (!$client->getPlatformId()) {
+            // $id = $this->api->client()->create();
+        }
+
+        // $this->api->subscription()->create();
+
+        return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function trial(ClientInterface $client, PlanInterface $plan): SubscriptionInterface
+    {
+        // TODO: Implement trial() method.
     }
 }
