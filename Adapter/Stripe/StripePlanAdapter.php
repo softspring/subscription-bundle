@@ -5,7 +5,7 @@ namespace Softspring\SubscriptionBundle\Adapter\Stripe;
 use Softspring\Subscription\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Adapter\PlanAdapterInterface;
 
-class StripePlanAdapter implements PlanAdapterInterface
+class StripePlanAdapter extends AbstractStripeAdapter implements PlanAdapterInterface
 {
     public function create(PlanInterface $plan): void
     {

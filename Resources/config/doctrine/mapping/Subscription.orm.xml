@@ -6,6 +6,18 @@
 
     <mapped-superclass name="Softspring\Subscription\Model\Subscription" table="plan">
 
+        <indexes>
+            <index name="platform_id_idx" columns="platform_id"/>
+        </indexes>
+
+        <field name="platform" column="platform" type="smallint" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="platformId" column="platform_id" type="string" nullable="true" />
+
         <many-to-one field="client" target-entity="Softspring\Subscription\Model\ClientInterface">
             <join-column name="client_id" referenced-column-name="id" on-delete="RESTRICT" />
         </many-to-one>

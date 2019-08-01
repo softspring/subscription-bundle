@@ -7,7 +7,7 @@ use Softspring\Subscription\Model\ClientInterface;
 use Softspring\Subscription\Model\PlanInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class PreSubscribeGetResponseEvent extends Event
+class PreSubscribeGetResponseEvent extends GetResponseEvent
 {
     use GetResponseTrait;
 

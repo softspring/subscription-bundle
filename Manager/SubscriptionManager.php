@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 use Softspring\Subscription\Model\ClientInterface;
 use Softspring\Subscription\Model\PlanInterface;
 use Softspring\Subscription\Model\SubscriptionInterface;
-use Softspring\SubscriptionBundle\Manager\Exception\SubscriptionException;
 
 class SubscriptionManager implements SubscriptionManagerInterface
 {
@@ -42,6 +41,9 @@ class SubscriptionManager implements SubscriptionManagerInterface
         return $this->em->getRepository($this->getClass());
     }
 
+    /**
+     * @return SubscriptionInterface
+     */
     public function createEntity()
     {
         $metadata = $this->em->getClassMetadata($this->getClass());
@@ -49,6 +51,9 @@ class SubscriptionManager implements SubscriptionManagerInterface
         return new $class;
     }
 
+    /**
+     * @param SubscriptionInterface $entity
+     */
     public function saveEntity($entity): void
     {
         if (!$entity instanceof SubscriptionInterface) {
@@ -66,11 +71,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     {
         $subscription = $this->createEntity();
 
-        if (!$client->getPlatformId()) {
-            // $id = $this->api->client()->create();
-        }
-
-        // $this->api->subscription()->create();
+        $this->api->subscription()->subscribe($subscription, $client, $plan);
 
         return $subscription;
     }

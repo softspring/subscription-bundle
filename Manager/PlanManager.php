@@ -48,4 +48,9 @@ class PlanManager implements PlanManagerInterface
         $this->em->persist($entity);
         $this->em->flush();
     }
+
+    public function convert(string $plan): ?PlanInterface
+    {
+        return $this->getRepository()->findOneBy(['platformId' => $plan]);
+    }
 }

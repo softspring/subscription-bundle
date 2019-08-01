@@ -5,7 +5,7 @@ namespace Softspring\SubscriptionBundle\Event;
 use Softspring\ExtraBundle\Event\GetResponseTrait;
 use Softspring\Subscription\Model\SubscriptionInterface;
 
-class SubscriptionGetResponseEvent extends Event
+class SubscriptionGetResponseEvent extends GetResponseEvent
 {
     use GetResponseTrait;
 

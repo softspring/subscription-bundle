@@ -8,7 +8,7 @@ use Softspring\Subscription\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Manager\Exception\SubscriptionException;
 use Symfony\Component\HttpFoundation\Request;
 
-class SubscriptionFailedGetResponseEvent extends Event
+class SubscriptionFailedGetResponseEvent extends GetResponseEvent
 {
     use GetResponseTrait;
 

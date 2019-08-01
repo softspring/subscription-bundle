@@ -10,3 +10,7 @@ sfs_subscription_subscribe_trial:
     controller: sfs_subscription.subscribe.controller::trial
     path: /subscribe/{plan}/trial
 
+sfs_subscription_subscribe_add_card:
+    controller: sfs_subscription.subscribe.controller::addStripeCard
+    path: /subscribe/{plan}/add-card
+

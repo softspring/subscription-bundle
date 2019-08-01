@@ -1,4 +1,13 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $apiSecretKey: '%sfs_subscription.adapter.stripe.apiSecretKey%'
+
+    Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface:
+        class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeClientAdapter
 
     Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface:
         class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeSubscriptionAdapter
@@ -6,3 +15,5 @@ services:
     Softspring\SubscriptionBundle\Adapter\PlanAdapterInterface:
         class: Softspring\SubscriptionBundle\Adapter\Stripe\StripePlanAdapter
 
+    Softspring\SubscriptionBundle\EventListener\StripeSubscriptionListener:
+        tags: ['kernel.event_subscriber']

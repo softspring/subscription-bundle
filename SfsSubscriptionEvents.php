@@ -25,32 +25,32 @@ class SfsSubscriptionEvents
     const SUBSCRIPTION_PRICING_LIST_VIEW = 'sfs_subscription.subscription.pricing.list_view';
 
     /**
-     * @Event("Softspring\SubscriptionBundle\Event\PreSubscribeGetRequestEvent")
+     * @Event("Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent")
      */
     const SUBSCRIPTION_SUBSCRIBE_INITIALIZE = 'sfs_subscription.subscription.subscribe.initialize';
 
     /**
-     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionGetRequestEvent")
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionGetResponseEvent")
      */
     const SUBSCRIPTION_SUBSCRIBE_SUCCESS = 'sfs_subscription.subscription.subscribe.success';
 
     /**
-     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionFailedGetRequestEvent")
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionFailedGetResponseEvent")
      */
     const SUBSCRIPTION_SUBSCRIBE_FAILED = 'sfs_subscription.subscription.subscribe.failed';
 
     /**
-     * @Event("Softspring\SubscriptionBundle\Event\PreSubscribeGetRequestEvent")
+     * @Event("Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent")
      */
     const SUBSCRIPTION_TRIAL_INITIALIZE = 'sfs_subscription.subscription.trial.initialize';
 
     /**
-     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionGetRequestEvent")
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionGetResponseEvent")
      */
     const SUBSCRIPTION_TRIAL_SUCCESS = 'sfs_subscription.subscription.trial.success';
 
     /**
-     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionFailedGetRequestEvent")
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionFailedGetResponseEvent")
      */
     const SUBSCRIPTION_TRIAL_FAILED = 'sfs_subscription.subscription.trial.failed';
 

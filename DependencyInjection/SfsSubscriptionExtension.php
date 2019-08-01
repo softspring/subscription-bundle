@@ -33,7 +33,7 @@ class SfsSubscriptionExtension extends Extension
         $container->setParameter('sfs_subscription.adapter.name', $config['adapter']['driver']);
 
         if ($config['adapter']['driver'] == 'stripe') {
-            $container->setParameter('sfs_subscription.adapter.stripe.options', $config['adapter']['options']);
+            $container->setParameter('sfs_subscription.adapter.stripe.apiSecretKey', $config['adapter']['options']['apiSecretKey']);
             $loader->load('adapter/stripe.yaml');
         }
 
