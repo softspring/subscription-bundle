@@ -58,3 +58,5 @@ admin_subscriptions:
         filter_form:
             status.label: "Estado"
             actions.search: "Buscar"
+    read:
+        page_title: "Detalles de la suscripción"

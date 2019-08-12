@@ -16,4 +16,11 @@ interface SubscriptionAdapterInterface
      * @throws SubscriptionException
      */
     public function subscribe(SubscriptionInterface $subscription, ClientInterface $client, PlanInterface $plan): void;
+
+    /**
+     * @param SubscriptionInterface $subscription
+     * @return array
+     * @throws SubscriptionException
+     */
+    public function details(SubscriptionInterface $subscription): array;
 }

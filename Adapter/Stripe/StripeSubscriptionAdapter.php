@@ -4,7 +4,7 @@ namespace Softspring\SubscriptionBundle\Adapter\Stripe;
 
 use Softspring\Subscription\Model\ClientInterface;
 use Softspring\Subscription\Model\PlanInterface;
-use Softspring\Subscription\Model\PlatformInterface;
+use Softspring\Subscription\PlatformInterface;
 use Softspring\Subscription\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface;
 use Softspring\SubscriptionBundle\Exception\MissingPlatformIdException;
@@ -47,6 +47,28 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
                     break;
             }
 
+        } catch (InvalidRequest $e) {
+            throw new SubscriptionException('Invalid stripe request', 0, $e);
+        } catch (\Exception $e) {
+            throw new SubscriptionException('Unknown stripe exception', 0, $e);
+        }
+    }
+
+    public function details(SubscriptionInterface $subscription): array
+    {
+        if (!$subscription->getPlatformId()) {
+            throw new MissingPlatformIdException();
+        }
+
+        $this->initStripe();
+
+        try {
+            /** @var StripeSubscription $subscriptionData */
+            $subscriptionData = StripeSubscription::retrieve([
+                'id' => $subscription->getPlatformId(),
+            ]);
+
+            return $subscriptionData->__toArray(true);
         } catch (InvalidRequest $e) {
             throw new SubscriptionException('Invalid stripe request', 0, $e);
         } catch (\Exception $e) {

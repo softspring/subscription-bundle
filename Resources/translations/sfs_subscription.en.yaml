@@ -52,3 +52,5 @@ admin_subscriptions:
         filter_form:
             status.label: "Status"
             actions.search: "Search"
+    read:
+        page_title: "Subscription details"

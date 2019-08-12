@@ -7,5 +7,9 @@
         <td>{{ subscription.statusString }}</td>
         <td>{{ subscription.startDate ? subscription.startDate|date('d-m-Y') : '' }}</td>
         <td>{{ subscription.endDate ? subscription.endDate|date('d-m-Y') : '' }}</td>
+
+        {% if read_route %}
+            <td><a href="{{ url(read_route, {'entity':subscription}) }}">details</a></td>
+        {% endif %}
     </tr>
 {% endfor %}

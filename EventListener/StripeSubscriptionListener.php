@@ -46,11 +46,12 @@ class StripeSubscriptionListener implements EventSubscriberInterface
 
     /**
      * @param PreSubscribeGetResponseEvent $event
+     * @throws \Exception
      */
     public function onSubscribeInitializeEnsureClientPayment(PreSubscribeGetResponseEvent $event)
     {
         if ($this->api->name() !== 'stripe') {
-            return;
+            throw new \Exception('This listener should not be instanced with any other driver');
         }
 
         $client = $event->getClient();

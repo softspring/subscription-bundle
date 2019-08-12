@@ -17,7 +17,9 @@
             <th scope="col">{{ 'admin_subscriptions.list.fields.status.header'|trans }}</th>
             <th scope="col">{{ 'admin_subscriptions.list.fields.startDate.header'|trans }}</th>
             <th scope="col">{{ 'admin_subscriptions.list.fields.endDate.header'|trans }}</th>
-{#            <th>&nbsp;</th>#}
+            {% if read_route %}
+            <th>&nbsp;</th>
+            {% endif %}
         </tr>
         </thead>
 
