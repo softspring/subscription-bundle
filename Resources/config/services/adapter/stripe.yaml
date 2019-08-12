@@ -22,5 +22,8 @@ services:
     Softspring\SubscriptionBundle\EventListener\StripeSubscriptionListener:
         tags: ['kernel.event_subscriber']
 
+    Softspring\SubscriptionBundle\EventListener\StripeNotifyListener:
+        tags: ['kernel.event_subscriber']
+
     Softspring\SubscriptionBundle\EventListener\StripeAdminSubscriptionListener:
         tags: ['kernel.event_subscriber']
