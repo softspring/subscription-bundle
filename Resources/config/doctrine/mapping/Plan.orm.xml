@@ -18,6 +18,12 @@
 
         <field name="platformId" column="platform_id" type="string" nullable="true" />
 
+        <field name="testMode" column="platform_test_mode" type="boolean" nullable="false">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
+
         <field name="name" column="name" type="string" nullable="false" />
 
         <field name="currency" column="currency" type="string" nullable="true" length="3">

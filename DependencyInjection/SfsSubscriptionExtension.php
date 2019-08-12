@@ -34,6 +34,7 @@ class SfsSubscriptionExtension extends Extension
 
         if ($config['adapter']['driver'] == 'stripe') {
             $container->setParameter('sfs_subscription.adapter.stripe.apiSecretKey', $config['adapter']['options']['apiSecretKey']);
+            $container->setParameter('sfs_subscription.adapter.stripe.webhookSigningSecret', $config['adapter']['options']['webhookSigningSecret'] ?? null);
             $loader->load('adapter/stripe.yaml');
         }
 

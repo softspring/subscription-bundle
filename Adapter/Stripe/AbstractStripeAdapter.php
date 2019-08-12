@@ -12,13 +12,19 @@ abstract class AbstractStripeAdapter
     protected $apiSecretKey;
 
     /**
-     * StripeClient constructor.
-     *
-     * @param string $apiSecretKey
+     * @var string|null
      */
-    public function __construct(string $apiSecretKey)
+    protected $webhookSigningSecret;
+
+    /**
+     * AbstractStripeAdapter constructor.
+     * @param string $apiSecretKey
+     * @param string|null $webhookSigningSecret
+     */
+    public function __construct(string $apiSecretKey, ?string $webhookSigningSecret)
     {
         $this->apiSecretKey = $apiSecretKey;
+        $this->webhookSigningSecret = $webhookSigningSecret;
     }
 
     protected function initStripe()

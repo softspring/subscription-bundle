@@ -17,3 +17,8 @@ services:
                     view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_SUBSCRIPTIONS_LIST_VIEW
                     view: '@@SfsSubscription/admin/subscription/list.html.twig'
                     view_page: '@@SfsSubscription/admin/subscription/list-page.html.twig'
+                    read_route: 'sfs_subscription_admin_subscriptions_read'
+                read:
+                    param_converter_key: 'id'
+                    view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_SUBSCRIPTIONS_READ_VIEW
+                    view: '@@SfsSubscription/admin/subscription/read.html.twig'

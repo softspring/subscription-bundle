@@ -5,9 +5,13 @@ services:
         public: false
         bind:
             $apiSecretKey: '%sfs_subscription.adapter.stripe.apiSecretKey%'
+            $webhookSigningSecret: '%sfs_subscription.adapter.stripe.webhookSigningSecret%'
 
     Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface:
         class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeClientAdapter
+
+    Softspring\SubscriptionBundle\Adapter\NotifyAdapterInterface:
+        class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeNotifyAdapter
 
     Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface:
         class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeSubscriptionAdapter
@@ -16,4 +20,7 @@ services:
         class: Softspring\SubscriptionBundle\Adapter\Stripe\StripePlanAdapter
 
     Softspring\SubscriptionBundle\EventListener\StripeSubscriptionListener:
+        tags: ['kernel.event_subscriber']
+
+    Softspring\SubscriptionBundle\EventListener\StripeAdminSubscriptionListener:
         tags: ['kernel.event_subscriber']
