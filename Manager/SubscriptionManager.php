@@ -81,6 +81,10 @@ class SubscriptionManager implements SubscriptionManagerInterface
      */
     public function trial(ClientInterface $client, PlanInterface $plan): SubscriptionInterface
     {
-        // TODO: Implement trial() method.
+        $subscription = $this->createEntity();
+
+        $this->api->subscription()->trial($subscription, $client, $plan);
+
+        return $subscription;
     }
 }
