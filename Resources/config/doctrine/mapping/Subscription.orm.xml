@@ -4,7 +4,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                       https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Softspring\Subscription\Model\Subscription" table="plan">
+    <mapped-superclass name="Softspring\Subscription\Model\Subscription" table="subscription">
 
         <indexes>
             <index name="platform_id_idx" columns="platform_id"/>
