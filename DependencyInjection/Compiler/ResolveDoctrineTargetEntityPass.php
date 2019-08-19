@@ -7,6 +7,7 @@ use Softspring\Subscription\Model\InvoiceInterface;
 use Softspring\Subscription\Model\PlanInterface;
 use Softspring\Subscription\Model\ProductInterface;
 use Softspring\Subscription\Model\SubscriptionInterface;
+use Softspring\Subscription\Model\SubscriptionTransitionInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -24,6 +25,7 @@ class ResolveDoctrineTargetEntityPass implements CompilerPassInterface
         $this->setTargetEntityFromParameter('sfs_subscription.plan.class', PlanInterface::class, $container, true);
         $this->setTargetEntityFromParameter('sfs_subscription.product.class', ProductInterface::class, $container, true);
         $this->setTargetEntityFromParameter('sfs_subscription.subscription.class', SubscriptionInterface::class, $container, true);
+        $this->setTargetEntityFromParameter('sfs_subscription.subscription_transition.class', SubscriptionTransitionInterface::class, $container, true);
     }
 
     protected function setTargetEntityFromParameter(string $parameterName, string $interface, ContainerBuilder $container, bool $required = true)

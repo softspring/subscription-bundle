@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <mapped-superclass name="Softspring\Subscription\Model\SubscriptionTransition" table="subscription_transition">
+
+        <many-to-one field="subscription" target-entity="Softspring\Subscription\Model\SubscriptionInterface" inversed-by="transitions">
+            <join-column name="subscription_id" referenced-column-name="id" on-delete="CASCADE" />
+        </many-to-one>
+
+        <field name="status" column="status" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+        <field name="date" column="status_date" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
+    </mapped-superclass>
+
+</doctrine-mapping>
