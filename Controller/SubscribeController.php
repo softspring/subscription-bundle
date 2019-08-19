@@ -5,7 +5,6 @@ namespace Softspring\SubscriptionBundle\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\Account\Model\AccountInterface;
 use Softspring\AdminBundle\Event\ViewEvent;
-use Softspring\ExtraBundle\Controller\AbstractController;
 use Softspring\Subscription\Model\ClientInterface;
 use Softspring\Subscription\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface;
@@ -195,20 +194,5 @@ class SubscribeController extends AbstractController
 
             return $this->redirectToRoute('sfs_subscription_subscribe_choose_plan');
         }
-    }
-
-    /**
-     * Ensures AccountInterface entity implements subscription ClientInterface
-     *
-     * @param AccountInterface $_account
-     * @return ClientInterface
-     */
-    private function getClient(AccountInterface $_account): ClientInterface
-    {
-        if (! $_account instanceof ClientInterface) {
-            throw new \InvalidArgumentException(sprintf('Account "%s" class must implements "%s" to be used with subscriptions', get_class($_account), ClientInterface::class));
-        }
-
-        return $_account;
     }
 }

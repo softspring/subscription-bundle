@@ -54,6 +54,12 @@
             </options>
         </field>
 
+        <field name="cancelScheduled" column="cancel_scheduled" type="integer" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
     </mapped-superclass>
 
 </doctrine-mapping>

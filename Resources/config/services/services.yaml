@@ -32,5 +32,8 @@ services:
     Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface:
         alias: 'Softspring\SubscriptionBundle\Manager\SubscriptionManager'
 
+    Softspring\SubscriptionBundle\Request\ParamConverter\PlanParamConverter:
+        tags: ['request.param_converter']
+
     Softspring\SubscriptionBundle\Request\ParamConverter\SubscriptionParamConverter:
         tags: ['request.param_converter']

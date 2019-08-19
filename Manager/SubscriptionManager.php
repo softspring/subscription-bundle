@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityRepository;
 use Softspring\Subscription\Model\ClientInterface;
 use Softspring\Subscription\Model\PlanInterface;
 use Softspring\Subscription\Model\SubscriptionInterface;
+use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 
 class SubscriptionManager implements SubscriptionManagerInterface
 {
@@ -86,5 +87,36 @@ class SubscriptionManager implements SubscriptionManagerInterface
         $this->api->subscription()->trial($subscription, $client, $plan);
 
         return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function cancel(ClientInterface $client, SubscriptionInterface $subscription): void
+    {
+        $this->api->subscription()->cancel($subscription);
+        $this->saveEntity($subscription);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function uncancel(ClientInterface $client, SubscriptionInterface $subscription): void
+    {
+        $this->api->subscription()->uncancel($subscription);
+        $this->saveEntity($subscription);
+    }
+
+
+    /**
+     * @param ClientInterface $client
+     * @param SubscriptionInterface $subscription
+     * @param PlanInterface $plan
+     * @throws SubscriptionException
+     */
+    public function upgrade(ClientInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void
+    {
+        $this->api->subscription()->upgrade($subscription, $plan);
+        $this->saveEntity($subscription);
     }
 }

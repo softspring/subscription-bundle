@@ -2,7 +2,6 @@
 
 namespace Softspring\SubscriptionBundle\Controller;
 
-use Softspring\ExtraBundle\Controller\AbstractController;
 use Softspring\SubscriptionBundle\Adapter\NotifyAdapterInterface;
 use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
 use Symfony\Component\HttpFoundation\Request;
