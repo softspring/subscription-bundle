@@ -85,6 +85,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
         $subscription = $this->createEntity();
 
         $this->api->subscription()->trial($subscription, $client, $plan);
+        $client->setTried(true);
 
         return $subscription;
     }
