@@ -5,7 +5,6 @@ namespace Softspring\SubscriptionBundle\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\Account\Model\AccountInterface;
 use Softspring\AdminBundle\Event\ViewEvent;
-use Softspring\Subscription\Model\ClientInterface;
 use Softspring\Subscription\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface;
 use Softspring\SubscriptionBundle\Adapter\Stripe\StripeClientAdapter;
@@ -142,7 +141,7 @@ class SubscribeController extends AbstractController
 
         try {
             $subscription = $this->subscriptionManager->subscribe($client, $plan);
-            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription))) {
+            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
                 $this->subscriptionManager->saveEntity($subscription);
                 return $response;
             }
@@ -181,7 +180,7 @@ class SubscribeController extends AbstractController
 
         try {
             $subscription = $this->subscriptionManager->trial($client, $plan);
-            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_SUCCESS, new SubscriptionGetResponseEvent($subscription))) {
+            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
                 $this->subscriptionManager->saveEntity($subscription);
                 return $response;
             }
