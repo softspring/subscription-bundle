@@ -32,7 +32,7 @@
             </options>
         </field>
 
-        <field name="amount" column="amount" type="decimal" nullable="true" scale="10" precision="2" />
+        <field name="amount" column="amount" type="decimal" nullable="true" precision="10" scale="2" />
 
         <field name="interval" column="interval" type="smallint" nullable="true">
             <options>
