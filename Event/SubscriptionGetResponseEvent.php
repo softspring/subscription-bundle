@@ -3,7 +3,7 @@
 namespace Softspring\SubscriptionBundle\Event;
 
 use Softspring\ExtraBundle\Event\GetResponseTrait;
-use Softspring\Subscription\Model\SubscriptionInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class SubscriptionGetResponseEvent extends GetResponseEvent

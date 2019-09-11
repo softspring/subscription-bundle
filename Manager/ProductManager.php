@@ -4,7 +4,7 @@ namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Softspring\Subscription\Model\ProductInterface;
+use Softspring\SubscriptionBundle\Model\ProductInterface;
 
 class ProductManager implements ProductManagerInterface
 {

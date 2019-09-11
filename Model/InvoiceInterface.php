@@ -1,0 +1,16 @@
+<?php
+
+namespace Softspring\SubscriptionBundle\Model;
+
+interface InvoiceInterface
+{
+    public function getClient(): ?ClientInterface;
+
+    public function getIssueDate(): ?\DateTime;
+
+    public function getNumber(): ?string;
+
+    public function getTotal(): ?float;
+
+    public function getTotalCurrency(): ?string;
+}

@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Adapter;
 
-use Softspring\Subscription\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
 
 interface PlanAdapterInterface
 {

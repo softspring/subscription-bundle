@@ -4,7 +4,7 @@ namespace Softspring\SubscriptionBundle\Form\Admin;
 
 use Jhg\DoctrinePaginationBundle\Request\RequestParam;
 use Softspring\AdminBundle\Form\AdminEntityListFilterForm;
-use Softspring\Subscription\Model\SubscriptionInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;

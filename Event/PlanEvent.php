@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Event;
 
-use Softspring\Subscription\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class PlanEvent

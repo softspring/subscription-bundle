@@ -4,9 +4,9 @@ namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Softspring\Subscription\Model\ClientInterface;
-use Softspring\Subscription\Model\PlanInterface;
-use Softspring\Subscription\Model\SubscriptionInterface;
+use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 
 class SubscriptionManager implements SubscriptionManagerInterface

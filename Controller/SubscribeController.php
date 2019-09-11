@@ -3,9 +3,9 @@
 namespace Softspring\SubscriptionBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\Account\Model\AccountInterface;
+use Softspring\AccountBundle\Model\AccountInterface;
 use Softspring\AdminBundle\Event\ViewEvent;
-use Softspring\Subscription\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface;
 use Softspring\SubscriptionBundle\Adapter\Stripe\StripeClientAdapter;
 use Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent;

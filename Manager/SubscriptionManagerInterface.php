@@ -3,9 +3,9 @@
 namespace Softspring\SubscriptionBundle\Manager;
 
 use Softspring\AdminBundle\Manager\AdminEntityManagerInterface;
-use Softspring\Subscription\Model\ClientInterface;
-use Softspring\Subscription\Model\PlanInterface;
-use Softspring\Subscription\Model\SubscriptionInterface;
+use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 
 interface SubscriptionManagerInterface extends AdminEntityManagerInterface

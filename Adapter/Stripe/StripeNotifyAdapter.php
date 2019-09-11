@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Adapter\Stripe;
 
-use Softspring\Subscription\PlatformInterface;
+use Softspring\SubscriptionBundle\PlatformInterface;
 use Softspring\SubscriptionBundle\Adapter\NotifyAdapterInterface;
 use Softspring\SubscriptionBundle\Event\NotifyEvent;
 use Stripe\Error\SignatureVerification;

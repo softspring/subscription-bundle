@@ -2,12 +2,12 @@
 
 namespace Softspring\SubscriptionBundle\DependencyInjection\Compiler;
 
-use Softspring\Subscription\Model\ClientInterface;
-use Softspring\Subscription\Model\InvoiceInterface;
-use Softspring\Subscription\Model\PlanInterface;
-use Softspring\Subscription\Model\ProductInterface;
-use Softspring\Subscription\Model\SubscriptionInterface;
-use Softspring\Subscription\Model\SubscriptionTransitionInterface;
+use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\InvoiceInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\ProductInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionTransitionInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;

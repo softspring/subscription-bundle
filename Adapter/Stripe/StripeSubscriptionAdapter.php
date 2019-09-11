@@ -2,10 +2,10 @@
 
 namespace Softspring\SubscriptionBundle\Adapter\Stripe;
 
-use Softspring\Subscription\Model\ClientInterface;
-use Softspring\Subscription\Model\PlanInterface;
-use Softspring\Subscription\PlatformInterface;
-use Softspring\Subscription\Model\SubscriptionInterface;
+use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
+use Softspring\SubscriptionBundle\PlatformInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface;
 use Softspring\SubscriptionBundle\Exception\MissingPlatformIdException;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;

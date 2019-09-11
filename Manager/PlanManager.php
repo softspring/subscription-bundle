@@ -4,7 +4,7 @@ namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Softspring\Subscription\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
 
 class PlanManager implements PlanManagerInterface
 {

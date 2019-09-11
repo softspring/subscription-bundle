@@ -2,9 +2,9 @@
 
 namespace Softspring\SubscriptionBundle\Controller;
 
-use Softspring\Account\Model\AccountInterface;
+use Softspring\AccountBundle\Model\AccountInterface;
 use Softspring\ExtraBundle\Controller\AbstractController as ExtraAbstractController;
-use Softspring\Subscription\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\ClientInterface;
 
 abstract class AbstractController extends ExtraAbstractController
 {

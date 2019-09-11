@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Adapter;
 
-use Softspring\Subscription\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\ClientInterface;
 
 interface ClientAdapterInterface
 {

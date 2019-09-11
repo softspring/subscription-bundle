@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Form\Admin;
 
-use Softspring\Subscription\Model\ProductInterface;
+use Softspring\SubscriptionBundle\Model\ProductInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

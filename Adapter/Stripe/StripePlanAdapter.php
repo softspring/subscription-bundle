@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Adapter\Stripe;
 
-use Softspring\Subscription\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Adapter\PlanAdapterInterface;
 
 class StripePlanAdapter extends AbstractStripeAdapter implements PlanAdapterInterface

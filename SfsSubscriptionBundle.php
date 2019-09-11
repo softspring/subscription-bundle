@@ -19,7 +19,7 @@ class SfsSubscriptionBundle extends Bundle
 
         $basePath = realpath(__DIR__.'/Resources/config/doctrine/mapping');
 
-        $this->addRegisterMappingsPass($container, [$basePath => 'Softspring\Subscription\Model']);
+        $this->addRegisterMappingsPass($container, [$basePath => 'Softspring\SubscriptionBundle\Model']);
 
         $container->addCompilerPass(new AliasDoctrineEntityManagerPass());
         $container->addCompilerPass(new ResolveDoctrineTargetEntityPass());

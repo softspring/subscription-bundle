@@ -4,9 +4,9 @@
     "license": "MIT",
     "require": {
         "php": "^7.0",
-        "softspring/admin-bundle": "*",
-        "softspring/extra-bundle": "*",
-        "softspring/subscription": "*"
+        "softspring/admin-bundle": "^1.0",
+        "softspring/account-bundle": "^1.1",
+        "softspring/extra-bundle": "^1.1"
     },
     "autoload": {
         "psr-4": {
@@ -15,7 +15,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "1.1-dev"
         }
     },
     "conflict": {

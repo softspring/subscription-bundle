@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Adapter\Stripe;
 
-use Softspring\Subscription\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\ClientInterface;
 use Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface;
 use Stripe\Card;
 use Stripe\Customer;

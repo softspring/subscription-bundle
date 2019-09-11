@@ -3,7 +3,7 @@
 namespace Softspring\SubscriptionBundle\Manager;
 
 use Softspring\AdminBundle\Manager\AdminEntityManagerInterface;
-use Softspring\Subscription\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
 
 interface PlanManagerInterface extends AdminEntityManagerInterface
 {

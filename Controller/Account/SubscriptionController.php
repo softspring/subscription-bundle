@@ -3,11 +3,11 @@
 namespace Softspring\SubscriptionBundle\Controller\Account;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\Account\Model\AccountInterface;
+use Softspring\AccountBundle\Model\AccountInterface;
 use Softspring\AdminBundle\Event\ViewEvent;
-use Softspring\Subscription\Model\ClientInterface;
-use Softspring\Subscription\Model\PlanInterface;
-use Softspring\Subscription\Model\SubscriptionInterface;
+use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface;
 use Softspring\SubscriptionBundle\Adapter\Stripe\StripeClientAdapter;
 use Softspring\SubscriptionBundle\Controller\AbstractController;

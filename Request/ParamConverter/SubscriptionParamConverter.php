@@ -4,7 +4,7 @@ namespace Softspring\SubscriptionBundle\Request\ParamConverter;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
-use Softspring\Subscription\Model\SubscriptionInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
