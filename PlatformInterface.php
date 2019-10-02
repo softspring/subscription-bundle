@@ -1,6 +1,6 @@
 <?php
 
-namespace Softspring\Subscription;
+namespace Softspring\SubscriptionBundle;
 
 interface PlatformInterface
 {
