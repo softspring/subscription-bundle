@@ -78,12 +78,7 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
             $subscription->setPlatformId($subscriptionData->id);
             $subscription->setStartDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_start));
             $subscription->setEndDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_end));
-
-            switch ($subscriptionData->status) {
-                case 'trialing':
-                    $subscription->setStatus(SubscriptionInterface::STATUS_TRIALING);
-                    break;
-            }
+            $this->setStatus($subscriptionData, $subscription);
 
         } catch (InvalidRequest $e) {
             throw new SubscriptionException('Invalid stripe request', 0, $e);
@@ -217,6 +212,47 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
         }
     }
 
+    public function finishTrial(SubscriptionInterface $subscription, PlanInterface $plan): void
+    {
+        if (!$subscription->getPlatformId()) {
+            throw new MissingPlatformIdException();
+        }
+
+        if (!$plan->getPlatformId()) {
+            throw new MissingPlatformIdException();
+        }
+
+        if ($subscription->getStatus() != SubscriptionInterface::STATUS_TRIALING) {
+            throw new SubscriptionException('Subscription is not trialing now');
+        }
+
+        $this->initStripe();
+
+        try {
+            /** @var StripeSubscription $subscriptionData */
+            $subscriptionData = StripeSubscription::retrieve([
+                'id' => $subscription->getPlatformId(),
+            ]);
+
+            $subscriptionData->updateAttributes([
+                'plan' => $plan->getPlatformId(),
+                'trial_end' => 'now',
+            ]);
+
+            $subscriptionData->save();
+
+            $subscription->setPlan($plan);
+            $subscription->setStartDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_start));
+            $subscription->setEndDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_end));
+            $this->setStatus($subscriptionData, $subscription);
+
+        } catch (InvalidRequest $e) {
+            throw new SubscriptionException('Invalid stripe request', 0, $e);
+        } catch (\Exception $e) {
+            throw new SubscriptionException('Unknown stripe exception', 0, $e);
+        }
+    }
+
     /**
      * @param StripeSubscription $stripe
      * @param SubscriptionInterface $subscription
@@ -227,6 +263,10 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
         switch ($stripe->status) {
             case 'active':
                 $subscription->setStatus(SubscriptionInterface::STATUS_ACTIVE);
+                break;
+
+            case 'trialing':
+                $subscription->setStatus(SubscriptionInterface::STATUS_TRIALING);
                 break;
 
             default:

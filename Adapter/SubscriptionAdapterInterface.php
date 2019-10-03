@@ -53,4 +53,11 @@ interface SubscriptionAdapterInterface
      * @throws SubscriptionException
      */
     public function upgrade(SubscriptionInterface $subscription, PlanInterface $plan): array;
+
+    /**
+     * @param SubscriptionInterface $subscription
+     * @param PlanInterface $plan
+     * @throws SubscriptionException
+     */
+    public function finishTrial(SubscriptionInterface $subscription, PlanInterface $plan): void;
 }

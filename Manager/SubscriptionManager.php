@@ -120,4 +120,16 @@ class SubscriptionManager implements SubscriptionManagerInterface
         $this->api->subscription()->upgrade($subscription, $plan);
         $this->saveEntity($subscription);
     }
+
+    /**
+     * @param ClientInterface $client
+     * @param SubscriptionInterface $subscription
+     * @param PlanInterface $plan
+     * @throws SubscriptionException
+     */
+    public function finishTrial(ClientInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void
+    {
+        $this->api->subscription()->finishTrial($subscription, $plan);
+        $this->saveEntity($subscription);
+    }
 }

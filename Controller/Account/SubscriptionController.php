@@ -178,8 +178,14 @@ class SubscriptionController extends AbstractController
         // TODO DISPATCH EVENT
 
         try {
-            $this->subscriptionManager->upgrade($client, $subscription, $plan);
-            // TODO DISPATCH EVENT
+            /** @var SubscriptionInterface $activeSubscription */
+            $activeSubscription = $client->getActiveSubscriptions()->last();
+            if ($activeSubscription->getStatus() == SubscriptionInterface::STATUS_TRIALING) {
+                $this->subscriptionManager->finishTrial($client, $subscription, $plan);
+            } else {
+                $this->subscriptionManager->upgrade($client, $subscription, $plan);
+            }
+
         } catch (SubscriptionException $e) {
             // TODO DISPATCH EVENT
         }

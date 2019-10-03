@@ -47,4 +47,12 @@ interface SubscriptionManagerInterface extends AdminEntityManagerInterface
      * @throws SubscriptionException
      */
     public function upgrade(ClientInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void;
+
+    /**
+     * @param ClientInterface $client
+     * @param SubscriptionInterface $subscription
+     * @param PlanInterface $plan
+     * @throws SubscriptionException
+     */
+    public function finishTrial(ClientInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void;
 }
