@@ -3,19 +3,19 @@
 namespace Softspring\SubscriptionBundle\Event;
 
 use Softspring\ExtraBundle\Event\GetResponseTrait;
-use Softspring\SubscriptionBundle\Model\ClientInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class SubscriptionFailedGetResponseEvent extends GetResponseEvent
+class UpgradeFailedGetResponseEvent extends GetResponseEvent
 {
     use GetResponseTrait;
 
     /**
-     * @var ClientInterface
+     * @var SubscriptionInterface
      */
-    protected $client;
+    protected $subscription;
 
     /**
      * @var PlanInterface
@@ -28,26 +28,27 @@ class SubscriptionFailedGetResponseEvent extends GetResponseEvent
     protected $exception;
 
     /**
-     * SubscriptionFailedGetResponseEvent constructor.
-     * @param ClientInterface $client
-     * @param PlanInterface $plan
+     * UpgradeFailedGetResponseEvent constructor.
+     *
+     * @param SubscriptionInterface $subscription
+     * @param PlanInterface         $plan
      * @param SubscriptionException $exception
-     * @param Request|null $request
+     * @param Request|null          $request
      */
-    public function __construct(ClientInterface $client, PlanInterface $plan, SubscriptionException $exception, ?Request $request)
+    public function __construct(SubscriptionInterface $subscription, PlanInterface $plan, SubscriptionException $exception, ?Request $request)
     {
         parent::__construct($request);
-        $this->client = $client;
+        $this->subscription = $subscription;
         $this->plan = $plan;
         $this->exception = $exception;
     }
 
     /**
-     * @return ClientInterface
+     * @return SubscriptionInterface
      */
-    public function getClient(): ClientInterface
+    public function getSubscription(): SubscriptionInterface
     {
-        return $this->client;
+        return $this->subscription;
     }
 
     /**

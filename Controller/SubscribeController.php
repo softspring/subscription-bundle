@@ -15,6 +15,7 @@ use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Form\StripeAddCardForm;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -140,10 +141,22 @@ class SubscribeController extends AbstractController
         }
 
         try {
-            $subscription = $this->subscriptionManager->subscribe($client, $plan);
-            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
-                $this->subscriptionManager->saveEntity($subscription);
-                return $response;
+            /** @var SubscriptionInterface $subscription */
+            $subscription = $client->getActiveSubscriptions()->last();
+            if ($subscription->getStatus() == SubscriptionInterface::STATUS_TRIALING) {
+                $this->subscriptionManager->finishTrial($client, $subscription, $plan);
+
+                if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
+                    $this->subscriptionManager->saveEntity($subscription);
+                    return $response;
+                }
+            } else {
+                $subscription = $this->subscriptionManager->subscribe($client, $plan);
+
+                if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
+                    $this->subscriptionManager->saveEntity($subscription);
+                    return $response;
+                }
             }
 
             throw new \RuntimeException('After subscription success, SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS event must set a response to continue');

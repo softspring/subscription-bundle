@@ -5,6 +5,8 @@ namespace Softspring\SubscriptionBundle\Controller\Account;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\AccountBundle\Model\AccountInterface;
 use Softspring\AdminBundle\Event\ViewEvent;
+use Softspring\SubscriptionBundle\Event\UpgradeFailedGetResponseEvent;
+use Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent;
 use Softspring\SubscriptionBundle\Model\ClientInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
@@ -175,19 +177,39 @@ class SubscriptionController extends AbstractController
     {
         $client = $this->getClient($_account);
 
-        // TODO DISPATCH EVENT
+        $oldPlan = $subscription->getPlan();
+
+        if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_INITIALIZE, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
+            return $response;
+        }
 
         try {
             /** @var SubscriptionInterface $activeSubscription */
             $activeSubscription = $client->getActiveSubscriptions()->last();
             if ($activeSubscription->getStatus() == SubscriptionInterface::STATUS_TRIALING) {
                 $this->subscriptionManager->finishTrial($client, $subscription, $plan);
+
+                if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_TRIAL_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
+                    $this->subscriptionManager->saveEntity($subscription);
+                    return $response;
+                }
             } else {
                 $this->subscriptionManager->upgrade($client, $subscription, $plan);
+
+                if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_PLAN_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
+                    $this->subscriptionManager->saveEntity($subscription);
+                    return $response;
+                }
             }
 
+            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
+                $this->subscriptionManager->saveEntity($subscription);
+                return $response;
+            }
         } catch (SubscriptionException $e) {
-            // TODO DISPATCH EVENT
+            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_FAILED, new UpgradeFailedGetResponseEvent($subscription, $plan, $e, $request))) {
+                return $response;
+            }
         }
 
         return $this->redirectToRoute('sfs_subscription_account_subscription_details', ['_account' => $_account]);

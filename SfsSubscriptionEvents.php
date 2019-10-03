@@ -45,6 +45,31 @@ class SfsSubscriptionEvents
     const SUBSCRIPTION_TRIAL_FAILED = 'sfs_subscription.subscription.trial.failed';
 
     /**
+     * @Event("Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent")
+     */
+    const SUBSCRIPTION_UPGRADE_INITIALIZE = 'sfs_subscription.subscription.upgrade.initialize';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent")
+     */
+    const SUBSCRIPTION_UPGRADE_TRIAL_SUCCESS = 'sfs_subscription.subscription.upgrade.trial_success';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent")
+     */
+    const SUBSCRIPTION_UPGRADE_PLAN_SUCCESS = 'sfs_subscription.subscription.upgrade.plan_success';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent")
+     */
+    const SUBSCRIPTION_UPGRADE_SUCCESS = 'sfs_subscription.subscription.upgrade.success';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\UpgradeFailedGetResponseEvent")
+     */
+    const SUBSCRIPTION_UPGRADE_FAILED = 'sfs_subscription.subscription.upgrade.failed';
+
+    /**
      * @Event("Softspring\AdminBundle\Event\ViewEvent")
      */
     const ADMIN_PRODUCTS_LIST_VIEW = 'sfs_subscription.admin.products.list_view';
