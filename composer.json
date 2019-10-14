@@ -21,6 +21,8 @@
         "stripe/stripe-php": "<6.40.0"
     },
     "suggest": {
+        "softspring/admin-bundle": "Use softspring admin templates",
+        "softspring/core-bundle": "Use softspring core bundle",
         "stripe/stripe-php": "Add Stripe php client library if you want to set stripe as driver"
     }
 }
