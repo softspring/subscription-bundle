@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Event;
 
-use Softspring\ExtraBundle\Event\GetResponseTrait;
+use Softspring\CoreBundle\Event\GetResponseTrait;
 
 class GetResponsePlantEvent extends PlanEvent
 {
