@@ -87,6 +87,45 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
         }
     }
 
+    public function extendTrial(SubscriptionInterface $subscription, PlanInterface $plan, \DateTime $trialEndDate): void
+    {
+        if (!$subscription->getPlatformId()) {
+            throw new MissingPlatformIdException();
+        }
+
+        if (!$plan->getPlatformId()) {
+            throw new MissingPlatformIdException();
+        }
+
+        if ($subscription->getStatus() != SubscriptionInterface::STATUS_TRIALING) {
+            throw new SubscriptionException('Subscription is not trialing now');
+        }
+
+        $this->initStripe();
+
+        try {
+            /** @var StripeSubscription $subscriptionData */
+            $subscriptionData = StripeSubscription::retrieve([
+                'id' => $subscription->getPlatformId(),
+            ]);
+
+            $subscriptionData->updateAttributes([
+                'trial_end' => $trialEndDate->format('U'),
+            ]);
+
+            $subscriptionData->save();
+
+            $subscription->setStartDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_start));
+            $subscription->setEndDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_end));
+            $this->setStatus($subscriptionData, $subscription);
+
+        } catch (InvalidRequest $e) {
+            throw new SubscriptionException('Invalid stripe request', 0, $e);
+        } catch (\Exception $e) {
+            throw new SubscriptionException('Unknown stripe exception', 0, $e);
+        }
+    }
+
     public function details(SubscriptionInterface $subscription): array
     {
         if (!$subscription->getPlatformId()) {

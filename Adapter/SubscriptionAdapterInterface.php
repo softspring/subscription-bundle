@@ -27,6 +27,13 @@ interface SubscriptionAdapterInterface
 
     /**
      * @param SubscriptionInterface $subscription
+     * @param PlanInterface         $plan
+     * @param \DateTime             $trialEndDate
+     */
+    public function extendTrial(SubscriptionInterface $subscription, PlanInterface $plan, \DateTime $trialEndDate): void;
+
+    /**
+     * @param SubscriptionInterface $subscription
      * @return array
      * @throws SubscriptionException
      */
