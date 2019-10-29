@@ -5,7 +5,7 @@
     "require": {
         "php": "^7.0",
         "softspring/admin-bundle": "^1.0",
-        "softspring/extra-bundle": "^1.1"
+        "softspring/core-bundle": "*"
     },
     "autoload": {
         "psr-4": {
