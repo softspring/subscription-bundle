@@ -5,6 +5,8 @@ services:
     sfs_subscription.admin.subscription.controller:
         class: Softspring\AdminBundle\Controller\EntityController
         public: true
+        calls:
+            - { method: setContainer, arguments: ['@service_container'] }
         arguments:
             $manager: '@Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface'
             $eventDispatcher: '@event_dispatcher'

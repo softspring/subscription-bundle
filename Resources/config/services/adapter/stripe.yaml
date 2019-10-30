@@ -7,8 +7,8 @@ services:
             $apiSecretKey: '%sfs_subscription.adapter.stripe.apiSecretKey%'
             $webhookSigningSecret: '%sfs_subscription.adapter.stripe.webhookSigningSecret%'
 
-    Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface:
-        class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeClientAdapter
+    Softspring\SubscriptionBundle\Adapter\CustomerAdapterInterface:
+        class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeCustomerAdapter
 
     Softspring\SubscriptionBundle\Adapter\NotifyAdapterInterface:
         class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeNotifyAdapter

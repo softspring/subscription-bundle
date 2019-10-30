@@ -2,55 +2,35 @@
 
 namespace Softspring\SubscriptionBundle\DependencyInjection\Compiler;
 
-use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\CoreBundle\DependencyInjection\Compiler\AbstractResolveDoctrineTargetEntityPass;
+use Softspring\SubscriptionBundle\Model\CustomerInterface;
 use Softspring\SubscriptionBundle\Model\InvoiceInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\ProductInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionTransitionInterface;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use Symfony\Component\DependencyInjection\Exception\LogicException;
 
-class ResolveDoctrineTargetEntityPass implements CompilerPassInterface
+class ResolveDoctrineTargetEntityPass extends AbstractResolveDoctrineTargetEntityPass
 {
+    /**
+     * @inheritDoc
+     */
+    protected function getEntityManagerName(ContainerBuilder $container): string
+    {
+        return $container->getParameter('sfs_subscription.entity_manager_name');
+    }
+
     /**
      * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {
-        $this->setTargetEntityFromParameter('sfs_subscription.client.class', ClientInterface::class, $container, true);
+        $this->setTargetEntityFromParameter('sfs_subscription.customer.class', CustomerInterface::class, $container, true);
         $this->setTargetEntityFromParameter('sfs_subscription.invoice.class', InvoiceInterface::class, $container, false);
         $this->setTargetEntityFromParameter('sfs_subscription.plan.class', PlanInterface::class, $container, true);
-        $this->setTargetEntityFromParameter('sfs_subscription.product.class', ProductInterface::class, $container, true);
+        $this->setTargetEntityFromParameter('sfs_subscription.product.class', ProductInterface::class, $container, false);
         $this->setTargetEntityFromParameter('sfs_subscription.subscription.class', SubscriptionInterface::class, $container, true);
-        $this->setTargetEntityFromParameter('sfs_subscription.subscription_transition.class', SubscriptionTransitionInterface::class, $container, true);
-    }
-
-    protected function setTargetEntityFromParameter(string $parameterName, string $interface, ContainerBuilder $container, bool $required = true)
-    {
-        if ($class = $container->getParameter($parameterName)) {
-            if (!class_implements($class, $interface)) {
-                throw new LogicException(sprintf('%s class must implements %s interface', $class, $interface));
-            }
-
-            $this->setTargetEntity($container, $interface, $class);
-        } else {
-            if ($required) {
-                throw new InvalidArgumentException(sprintf('%s parameter must be a valid entity', $parameterName));
-            }
-        }
-    }
-
-    private function setTargetEntity(ContainerBuilder $container, string $interface, string $class)
-    {
-        $resolveTargetEntityListener = $container->findDefinition('doctrine.orm.listeners.resolve_target_entity');
-
-        if (!$resolveTargetEntityListener->hasTag('doctrine.event_subscriber')) {
-            $resolveTargetEntityListener->addTag('doctrine.event_subscriber');
-        }
-
-        $resolveTargetEntityListener->addMethodCall('addResolveTargetEntity', [$interface, $class, [$container->getParameter('sfs_subscription.entity_manager_name')]]);
+        $this->setTargetEntityFromParameter('sfs_subscription.subscription_transition.class', SubscriptionTransitionInterface::class, $container, false);
     }
 }

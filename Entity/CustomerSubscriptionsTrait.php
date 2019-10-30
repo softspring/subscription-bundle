@@ -1,23 +1,18 @@
 <?php
 
-namespace Softspring\SubscriptionBundle\Model;
+namespace Softspring\SubscriptionBundle\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 
-trait ClientSubscriptionsTrait
+trait CustomerSubscriptionsTrait
 {
     /**
      * @var SubscriptionInterface[]|Collection
-     * @ORM\OneToMany(targetEntity="Softspring\SubscriptionBundle\Model\SubscriptionInterface", mappedBy="client", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Softspring\SubscriptionBundle\Model\SubscriptionInterface", mappedBy="customer", cascade={"persist"})
      */
     protected $subscriptions;
-
-    /**
-     * @var bool
-     * @ORM\Column(name="has_tried", type="boolean", nullable=false, options={"default"=false})
-     */
-    protected $tried = false;
 
     /**
      * @return Collection|SubscriptionInterface[]
@@ -45,21 +40,5 @@ trait ClientSubscriptionsTrait
         return $this->getSubscriptions()->filter(function (SubscriptionInterface $subscription) {
             return in_array($subscription->getStatus(), [SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::STATUS_TRIALING]);
         });
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasTried(): bool
-    {
-        return $this->tried;
-    }
-
-    /**
-     * @param bool $tried
-     */
-    public function setTried(bool $tried): void
-    {
-        $this->tried = $tried;
     }
 }

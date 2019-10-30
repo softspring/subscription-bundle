@@ -4,13 +4,17 @@ namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\AdminBundle\Manager\AdminEntityManagerTrait;
+use Softspring\SubscriptionBundle\Model\CustomerHasTriedInterface;
+use Softspring\SubscriptionBundle\Model\CustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 
 class SubscriptionManager implements SubscriptionManagerInterface
 {
+    use AdminEntityManagerTrait;
+
     /**
      * @var EntityManagerInterface
      */
@@ -32,68 +36,45 @@ class SubscriptionManager implements SubscriptionManagerInterface
         $this->api = $api;
     }
 
-    public function getClass(): string
+    public function getTargetClass(): string
     {
         return SubscriptionInterface::class;
     }
 
-    public function getRepository(): EntityRepository
+    /**
+     * @inheritDoc
+     */
+    public function subscribe(CustomerInterface $customer, PlanInterface $plan): SubscriptionInterface
     {
-        return $this->em->getRepository($this->getClass());
+        $subscription = $this->createEntity();
+
+        $this->api->subscription()->subscribe($subscription, $customer, $plan);
+
+        $this->saveEntity($subscription);
+
+        return $subscription;
     }
 
     /**
-     * @return SubscriptionInterface
+     * @inheritDoc
      */
-    public function createEntity()
+    public function trial(CustomerInterface $customer, PlanInterface $plan): SubscriptionInterface
     {
-        $metadata = $this->em->getClassMetadata($this->getClass());
-        $class = $metadata->getReflectionClass()->name;
-        return new $class;
-    }
+        $subscription = $this->createEntity();
 
-    /**
-     * @param SubscriptionInterface $entity
-     */
-    public function saveEntity($entity): void
-    {
-        if (!$entity instanceof SubscriptionInterface) {
-            throw new \InvalidArgumentException(sprintf('$entity must be an instance of %s', SubscriptionInterface::class));
+        $this->api->subscription()->trial($subscription, $customer, $plan);
+
+        if ($customer instanceof CustomerHasTriedInterface) {
+            $customer->setTried(true);
         }
 
-        $this->em->persist($entity);
-        $this->em->flush();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function subscribe(ClientInterface $client, PlanInterface $plan): SubscriptionInterface
-    {
-        $subscription = $this->createEntity();
-
-        $this->api->subscription()->subscribe($subscription, $client, $plan);
-
         return $subscription;
     }
 
     /**
      * @inheritDoc
      */
-    public function trial(ClientInterface $client, PlanInterface $plan): SubscriptionInterface
-    {
-        $subscription = $this->createEntity();
-
-        $this->api->subscription()->trial($subscription, $client, $plan);
-        $client->setTried(true);
-
-        return $subscription;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function cancel(ClientInterface $client, SubscriptionInterface $subscription): void
+    public function cancel(CustomerInterface $customer, SubscriptionInterface $subscription): void
     {
         $this->api->subscription()->cancel($subscription);
         $this->saveEntity($subscription);
@@ -102,7 +83,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     /**
      * @inheritDoc
      */
-    public function uncancel(ClientInterface $client, SubscriptionInterface $subscription): void
+    public function uncancel(CustomerInterface $customer, SubscriptionInterface $subscription): void
     {
         $this->api->subscription()->uncancel($subscription);
         $this->saveEntity($subscription);
@@ -110,24 +91,26 @@ class SubscriptionManager implements SubscriptionManagerInterface
 
 
     /**
-     * @param ClientInterface $client
+     * @param CustomerInterface     $customer
      * @param SubscriptionInterface $subscription
-     * @param PlanInterface $plan
+     * @param PlanInterface         $plan
+     *
      * @throws SubscriptionException
      */
-    public function upgrade(ClientInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void
+    public function upgrade(CustomerInterface $customer, SubscriptionInterface $subscription, PlanInterface $plan): void
     {
         $this->api->subscription()->upgrade($subscription, $plan);
         $this->saveEntity($subscription);
     }
 
     /**
-     * @param ClientInterface $client
+     * @param CustomerInterface     $customer
      * @param SubscriptionInterface $subscription
-     * @param PlanInterface $plan
+     * @param PlanInterface         $plan
+     *
      * @throws SubscriptionException
      */
-    public function finishTrial(ClientInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void
+    public function finishTrial(CustomerInterface $customer, SubscriptionInterface $subscription, PlanInterface $plan): void
     {
         $this->api->subscription()->finishTrial($subscription, $plan);
         $this->saveEntity($subscription);

@@ -56,13 +56,9 @@ interface SubscriptionInterface extends PlatformObjectInterface
      */
     const STATUS_EXPIRED = 35;
 
-    public function getClient(): ?ClientInterface;
+    public function getCustomer(): ?CustomerInterface;
 
-    public function setClient(?ClientInterface $client): void;
-
-    public function getProduct(): ?ProductInterface;
-
-    public function setProduct(?ProductInterface $product): void;
+    public function setCustomer(?CustomerInterface $customer): void;
 
     public function getPlan(): ?PlanInterface;
 

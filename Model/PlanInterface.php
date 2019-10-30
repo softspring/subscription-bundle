@@ -20,11 +20,6 @@ interface PlanInterface extends PlatformObjectInterface
     public function getName(): ?string;
 
     /**
-     * @return ProductInterface|null
-     */
-    public function getProduct(): ?ProductInterface;
-
-    /**
      * @return string|null
      */
     public function getCurrency(): ?string;

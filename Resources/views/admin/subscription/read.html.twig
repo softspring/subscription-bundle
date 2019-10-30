@@ -6,8 +6,11 @@
     {% set subscription = entity %}
 
     <ul>
-        <li><strong>Client:</strong> {{ subscription.client.name }}</li>
-        <li><strong>Product:</strong> {{ subscription.product.name }}</li>
+        <li><strong>Customer:</strong> {{ subscription.customer.name }}</li>
+        {% if subscription.product|default(false) %}
+            <li><strong>Product:</strong> {{ subscription.product.name }}</li>
+        {% endif %}
+
         <li><strong>Plan:</strong> {{ subscription.plan.name }}</li>
         <li><strong>Platform:</strong> {{ subscription.platform }}</li>
         <li><strong>Platform ID:</strong> {{ subscription.platformId }}</li>

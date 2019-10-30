@@ -2,21 +2,21 @@
 
 namespace Softspring\SubscriptionBundle\Adapter\Stripe;
 
-use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\CustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\PlatformInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface;
 use Softspring\SubscriptionBundle\Exception\MissingPlatformIdException;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
-use Stripe\Error\InvalidRequest;
+use Stripe\Exception\InvalidRequestException;
 use Stripe\Invoice;
 use Stripe\Subscription;
 use Stripe\Subscription as StripeSubscription;
 
 class StripeSubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionAdapterInterface
 {
-    public function subscribe(SubscriptionInterface $subscription, ClientInterface $client, PlanInterface $plan): void
+    public function subscribe(SubscriptionInterface $subscription, CustomerInterface $client, PlanInterface $plan): void
     {
         if (!$client->getPlatformId()) {
             throw new MissingPlatformIdException();
@@ -35,7 +35,7 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
                 'items' => [['plan' => $plan->getPlatformId()]],
             ]);
 
-            $subscription->setClient($client);
+            $subscription->setCustomer($client);
             $subscription->setPlan($plan);
 
             $subscription->setPlatform(PlatformInterface::PLATFORM_STRIPE);
@@ -44,14 +44,14 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
             $subscription->setEndDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_end));
             $this->setStatus($subscriptionData, $subscription);
 
-        } catch (InvalidRequest $e) {
+        } catch (InvalidRequestException $e) {
             throw new SubscriptionException('Invalid stripe request', 0, $e);
         } catch (\Exception $e) {
             throw new SubscriptionException('Unknown stripe exception', 0, $e);
         }
     }
 
-    public function trial(SubscriptionInterface $subscription, ClientInterface $client, PlanInterface $plan): void
+    public function trial(SubscriptionInterface $subscription, CustomerInterface $client, PlanInterface $plan): void
     {
         if (!$client->getPlatformId()) {
             throw new MissingPlatformIdException();
@@ -71,7 +71,7 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
                 'trial_period_days' => 7,
             ]);
 
-            $subscription->setClient($client);
+            $subscription->setCustomer($client);
             $subscription->setPlan($plan);
 
             $subscription->setPlatform(PlatformInterface::PLATFORM_STRIPE);
@@ -101,8 +101,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
                 'id' => $subscription->getPlatformId(),
             ]);
 
-            return $subscriptionData->__toArray(true);
-        } catch (InvalidRequest $e) {
+            return $subscriptionData->toArray(true);
+        } catch (InvalidRequestException $e) {
             throw new SubscriptionException('Invalid stripe request', 0, $e);
         } catch (\Exception $e) {
             throw new SubscriptionException('Unknown stripe exception', 0, $e);
@@ -131,8 +131,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
 
             $subscription->setCancelScheduled(\DateTime::createFromFormat('U', $subscriptionData->cancel_at));
 
-            return $subscriptionData->__toArray(true);
-        } catch (InvalidRequest $e) {
+            return $subscriptionData->toArray(true);
+        } catch (InvalidRequestException $e) {
             throw new SubscriptionException('Invalid stripe request', 0, $e);
         } catch (\Exception $e) {
             throw new SubscriptionException('Unknown stripe exception', 0, $e);
@@ -161,8 +161,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
 
             $subscription->setCancelScheduled(null);
 
-            return $subscriptionData->__toArray(true);
-        } catch (InvalidRequest $e) {
+            return $subscriptionData->toArray(true);
+        } catch (InvalidRequestException $e) {
             throw new SubscriptionException('Invalid stripe request', 0, $e);
         } catch (\Exception $e) {
             throw new SubscriptionException('Unknown stripe exception', 0, $e);
@@ -196,7 +196,7 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
                 /** @var Invoice $invoice */
                 $invoice = Invoice::create(["customer" => $subscriptionData->customer]);
                 $invoice->finalizeInvoice();
-            } catch (InvalidRequest $e) {
+            } catch (InvalidRequestException $e) {
                 if ($e->getMessage() == 'Nothing to invoice for customer') {
 
                 } else {
@@ -204,8 +204,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
                 }
             }
 
-            return $subscriptionData->__toArray(true);
-        } catch (InvalidRequest $e) {
+            return $subscriptionData->toArray(true);
+        } catch (InvalidRequestException $e) {
             throw new SubscriptionException('Invalid stripe request', 0, $e);
         } catch (\Exception $e) {
             throw new SubscriptionException('Unknown stripe exception', 0, $e);

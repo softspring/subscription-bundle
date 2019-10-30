@@ -3,7 +3,7 @@
 namespace Softspring\SubscriptionBundle\Event;
 
 use Softspring\CoreBundle\Event\GetResponseTrait;
-use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\CustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,7 +12,7 @@ class PreSubscribeGetResponseEvent extends GetResponseEvent
     use GetResponseTrait;
 
     /**
-     * @var ClientInterface
+     * @var CustomerInterface
      */
     protected $client;
 
@@ -28,11 +28,12 @@ class PreSubscribeGetResponseEvent extends GetResponseEvent
 
     /**
      * PreSubscribeGetRequestEvent constructor.
-     * @param ClientInterface $client
-     * @param PlanInterface $plan
-     * @param Request|null $request
+     *
+     * @param CustomerInterface $client
+     * @param PlanInterface     $plan
+     * @param Request|null      $request
      */
-    public function __construct(ClientInterface $client, PlanInterface $plan, ?Request $request)
+    public function __construct(CustomerInterface $client, PlanInterface $plan, ?Request $request)
     {
         parent::__construct($request);
         $this->client = $client;
@@ -40,9 +41,9 @@ class PreSubscribeGetResponseEvent extends GetResponseEvent
     }
 
     /**
-     * @return ClientInterface
+     * @return CustomerInterface
      */
-    public function getClient(): ClientInterface
+    public function getClient(): CustomerInterface
     {
         return $this->client;
     }

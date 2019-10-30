@@ -21,7 +21,7 @@ class SfsSubscriptionExtension extends Extension
 
         $container->setParameter('sfs_subscription.entity_manager_name', $config['entity_manager']);
 
-        $container->setParameter('sfs_subscription.client.class', $config['model']['client']);
+        $container->setParameter('sfs_subscription.customer.class', $config['model']['customer']);
         $container->setParameter('sfs_subscription.invoice.class', $config['model']['invoice']);
         $container->setParameter('sfs_subscription.plan.class', $config['model']['plan']);
         $container->setParameter('sfs_subscription.product.class', $config['model']['product']);
@@ -42,7 +42,15 @@ class SfsSubscriptionExtension extends Extension
         $loader->load('services.yaml');
         $loader->load('controller/account_subscription.yaml');
         $loader->load('controller/admin_plans.yaml');
-        $loader->load('controller/admin_products.yaml');
+
+        if ($container->getParameter('sfs_subscription.customer.class')) {
+            $loader->load('controller/admin_customers.yaml');
+        }
+
+        if ($container->getParameter('sfs_subscription.product.class')) {
+            $loader->load('controller/admin_products.yaml');
+        }
+
         $loader->load('controller/admin_subscriptions.yaml');
         $loader->load('controller/subscribe.yaml');
     }

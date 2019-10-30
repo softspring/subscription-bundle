@@ -5,20 +5,14 @@ namespace Softspring\SubscriptionBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-class Subscription implements SubscriptionInterface
+abstract class Subscription implements SubscriptionInterface
 {
-    use PlatformObjectTrait;
     use SubscriptionStatusStringTrait;
 
     /**
-     * @var ClientInterface|null
+     * @var CustomerInterface|null
      */
-    protected $client;
-
-    /**
-     * @var ProductInterface|null
-     */
-    protected $product;
+    protected $customer;
 
     /**
      * @var PlanInterface|null
@@ -59,35 +53,19 @@ class Subscription implements SubscriptionInterface
     }
 
     /**
-     * @return ClientInterface|null
+     * @return CustomerInterface|null
      */
-    public function getClient(): ?ClientInterface
+    public function getCustomer(): ?CustomerInterface
     {
-        return $this->client;
+        return $this->customer;
     }
 
     /**
-     * @param ClientInterface|null $client
+     * @param CustomerInterface|null $customer
      */
-    public function setClient(?ClientInterface $client): void
+    public function setCustomer(?CustomerInterface $customer): void
     {
-        $this->client = $client;
-    }
-
-    /**
-     * @return ProductInterface|null
-     */
-    public function getProduct(): ?ProductInterface
-    {
-        return $this->product;
-    }
-
-    /**
-     * @param ProductInterface|null $product
-     */
-    public function setProduct(?ProductInterface $product): void
-    {
-        $this->product = $product;
+        $this->customer = $customer;
     }
 
     /**
@@ -103,7 +81,10 @@ class Subscription implements SubscriptionInterface
      */
     public function setPlan(?PlanInterface $plan): void
     {
-        $this->setProduct($plan->getProduct());
+        if ($plan instanceof PlanHasProductInterface) {
+            $this->setProduct($plan->getProduct());
+        }
+
         $this->plan = $plan;
     }
 

@@ -4,17 +4,10 @@ namespace Softspring\SubscriptionBundle\Model;
 
 abstract class Plan implements PlanInterface
 {
-    use PlatformObjectTrait;
-
     /**
      * @var string|null
      */
     protected $name;
-
-    /**
-     * @var ProductInterface|null
-     */
-    protected $product;
 
     /**
      * @var string|null
@@ -41,6 +34,11 @@ abstract class Plan implements PlanInterface
      */
     protected $online;
 
+    public function getPlanKey(): ?string
+    {
+        return $this->getPlatformId();
+    }
+
     /**
      * @return string|null
      */
@@ -55,22 +53,6 @@ abstract class Plan implements PlanInterface
     public function setName(?string $name): void
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return ProductInterface|null
-     */
-    public function getProduct(): ?ProductInterface
-    {
-        return $this->product;
-    }
-
-    /**
-     * @param ProductInterface|null $product
-     */
-    public function setProduct(?ProductInterface $product): void
-    {
-        $this->product = $product;
     }
 
     /**

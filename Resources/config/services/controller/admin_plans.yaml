@@ -11,6 +11,8 @@ services:
     sfs_subscription.admin.plan.controller:
         class: Softspring\AdminBundle\Controller\EntityController
         public: true
+        calls:
+            - { method: setContainer, arguments: ['@service_container'] }
         arguments:
             $manager: '@Softspring\SubscriptionBundle\Manager\PlanManagerInterface'
             $eventDispatcher: '@event_dispatcher'

@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Adapter;
 
-use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\CustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
@@ -11,19 +11,21 @@ interface SubscriptionAdapterInterface
 {
     /**
      * @param SubscriptionInterface $subscription
-     * @param ClientInterface $client
-     * @param PlanInterface $plan
+     * @param CustomerInterface     $client
+     * @param PlanInterface         $plan
+     *
      * @throws SubscriptionException
      */
-    public function subscribe(SubscriptionInterface $subscription, ClientInterface $client, PlanInterface $plan): void;
+    public function subscribe(SubscriptionInterface $subscription, CustomerInterface $client, PlanInterface $plan): void;
 
     /**
      * @param SubscriptionInterface $subscription
-     * @param ClientInterface $client
-     * @param PlanInterface $plan
+     * @param CustomerInterface     $client
+     * @param PlanInterface         $plan
+     *
      * @throws SubscriptionException
      */
-    public function trial(SubscriptionInterface $subscription, ClientInterface $client, PlanInterface $plan): void;
+    public function trial(SubscriptionInterface $subscription, CustomerInterface $client, PlanInterface $plan): void;
 
     /**
      * @param SubscriptionInterface $subscription

@@ -50,7 +50,7 @@ admin_subscriptions:
     list:
         page_title: "Suscripciones"
         fields:
-            client.header: "Cliente"
+            customer.header: "Cliente"
             plan.header: "Plan"
             status.header: "Estado"
             startDate.header: "Fecha inicio"

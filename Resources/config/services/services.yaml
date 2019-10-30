@@ -14,26 +14,13 @@ services:
     Softspring\SubscriptionBundle\Form\:
         resource: '../../../Form/*'
 
+    Softspring\SubscriptionBundle\Manager\:
+        resource: '../../../Manager/*'
+
     Softspring\SubscriptionBundle\Manager\ApiManager:
         arguments:
             $name: '%sfs_subscription.adapter.name%'
-    Softspring\SubscriptionBundle\Manager\ApiManagerInterface:
-        alias: 'Softspring\SubscriptionBundle\Manager\ApiManager'
 
-    Softspring\SubscriptionBundle\Manager\PlanManager: ~
-    Softspring\SubscriptionBundle\Manager\PlanManagerInterface:
-        alias: 'Softspring\SubscriptionBundle\Manager\PlanManager'
-
-    Softspring\SubscriptionBundle\Manager\ProductManager: ~
-    Softspring\SubscriptionBundle\Manager\ProductManagerInterface:
-        alias: 'Softspring\SubscriptionBundle\Manager\ProductManager'
-
-    Softspring\SubscriptionBundle\Manager\SubscriptionManager: ~
-    Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface:
-        alias: 'Softspring\SubscriptionBundle\Manager\SubscriptionManager'
-
-    Softspring\SubscriptionBundle\Request\ParamConverter\PlanParamConverter:
-        tags: ['request.param_converter']
-
-    Softspring\SubscriptionBundle\Request\ParamConverter\SubscriptionParamConverter:
+    Softspring\SubscriptionBundle\Request\ParamConverter\:
+        resource: '../../../Request/ParamConverter/*'
         tags: ['request.param_converter']

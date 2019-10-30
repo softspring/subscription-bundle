@@ -4,8 +4,6 @@ namespace Softspring\SubscriptionBundle\Model;
 
 abstract class Product implements ProductInterface
 {
-    use PlatformObjectTrait;
-
     /**
      * @var string|null
      */

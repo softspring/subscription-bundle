@@ -3,7 +3,7 @@
 namespace Softspring\SubscriptionBundle\Manager;
 
 use Softspring\AdminBundle\Manager\AdminEntityManagerInterface;
-use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\CustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
@@ -11,48 +11,51 @@ use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 interface SubscriptionManagerInterface extends AdminEntityManagerInterface
 {
     /**
-     * @param ClientInterface $client
-     * @param PlanInterface $plan
+     * @param CustomerInterface $client
+     * @param PlanInterface     $plan
+     *
      * @return SubscriptionInterface
      * @throws SubscriptionException
      */
-    public function subscribe(ClientInterface $client, PlanInterface $plan): SubscriptionInterface;
+    public function subscribe(CustomerInterface $client, PlanInterface $plan): SubscriptionInterface;
 
     /**
-     * @param ClientInterface $client
-     * @param PlanInterface $plan
+     * @param CustomerInterface $client
+     * @param PlanInterface     $plan
+     *
      * @return SubscriptionInterface
      * @throws SubscriptionException
      */
-    public function trial(ClientInterface $client, PlanInterface $plan): SubscriptionInterface;
+    public function trial(CustomerInterface $client, PlanInterface $plan): SubscriptionInterface;
 
     /**
-     * @param ClientInterface $client
+     * @param CustomerInterface     $client
+     * @param SubscriptionInterface $subscription
+     *
+     * @throws SubscriptionException
+     */
+    public function cancel(CustomerInterface $client, SubscriptionInterface $subscription): void;
+
+    /**
+     * @param CustomerInterface $client
      * @param SubscriptionInterface $subscription
      * @throws SubscriptionException
      */
-    public function cancel(ClientInterface $client, SubscriptionInterface $subscription): void;
+    public function uncancel(CustomerInterface $client, SubscriptionInterface $subscription): void;
 
     /**
-     * @param ClientInterface $client
-     * @param SubscriptionInterface $subscription
-     * @throws SubscriptionException
-     */
-    public function uncancel(ClientInterface $client, SubscriptionInterface $subscription): void;
-
-    /**
-     * @param ClientInterface $client
-     * @param SubscriptionInterface $subscription
-     * @param PlanInterface $plan
-     * @throws SubscriptionException
-     */
-    public function upgrade(ClientInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void;
-
-    /**
-     * @param ClientInterface $client
+     * @param CustomerInterface $client
      * @param SubscriptionInterface $subscription
      * @param PlanInterface $plan
      * @throws SubscriptionException
      */
-    public function finishTrial(ClientInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void;
+    public function upgrade(CustomerInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void;
+
+    /**
+     * @param CustomerInterface $client
+     * @param SubscriptionInterface $subscription
+     * @param PlanInterface $plan
+     * @throws SubscriptionException
+     */
+    public function finishTrial(CustomerInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void;
 }

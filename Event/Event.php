@@ -5,6 +5,11 @@ namespace Softspring\SubscriptionBundle\Event;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event as EventContract;
 
+/**
+ * Class Event
+ *
+ * @deprecated Use Softspring\CoreBundle\Event\RequestEvent instead of this
+ */
 class Event extends EventContract
 {
     /**

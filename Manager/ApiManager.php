@@ -2,9 +2,10 @@
 
 namespace Softspring\SubscriptionBundle\Manager;
 
-use Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface;
+use Softspring\SubscriptionBundle\Adapter\CustomerAdapterInterface;
 use Softspring\SubscriptionBundle\Adapter\PlanAdapterInterface;
 use Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface;
+use Softspring\SubscriptionBundle\PlatformInterface;
 
 class ApiManager implements ApiManagerInterface
 {
@@ -24,23 +25,24 @@ class ApiManager implements ApiManagerInterface
     protected $subscription;
 
     /**
-     * @var ClientAdapterInterface
+     * @var CustomerAdapterInterface
      */
-    protected $client;
+    protected $customer;
 
     /**
      * ApiManager constructor.
-     * @param string $name
-     * @param PlanAdapterInterface $plan
+     *
+     * @param string                       $name
+     * @param PlanAdapterInterface         $plan
      * @param SubscriptionAdapterInterface $subscription
-     * @param ClientAdapterInterface $client
+     * @param CustomerAdapterInterface     $customer
      */
-    public function __construct(string $name, PlanAdapterInterface $plan, SubscriptionAdapterInterface $subscription, ClientAdapterInterface $client)
+    public function __construct(string $name, PlanAdapterInterface $plan, SubscriptionAdapterInterface $subscription, CustomerAdapterInterface $customer)
     {
         $this->name = $name;
         $this->plan = $plan;
         $this->subscription = $subscription;
-        $this->client = $client;
+        $this->customer = $customer;
     }
 
     /**
@@ -51,12 +53,22 @@ class ApiManager implements ApiManagerInterface
         return $this->name;
     }
 
+    public function platformId(): int
+    {
+        switch ($this->name) {
+            case 'stripe':
+                return PlatformInterface::PLATFORM_STRIPE;
+        }
+
+        throw new \Exception('Not valid or implemented platform');
+    }
+
     /**
      * @inheritDoc
      */
-    public function client(): ClientAdapterInterface
+    public function customer(): CustomerAdapterInterface
     {
-        return $this->client;
+        return $this->customer;
     }
 
     /**

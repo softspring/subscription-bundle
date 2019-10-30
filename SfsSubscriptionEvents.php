@@ -138,4 +138,9 @@ class SfsSubscriptionEvents
      * @Event("Softspring\AdminBundle\Event\ViewEvent")
      */
     const ADMIN_SUBSCRIPTIONS_READ_VIEW = 'sfs_subscription.admin.subscriptions.read_view';
+
+    /**
+     * @Event("Softspring\AdminBundle\Event\ViewEvent")
+     */
+    const ADMIN_CUSTOMERS_LIST_VIEW = 'sfs_subscription.admin.customers.read_view';
 }

@@ -5,7 +5,7 @@ namespace Softspring\SubscriptionBundle\Adapter\Stripe;
 use Softspring\SubscriptionBundle\PlatformInterface;
 use Softspring\SubscriptionBundle\Adapter\NotifyAdapterInterface;
 use Softspring\SubscriptionBundle\Event\NotifyEvent;
-use Stripe\Error\SignatureVerification;
+use Stripe\Exception\SignatureVerificationException;
 use Stripe\Webhook;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,7 +14,7 @@ class StripeNotifyAdapter extends AbstractStripeAdapter implements NotifyAdapter
     /**
      * @param Request $request
      * @return NotifyEvent
-     * @throws SignatureVerification
+     * @throws SignatureVerificationException
      */
     public function createEvent(Request $request): NotifyEvent
     {
@@ -29,7 +29,7 @@ class StripeNotifyAdapter extends AbstractStripeAdapter implements NotifyAdapter
         } catch(\UnexpectedValueException $e) {
             // Invalid payload
             throw $e;
-        } catch(SignatureVerification $e) {
+        } catch(SignatureVerificationException $e) {
             // Invalid signature
             throw $e;
         }

@@ -3,11 +3,12 @@
 namespace Softspring\SubscriptionBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\AccountBundle\Model\AccountInterface;
 use Softspring\AdminBundle\Event\ViewEvent;
+use Softspring\CoreBundle\Controller\AbstractController;
+use Softspring\SubscriptionBundle\Model\CustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
-use Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface;
-use Softspring\SubscriptionBundle\Adapter\Stripe\StripeClientAdapter;
+use Softspring\SubscriptionBundle\Adapter\CustomerAdapterInterface;
+use Softspring\SubscriptionBundle\Adapter\Stripe\StripeCustomerAdapter;
 use Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\SubscriptionFailedGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\SubscriptionGetResponseEvent;
@@ -45,19 +46,21 @@ class SubscribeController extends AbstractController
 
     /**
      * @ var ClientAdapterInterface
-     * @var StripeClientAdapter
+     *
+     * @var StripeCustomerAdapter
      */
     protected $clientAdapter;
 
     /**
      * SubscribeController constructor.
+     *
      * @param SubscriptionManagerInterface $subscriptionManager
-     * @param PlanManagerInterface $planManager
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param EntityManagerInterface $em
-     * @param ClientAdapterInterface $clientAdapter
+     * @param PlanManagerInterface         $planManager
+     * @param EventDispatcherInterface     $eventDispatcher
+     * @param EntityManagerInterface       $em
+     * @param CustomerAdapterInterface     $clientAdapter
      */
-    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, ClientAdapterInterface $clientAdapter)
+    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, CustomerAdapterInterface $clientAdapter)
     {
         $this->subscriptionManager = $subscriptionManager;
         $this->planManager = $planManager;
@@ -67,13 +70,12 @@ class SubscribeController extends AbstractController
     }
 
     /**
-     * @param AccountInterface $_account
+     * @param CustomerInterface $client
+     *
      * @return Response
      */
-    public function choosePlan(AccountInterface $_account): Response
+    public function choosePlan(CustomerInterface $client): Response
     {
-        $client = $this->getClient($_account);
-
         $repo = $this->planManager->getRepository();
         $plans = $repo->findBy(['active' => true, 'online' => true]);
 
@@ -95,15 +97,14 @@ class SubscribeController extends AbstractController
     /**
      * TODO: REFACTOR THIS METHOD AND FEATURE WHEN ADDED A SECOND ADAPTER, THIS IS STRIPE
      *
-     * @param AccountInterface $_account
-     * @param string $plan
-     * @param Request $request
+     * @param CustomerInterface $client
+     * @param string            $plan
+     * @param Request           $request
+     *
      * @return Response
      */
-    public function addStripeCard(AccountInterface $_account, string $plan, Request $request): Response
+    public function addStripeCard(CustomerInterface $client, string $plan, Request $request): Response
     {
-        $client = $this->getClient($_account);
-
         /** @var PlanInterface $plan */
         $plan = $this->planManager->convert($plan);
 
@@ -124,15 +125,14 @@ class SubscribeController extends AbstractController
     }
 
     /**
-     * @param AccountInterface $_account
-     * @param string $plan
-     * @param Request $request
+     * @param CustomerInterface $client
+     * @param string            $plan
+     * @param Request           $request
+     *
      * @return Response
      */
-    public function subscribe(AccountInterface $_account, string $plan, Request $request): Response
+    public function subscribe(CustomerInterface $client, string $plan, Request $request): Response
     {
-        $client = $this->getClient($_account);
-
         /** @var PlanInterface $plan */
         $plan = $this->planManager->convert($plan);
 
@@ -170,15 +170,13 @@ class SubscribeController extends AbstractController
     }
 
     /**
-     * @param AccountInterface $_account
+     * @param CustomerInterface $client
      * @param string $plan
      * @param Request $request
      * @return Response
      */
-    public function trial(AccountInterface $_account, string $plan, Request $request): Response
+    public function trial(CustomerInterface $client, string $plan, Request $request): Response
     {
-        $client = $this->getClient($_account);
-
         /** @var PlanInterface $plan */
         $plan = $this->planManager->convert($plan);
 

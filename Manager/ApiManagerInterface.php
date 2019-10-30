@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Manager;
 
-use Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface;
+use Softspring\SubscriptionBundle\Adapter\CustomerAdapterInterface;
 use Softspring\SubscriptionBundle\Adapter\PlanAdapterInterface;
 use Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface;
 
@@ -14,9 +14,14 @@ interface ApiManagerInterface
     public function name(): string;
 
     /**
-     * @return ClientAdapterInterface
+     * @return int
      */
-    public function client(): ClientAdapterInterface;
+    public function platformId(): int;
+
+    /**
+     * @return CustomerAdapterInterface
+     */
+    public function customer(): CustomerAdapterInterface;
 
     /**
      * @return PlanAdapterInterface

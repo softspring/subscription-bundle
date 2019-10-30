@@ -21,7 +21,7 @@ class PlanCreateForm extends AbstractType implements PlanCreateFormInterface
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name');
-        $builder->add('product');
+//        $builder->add('product');
         $builder->add('platformId');
         $builder->add('currency');
         $builder->add('amount');

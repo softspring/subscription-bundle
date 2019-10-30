@@ -40,11 +40,19 @@ admin_plans:
             platform.header: "Platform"
             price.header: "Price"
 
+admin_customers:
+    list:
+        page_title: "Customers"
+        fields:
+            platformId.header: "ID"
+            email.header: "Email"
+            platform.header: "Platform"
+
 admin_subscriptions:
     list:
         page_title: "Subscriptions"
         fields:
-            client.header: "Client"
+            customer.header: "Customer"
             plan.header: "Plan"
             status.header: "Status"
             startDate.header: "Start date"

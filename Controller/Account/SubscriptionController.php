@@ -3,16 +3,14 @@
 namespace Softspring\SubscriptionBundle\Controller\Account;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\AccountBundle\Model\AccountInterface;
-use Softspring\AdminBundle\Event\ViewEvent;
+use Softspring\CoreBundle\Controller\AbstractController;
 use Softspring\SubscriptionBundle\Event\UpgradeFailedGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent;
-use Softspring\SubscriptionBundle\Model\ClientInterface;
+use Softspring\SubscriptionBundle\Model\CustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
-use Softspring\SubscriptionBundle\Adapter\ClientAdapterInterface;
-use Softspring\SubscriptionBundle\Adapter\Stripe\StripeClientAdapter;
-use Softspring\SubscriptionBundle\Controller\AbstractController;
+use Softspring\SubscriptionBundle\Adapter\CustomerAdapterInterface;
+use Softspring\SubscriptionBundle\Adapter\Stripe\StripeCustomerAdapter;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
@@ -45,19 +43,21 @@ class SubscriptionController extends AbstractController
 
     /**
      * @ var ClientAdapterInterface
-     * @var StripeClientAdapter
+     *
+     * @var StripeCustomerAdapter
      */
     protected $clientAdapter;
 
     /**
      * SubscribeController constructor.
+     *
      * @param SubscriptionManagerInterface $subscriptionManager
-     * @param PlanManagerInterface $planManager
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param EntityManagerInterface $em
-     * @param ClientAdapterInterface $clientAdapter
+     * @param PlanManagerInterface         $planManager
+     * @param EventDispatcherInterface     $eventDispatcher
+     * @param EntityManagerInterface       $em
+     * @param CustomerAdapterInterface     $clientAdapter
      */
-    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, ClientAdapterInterface $clientAdapter)
+    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, CustomerAdapterInterface $clientAdapter)
     {
         $this->subscriptionManager = $subscriptionManager;
         $this->planManager = $planManager;
@@ -67,27 +67,28 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param AccountInterface $_account
-     * @param Request $request
+     * @param CustomerInterface $client
+     * @param Request           $request
+     *
      * @return Response
      */
-    public function details(AccountInterface $_account, Request $request): Response
+    public function details(CustomerInterface $client, Request $request): Response
     {
-        /** @var ClientInterface $_account */
+        /** @var CustomerInterface $client */
 
         $defaultSource = null;
 
-        if (!$_account->getActiveSubscriptions()->count()) {
-            return $this->redirectToRoute('sfs_subscription_subscribe_choose_plan', ['_account' => $_account]);
+        if (!$client->getActiveSubscriptions()->count()) {
+            return $this->redirectToRoute('sfs_subscription_subscribe_choose_plan', ['_account' => $client]);
         }
 
-        $subscription = $_account->getActiveSubscriptions()->first();
+        $subscription = $client->getActiveSubscriptions()->first();
 
         $viewData = new \ArrayObject([
-            'businessAccount' => $_account,
+            'businessAccount' => $client,
             'defaultSource' => $defaultSource ?? [],
             'subscription' => $subscription ?? null,
-            'account' => $_account,
+            'account' => $client,
         ]);
 
         // $this->eventDispatcher->dispatch(new ViewEvent($viewData), SfsSubscriptionEvents::SUBSCRIPTION_PRICING_LIST_VIEW);
@@ -96,14 +97,13 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param AccountInterface $_account
+     * @param CustomerInterface     $client
      * @param SubscriptionInterface $subscription
+     *
      * @return Response
      */
-    public function cancel(AccountInterface $_account, SubscriptionInterface $subscription): Response
+    public function cancel(CustomerInterface $client, SubscriptionInterface $subscription): Response
     {
-        $client = $this->getClient($_account);
-
         // TODO DISPATCH EVENT
 
         try {
@@ -113,18 +113,17 @@ class SubscriptionController extends AbstractController
             // TODO DISPATCH EVENT
         }
 
-        return $this->redirectToRoute('sfs_subscription_account_subscription_details', ['_account' => $_account]);
+        return $this->redirectToRoute('sfs_subscription_account_subscription_details', ['_account' => $client]);
     }
 
     /**
-     * @param AccountInterface $_account
+     * @param CustomerInterface     $client
      * @param SubscriptionInterface $subscription
+     *
      * @return Response
      */
-    public function reactivate(AccountInterface $_account, SubscriptionInterface $subscription): Response
+    public function reactivate(CustomerInterface $client, SubscriptionInterface $subscription): Response
     {
-        $client = $this->getClient($_account);
-
         // TODO DISPATCH EVENT
 
         try {
@@ -134,19 +133,17 @@ class SubscriptionController extends AbstractController
             // TODO DISPATCH EVENT
         }
 
-        return $this->redirectToRoute('sfs_subscription_account_subscription_details', ['_account' => $_account]);
+        return $this->redirectToRoute('sfs_subscription_account_subscription_details', ['_account' => $client]);
     }
 
     /**
-     * @param AccountInterface $_account
+     * @param CustomerInterface $client
      * @param SubscriptionInterface $subscription
      * @param Request $request
      * @return Response
      */
-    public function chooseUpgrade(AccountInterface $_account, SubscriptionInterface $subscription, Request $request): Response
+    public function chooseUpgrade(CustomerInterface $client, SubscriptionInterface $subscription, Request $request): Response
     {
-        $client = $this->getClient($_account);
-
         $repo = $this->planManager->getRepository();
         $plans = $repo->findBy(['active' => true, 'online' => true]);
 
@@ -167,16 +164,14 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param AccountInterface $_account
+     * @param CustomerInterface $client
      * @param SubscriptionInterface $subscription
      * @param PlanInterface $plan
      * @param Request $request
      * @return Response
      */
-    public function upgradePlan(AccountInterface $_account, SubscriptionInterface $subscription, PlanInterface $plan, Request $request): Response
+    public function upgradePlan(CustomerInterface $client, SubscriptionInterface $subscription, PlanInterface $plan, Request $request): Response
     {
-        $client = $this->getClient($_account);
-
         $oldPlan = $subscription->getPlan();
 
         if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_INITIALIZE, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
@@ -212,6 +207,6 @@ class SubscriptionController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('sfs_subscription_account_subscription_details', ['_account' => $_account]);
+        return $this->redirectToRoute('sfs_subscription_account_subscription_details', ['_account' => $client]);
     }
 }

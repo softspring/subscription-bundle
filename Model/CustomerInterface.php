@@ -4,8 +4,13 @@ namespace Softspring\SubscriptionBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
 
-interface ClientInterface extends PlatformObjectInterface
+interface CustomerInterface extends PlatformObjectInterface
 {
+    /**
+     * @return string|null
+     */
+    public function getEmail(): ?string;
+
     /**
      * @return Collection|SubscriptionInterface[]
      */
@@ -20,14 +25,4 @@ interface ClientInterface extends PlatformObjectInterface
      * @return Collection|SubscriptionInterface[]
      */
     public function getActiveSubscriptions(): Collection;
-
-    /**
-     * @return bool
-     */
-    public function hasTried(): bool;
-
-    /**
-     * @param bool $tried
-     */
-    public function setTried(bool $tried): void;
 }
