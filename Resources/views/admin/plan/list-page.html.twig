@@ -6,7 +6,7 @@
         <td>{{ plan.platformId }}</td>
         <td>{{ plan.name }}</td>
         <td>{{ plan.product|default(false) ? plan.product.name : '' }}</td>
-        <td class="text-right">
+        <td>
             {{ plan.amount|number_format(2) }}
             <small>{{ plan.currency|upper }} {% if plan.interval %}/{{ ('plan.interval.values.'~plan.interval)|trans }}{% endif %}</small>
         </td>
