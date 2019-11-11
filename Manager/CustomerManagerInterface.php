@@ -9,5 +9,5 @@ interface CustomerManagerInterface extends AdminEntityManagerInterface
 {
     public function createInPlatform(CustomerInterface $customer): void;
 
-    public function addCard(CustomerInterface $customer, string $token, bool $setDefault = false): void;
+    public function addCard(CustomerInterface $customer, string $token, bool $setDefault = false): ?string;
 }

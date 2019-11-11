@@ -4,6 +4,7 @@ namespace Softspring\SubscriptionBundle\Manager;
 
 use Softspring\SubscriptionBundle\Adapter\CustomerAdapterInterface;
 use Softspring\SubscriptionBundle\Adapter\PlanAdapterInterface;
+use Softspring\SubscriptionBundle\Adapter\SourceAdapterInterface;
 use Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface;
 use Softspring\SubscriptionBundle\PlatformInterface;
 
@@ -30,19 +31,26 @@ class ApiManager implements ApiManagerInterface
     protected $customer;
 
     /**
+     * @var SourceAdapterInterface
+     */
+    protected $source;
+
+    /**
      * ApiManager constructor.
      *
      * @param string                       $name
      * @param PlanAdapterInterface         $plan
      * @param SubscriptionAdapterInterface $subscription
      * @param CustomerAdapterInterface     $customer
+     * @param SourceAdapterInterface      $source
      */
-    public function __construct(string $name, PlanAdapterInterface $plan, SubscriptionAdapterInterface $subscription, CustomerAdapterInterface $customer)
+    public function __construct(string $name, PlanAdapterInterface $plan, SubscriptionAdapterInterface $subscription, CustomerAdapterInterface $customer, SourceAdapterInterface $source)
     {
         $this->name = $name;
         $this->plan = $plan;
         $this->subscription = $subscription;
         $this->customer = $customer;
+        $this->source = $source;
     }
 
     /**
@@ -85,5 +93,13 @@ class ApiManager implements ApiManagerInterface
     public function subscription(): SubscriptionAdapterInterface
     {
         return $this->subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function source(): SourceAdapterInterface
+    {
+        return $this->source;
     }
 }

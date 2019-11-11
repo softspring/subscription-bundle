@@ -64,13 +64,15 @@ class CustomerManager implements CustomerManagerInterface
         $this->em->flush();
     }
 
-    public function addCard(CustomerInterface $customer, string $token, bool $setDefault = false): void
+    public function addCard(CustomerInterface $customer, string $token, bool $setDefault = false): ?string
     {
         if (!$customer->getPlatformId()) {
-            return; // TODO exception
+            return null; // TODO exception
         }
 
         $this->api->customer()->addCard($customer, $token);
+
+        return $this->api->customer()->getData($customer)->default_source;
 
         // TODO store default source
     }

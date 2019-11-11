@@ -19,6 +19,9 @@ services:
     Softspring\SubscriptionBundle\Adapter\PlanAdapterInterface:
         class: Softspring\SubscriptionBundle\Adapter\Stripe\StripePlanAdapter
 
+    Softspring\SubscriptionBundle\Adapter\SourceAdapterInterface:
+        class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeSourceAdapter
+
     Softspring\SubscriptionBundle\EventListener\StripeSubscriptionListener:
         tags: ['kernel.event_subscriber']
 
