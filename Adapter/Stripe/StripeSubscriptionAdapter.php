@@ -2,6 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Adapter\Stripe;
 
+use Softspring\SubscriptionBundle\Exception\MaxSubscriptionsReachException;
 use Softspring\SubscriptionBundle\Model\CustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\PlatformInterface;
@@ -80,8 +81,15 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
             $subscription->setEndDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_end));
             $this->setStatus($subscriptionData, $subscription);
 
-        } catch (InvalidRequest $e) {
-            throw new SubscriptionException('Invalid stripe request', 0, $e);
+        } catch (InvalidRequestException $e) {
+            switch ($e->getStripeCode()) {
+                case 'customer_max_subscriptions':
+                    throw new MaxSubscriptionsReachException($e->getMessage(), 0, $e);
+                    break;
+
+                default:
+                    throw new SubscriptionException('Invalid stripe request', 0, $e);
+            }
         } catch (\Exception $e) {
             throw new SubscriptionException('Unknown stripe exception', 0, $e);
         }
