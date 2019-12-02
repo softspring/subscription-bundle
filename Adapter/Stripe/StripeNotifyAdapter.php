@@ -25,7 +25,7 @@ class StripeNotifyAdapter extends AbstractStripeAdapter implements NotifyAdapter
                 throw new \UnexpectedValueException('Bad JSON body from Stripe!');
             }
             $sig_header = $request->server->get('HTTP_STRIPE_SIGNATURE');
-            $event = Webhook::constructEvent($payload, $sig_header, $this->webhookSigningSecret);
+            $event = Webhook::constructEvent($request->getContent(), $sig_header, $this->webhookSigningSecret);
         } catch(\UnexpectedValueException $e) {
             // Invalid payload
             throw $e;
