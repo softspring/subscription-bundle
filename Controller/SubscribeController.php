@@ -143,7 +143,7 @@ class SubscribeController extends AbstractController
         try {
             /** @var SubscriptionInterface $subscription */
             $subscription = $client->getActiveSubscriptions()->last();
-            if ($subscription->getStatus() == SubscriptionInterface::STATUS_TRIALING) {
+            if ($subscription && $subscription->getStatus() == SubscriptionInterface::STATUS_TRIALING) {
                 $this->subscriptionManager->finishTrial($client, $subscription, $plan);
 
                 if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
