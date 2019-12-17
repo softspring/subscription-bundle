@@ -2,9 +2,9 @@
 
 namespace Softspring\SubscriptionBundle\EventListener;
 
+use Softspring\CustomerBundle\Event\NotifyEvent;
 use Softspring\CustomerBundle\PlatformInterface;
-use Softspring\SubscriptionBundle\Event\NotifyEvent;
-use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
+use Softspring\CustomerBundle\SfsCustomerEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class StripeNotifyListener implements EventSubscriberInterface
@@ -12,7 +12,7 @@ class StripeNotifyListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            SfsSubscriptionEvents::NOTIFY => [['onNotify', 0]],
+            SfsCustomerEvents::NOTIFY => [['onNotify', 0]],
         ];
     }
 

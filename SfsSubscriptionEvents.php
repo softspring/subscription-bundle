@@ -5,11 +5,6 @@ namespace Softspring\SubscriptionBundle;
 class SfsSubscriptionEvents
 {
     /**
-     * @Event("Softspring\SubscriptionBundle\Event\NotifyEvent")
-     */
-    const NOTIFY = 'sfs_subscription.notify';
-
-    /**
      * @Event("Softspring\AdminBundle\Event\ViewEvent")
      */
     const SUBSCRIPTION_PRICING_LIST_VIEW = 'sfs_subscription.subscription.pricing.list_view';

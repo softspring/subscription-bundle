@@ -1,3 +1,0 @@
-sfs_subscription_notify:
-    controller: Softspring\SubscriptionBundle\Controller\NotifyController::notify
-    path: /
