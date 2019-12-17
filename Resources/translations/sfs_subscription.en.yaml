@@ -1,9 +1,3 @@
-platform:
-    values:
-        0: 'Internal'
-        1: 'Stripe'
-        2: 'Paypal'
-
 plan:
     interval:
         values:
@@ -11,6 +5,11 @@ plan:
             2: 'week'
             3: 'month'
             4: 'year'
+
+subscription:
+    status:
+        values:
+            1: 'Active'
 
 admin_products:
     list:
@@ -29,7 +28,6 @@ admin_products:
         actions:
             create.button: "Create product"
 
-
 admin_plans:
     list:
         page_title: "Subscription plans"
@@ -39,14 +37,6 @@ admin_plans:
             product.header: "Product"
             platform.header: "Platform"
             price.header: "Price"
-
-admin_customers:
-    list:
-        page_title: "Customers"
-        fields:
-            platformId.header: "ID"
-            email.header: "Email"
-            platform.header: "Platform"
 
 admin_subscriptions:
     list:

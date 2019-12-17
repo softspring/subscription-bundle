@@ -2,6 +2,8 @@
 
 namespace Softspring\SubscriptionBundle\Model;
 
+use Softspring\CustomerBundle\Model\PlatformObjectInterface;
+
 interface PlanInterface extends PlatformObjectInterface
 {
     const INTERVAL_DAY = 1;

@@ -3,8 +3,9 @@
 namespace Softspring\SubscriptionBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
+use Softspring\CustomerBundle\Model\CustomerInterface;
 
-interface CustomerInterface extends PlatformObjectInterface
+interface SubscriptionCustomerInterface extends CustomerInterface
 {
     /**
      * @return string|null

@@ -2,9 +2,9 @@
 
 namespace Softspring\SubscriptionBundle\EventListener;
 
-use Softspring\AdminBundle\Event\ViewEvent;
+use Softspring\CoreBundle\Event\ViewEvent;
+use Softspring\CustomerBundle\Manager\ApiManagerInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
-use Softspring\SubscriptionBundle\Manager\ApiManagerInterface;
 use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -53,6 +53,6 @@ class StripeAdminSubscriptionListener implements EventSubscriberInterface
             return;
         }
 
-        $data['stripe_subscription_data'] = $this->api->subscription()->details($subscription);
+        $data['stripe_subscription_data'] = $this->api->get('subscription')->details($subscription);
     }
 }

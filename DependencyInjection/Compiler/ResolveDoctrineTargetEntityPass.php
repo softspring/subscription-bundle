@@ -3,7 +3,7 @@
 namespace Softspring\SubscriptionBundle\DependencyInjection\Compiler;
 
 use Softspring\CoreBundle\DependencyInjection\Compiler\AbstractResolveDoctrineTargetEntityPass;
-use Softspring\SubscriptionBundle\Model\CustomerInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\InvoiceInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\ProductInterface;
@@ -26,7 +26,6 @@ class ResolveDoctrineTargetEntityPass extends AbstractResolveDoctrineTargetEntit
      */
     public function process(ContainerBuilder $container)
     {
-        $this->setTargetEntityFromParameter('sfs_subscription.customer.class', CustomerInterface::class, $container, true);
         $this->setTargetEntityFromParameter('sfs_subscription.invoice.class', InvoiceInterface::class, $container, false);
         $this->setTargetEntityFromParameter('sfs_subscription.plan.class', PlanInterface::class, $container, true);
         $this->setTargetEntityFromParameter('sfs_subscription.product.class', ProductInterface::class, $container, false);

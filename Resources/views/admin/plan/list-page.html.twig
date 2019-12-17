@@ -10,7 +10,7 @@
 
     <tr class="{{ planTextColor }}">
         <td>
-            {{ plan.platform ? ('platform.values.'~plan.platform)|trans : '' }}
+            {{ plan.platform ? ('platform.values.'~plan.platform)|trans({}, 'sfs_customer') : '' }}
             {{ plan.testMode ? '(test)' : '' }}
         </td>
         <td>{{ plan.platformId }}</td>

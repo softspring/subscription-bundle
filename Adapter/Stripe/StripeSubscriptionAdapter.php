@@ -104,6 +104,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
         $this->initStripe();
 
         try {
+            $this->initStripe();
+
             /** @var StripeSubscription $subscriptionData */
             $subscriptionData = StripeSubscription::retrieve([
                 'id' => $subscription->getPlatformId(),
@@ -126,6 +128,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
         $this->initStripe();
 
         try {
+            $this->initStripe();
+
             /** @var StripeSubscription $subscriptionData */
             $subscriptionData = StripeSubscription::retrieve([
                 'id' => $subscription->getPlatformId(),
@@ -156,6 +160,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
         $this->initStripe();
 
         try {
+            $this->initStripe();
+
             /** @var StripeSubscription $subscriptionData */
             $subscriptionData = StripeSubscription::retrieve([
                 'id' => $subscription->getPlatformId(),
@@ -186,6 +192,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
         $this->initStripe();
 
         try {
+            $this->initStripe();
+
             /** @var StripeSubscription $subscriptionData */
             $subscriptionData = StripeSubscription::retrieve([
                 'id' => $subscription->getPlatformId(),
@@ -234,9 +242,9 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
             throw new SubscriptionException('Subscription is not trialing now');
         }
 
-        $this->initStripe();
-
         try {
+            $this->initStripe();
+
             /** @var StripeSubscription $subscriptionData */
             $subscriptionData = StripeSubscription::retrieve([
                 'id' => $subscription->getPlatformId(),

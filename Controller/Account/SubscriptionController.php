@@ -4,13 +4,12 @@ namespace Softspring\SubscriptionBundle\Controller\Account;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\CoreBundle\Controller\AbstractController;
+use Softspring\CustomerBundle\Adapter\CustomerAdapterInterface;
 use Softspring\SubscriptionBundle\Event\UpgradeFailedGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent;
-use Softspring\SubscriptionBundle\Model\CustomerInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
-use Softspring\SubscriptionBundle\Adapter\CustomerAdapterInterface;
-use Softspring\SubscriptionBundle\Adapter\Stripe\StripeCustomerAdapter;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
@@ -42,9 +41,7 @@ class SubscriptionController extends AbstractController
     protected $em;
 
     /**
-     * @ var ClientAdapterInterface
-     *
-     * @var StripeCustomerAdapter
+     * @var CustomerAdapterInterface
      */
     protected $clientAdapter;
 
@@ -67,14 +64,14 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param CustomerInterface $client
-     * @param Request           $request
+     * @param SubscriptionCustomerInterface $client
+     * @param Request                       $request
      *
      * @return Response
      */
-    public function details(CustomerInterface $client, Request $request): Response
+    public function details(SubscriptionCustomerInterface $client, Request $request): Response
     {
-        /** @var CustomerInterface $client */
+        /** @var SubscriptionCustomerInterface $client */
 
         $defaultSource = null;
 
@@ -97,12 +94,12 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param CustomerInterface     $client
-     * @param SubscriptionInterface $subscription
+     * @param SubscriptionCustomerInterface $client
+     * @param SubscriptionInterface         $subscription
      *
      * @return Response
      */
-    public function cancel(CustomerInterface $client, SubscriptionInterface $subscription): Response
+    public function cancel(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription): Response
     {
         // TODO DISPATCH EVENT
 
@@ -117,12 +114,12 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param CustomerInterface     $client
-     * @param SubscriptionInterface $subscription
+     * @param SubscriptionCustomerInterface $client
+     * @param SubscriptionInterface         $subscription
      *
      * @return Response
      */
-    public function reactivate(CustomerInterface $client, SubscriptionInterface $subscription): Response
+    public function reactivate(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription): Response
     {
         // TODO DISPATCH EVENT
 
@@ -137,12 +134,13 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param CustomerInterface $client
-     * @param SubscriptionInterface $subscription
-     * @param Request $request
+     * @param SubscriptionCustomerInterface $client
+     * @param SubscriptionInterface         $subscription
+     * @param Request                       $request
+     *
      * @return Response
      */
-    public function chooseUpgrade(CustomerInterface $client, SubscriptionInterface $subscription, Request $request): Response
+    public function chooseUpgrade(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription, Request $request): Response
     {
         $repo = $this->planManager->getRepository();
         $plans = $repo->findBy(['active' => true, 'online' => true]);
@@ -164,13 +162,14 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param CustomerInterface $client
-     * @param SubscriptionInterface $subscription
-     * @param PlanInterface $plan
-     * @param Request $request
+     * @param SubscriptionCustomerInterface $client
+     * @param SubscriptionInterface         $subscription
+     * @param PlanInterface                 $plan
+     * @param Request                       $request
+     *
      * @return Response
      */
-    public function upgradePlan(CustomerInterface $client, SubscriptionInterface $subscription, PlanInterface $plan, Request $request): Response
+    public function upgradePlan(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription, PlanInterface $plan, Request $request): Response
     {
         $oldPlan = $subscription->getPlan();
 

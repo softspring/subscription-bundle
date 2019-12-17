@@ -2,9 +2,10 @@
 
 namespace Softspring\SubscriptionBundle\Adapter;
 
+use Softspring\CustomerBundle\Adapter\AbstractResponse;
 use Softspring\SubscriptionBundle\Exception\PlatformNotYetImplemented;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
-use Softspring\SubscriptionBundle\PlatformInterface;
+use Softspring\CustomerBundle\PlatformInterface;
 
 class PlanResponse extends AbstractResponse
 {

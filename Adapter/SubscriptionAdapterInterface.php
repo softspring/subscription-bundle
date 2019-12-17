@@ -7,7 +7,7 @@ use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 
-interface SubscriptionAdapterInterface
+interface SubscriptionAdapterInterface extends PlatformAdapterInterface
 {
     /**
      * @param SubscriptionInterface $subscription

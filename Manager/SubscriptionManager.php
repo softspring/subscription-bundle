@@ -5,8 +5,10 @@ namespace Softspring\SubscriptionBundle\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Softspring\AdminBundle\Manager\AdminEntityManagerTrait;
+use Softspring\CustomerBundle\Manager\ApiManagerInterface;
+use Softspring\SubscriptionBundle\Adapter\SubscriptionResponse;
 use Softspring\SubscriptionBundle\Model\CustomerHasTriedInterface;
-use Softspring\SubscriptionBundle\Model\CustomerInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
@@ -44,7 +46,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     /**
      * @inheritDoc
      */
-    public function subscribe(CustomerInterface $customer, PlanInterface $plan): SubscriptionInterface
+    public function subscribe(SubscriptionCustomerInterface $customer, PlanInterface $plan): SubscriptionInterface
     {
         $subscription = $this->createEntity();
 
@@ -74,7 +76,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     /**
      * @inheritDoc
      */
-    public function cancel(CustomerInterface $customer, SubscriptionInterface $subscription): void
+    public function cancel(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription): void
     {
         $this->api->subscription()->cancel($subscription);
         $this->saveEntity($subscription);
@@ -83,7 +85,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     /**
      * @inheritDoc
      */
-    public function uncancel(CustomerInterface $customer, SubscriptionInterface $subscription): void
+    public function uncancel(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription): void
     {
         $this->api->subscription()->uncancel($subscription);
         $this->saveEntity($subscription);
@@ -97,7 +99,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
      *
      * @throws SubscriptionException
      */
-    public function upgrade(CustomerInterface $customer, SubscriptionInterface $subscription, PlanInterface $plan): void
+    public function upgrade(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription, PlanInterface $plan): void
     {
         $this->api->subscription()->upgrade($subscription, $plan);
         $this->saveEntity($subscription);
@@ -110,7 +112,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
      *
      * @throws SubscriptionException
      */
-    public function finishTrial(CustomerInterface $customer, SubscriptionInterface $subscription, PlanInterface $plan): void
+    public function finishTrial(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription, PlanInterface $plan): void
     {
         $this->api->subscription()->finishTrial($subscription, $plan);
         $this->saveEntity($subscription);

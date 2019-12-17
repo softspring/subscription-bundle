@@ -2,9 +2,9 @@
 
 namespace Softspring\SubscriptionBundle\EventListener;
 
+use Softspring\CustomerBundle\Manager\ApiManagerInterface;
 use Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent;
-use Softspring\SubscriptionBundle\Manager\ApiManagerInterface;
 use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;

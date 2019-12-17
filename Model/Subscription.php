@@ -10,7 +10,7 @@ abstract class Subscription implements SubscriptionInterface
     use SubscriptionStatusStringTrait;
 
     /**
-     * @var CustomerInterface|null
+     * @var SubscriptionCustomerInterface|null
      */
     protected $customer;
 
@@ -53,17 +53,17 @@ abstract class Subscription implements SubscriptionInterface
     }
 
     /**
-     * @return CustomerInterface|null
+     * @return SubscriptionCustomerInterface|null
      */
-    public function getCustomer(): ?CustomerInterface
+    public function getCustomer(): ?SubscriptionCustomerInterface
     {
         return $this->customer;
     }
 
     /**
-     * @param CustomerInterface|null $customer
+     * @param SubscriptionCustomerInterface|null $customer
      */
-    public function setCustomer(?CustomerInterface $customer): void
+    public function setCustomer(?SubscriptionCustomerInterface $customer): void
     {
         $this->customer = $customer;
     }

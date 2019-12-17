@@ -1,9 +1,0 @@
-{% trans_default_domain 'sfs_subscription' %}
-
-{% for customer in entities %}
-    <tr>
-        <td>{{ customer.platform ? ('platform.values.'~customer.platform)|trans : '' }}</td>
-        <td>{{ customer.platformId }}</td>
-        <td>{{ customer.email }}</td>
-    </tr>
-{% endfor %}

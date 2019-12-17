@@ -5,6 +5,7 @@ namespace Softspring\SubscriptionBundle\Manager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\AdminBundle\Manager\AdminEntityManagerTrait;
+use Softspring\CustomerBundle\Manager\ApiManagerInterface;
 use Softspring\SubscriptionBundle\Adapter\PlanResponse;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 
@@ -78,7 +79,7 @@ class PlanManager implements PlanManagerInterface
     public function syncAll(): void
     {
         $dbPlans = new ArrayCollection($this->getRepository()->findAll());
-        $platformPlans = $this->api->plan()->list();
+        $platformPlans = $this->api->get('plan')->list();
 
         /** @var PlanResponse $platformPlan */
         foreach ($platformPlans as $platformPlan) {

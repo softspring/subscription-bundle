@@ -1,3 +1,0 @@
-sfs_subscription_admin_customers_list:
-    controller: sfs_subscription.admin.customer.controller::list
-    path: /

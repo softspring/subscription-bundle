@@ -4,23 +4,23 @@ services:
         autoconfigure: true
         public: false
         bind:
-            $apiSecretKey: '%sfs_subscription.adapter.stripe.apiSecretKey%'
-            $webhookSigningSecret: '%sfs_subscription.adapter.stripe.webhookSigningSecret%'
-
-    Softspring\SubscriptionBundle\Adapter\CustomerAdapterInterface:
-        class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeCustomerAdapter
+            $apiSecretKey: '%sfs_customer.adapter.stripe.apiSecretKey%'
+            $webhookSigningSecret: '%sfs_customer.adapter.stripe.webhookSigningSecret%'
 
     Softspring\SubscriptionBundle\Adapter\NotifyAdapterInterface:
         class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeNotifyAdapter
+        tags:
+          - { name: 'sfs_customer.platform.adapter', alias: 'notify' }
 
     Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface:
         class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeSubscriptionAdapter
+        tags:
+          - { name: 'sfs_customer.platform.adapter', alias: 'subscription' }
 
     Softspring\SubscriptionBundle\Adapter\PlanAdapterInterface:
         class: Softspring\SubscriptionBundle\Adapter\Stripe\StripePlanAdapter
-
-    Softspring\SubscriptionBundle\Adapter\SourceAdapterInterface:
-        class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeSourceAdapter
+        tags:
+          - { name: 'sfs_customer.platform.adapter', alias: 'plan' }
 
     Softspring\SubscriptionBundle\EventListener\StripeSubscriptionListener:
         tags: ['kernel.event_subscriber']

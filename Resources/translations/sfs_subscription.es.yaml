@@ -1,9 +1,3 @@
-platform:
-    values:
-        0: 'Interno'
-        1: 'Stripe'
-        2: 'Paypal'
-
 plan:
     interval:
         values:
@@ -16,7 +10,6 @@ subscription:
     status:
         values:
             1: 'Activa'
-
 
 admin_products:
     list:
@@ -34,7 +27,6 @@ admin_products:
             platformId.label: "Id en la plataforma de pagos"
         actions:
             create.button: "Crear producto"
-
 
 admin_plans:
     list:

@@ -2,9 +2,10 @@
 
 namespace Softspring\SubscriptionBundle\Adapter;
 
+use Softspring\CustomerBundle\Adapter\PlatformAdapterInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 
-interface PlanAdapterInterface
+interface PlanAdapterInterface extends PlatformAdapterInterface
 {
     /**
      * @param PlanInterface $plan

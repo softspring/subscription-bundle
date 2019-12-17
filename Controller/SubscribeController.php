@@ -5,10 +5,9 @@ namespace Softspring\SubscriptionBundle\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\AdminBundle\Event\ViewEvent;
 use Softspring\CoreBundle\Controller\AbstractController;
-use Softspring\SubscriptionBundle\Model\CustomerInterface;
+use Softspring\CustomerBundle\Adapter\CustomerAdapterInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
-use Softspring\SubscriptionBundle\Adapter\CustomerAdapterInterface;
-use Softspring\SubscriptionBundle\Adapter\Stripe\StripeCustomerAdapter;
 use Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\SubscriptionFailedGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\SubscriptionGetResponseEvent;
@@ -45,9 +44,7 @@ class SubscribeController extends AbstractController
     protected $em;
 
     /**
-     * @ var ClientAdapterInterface
-     *
-     * @var StripeCustomerAdapter
+     * @var CustomerAdapterInterface
      */
     protected $clientAdapter;
 
@@ -70,11 +67,11 @@ class SubscribeController extends AbstractController
     }
 
     /**
-     * @param CustomerInterface $client
+     * @param SubscriptionCustomerInterface $client
      *
      * @return Response
      */
-    public function choosePlan(CustomerInterface $client): Response
+    public function choosePlan(SubscriptionCustomerInterface $client): Response
     {
         $repo = $this->planManager->getRepository();
         $plans = $repo->findBy(['active' => true, 'online' => true]);
@@ -97,13 +94,13 @@ class SubscribeController extends AbstractController
     /**
      * TODO: REFACTOR THIS METHOD AND FEATURE WHEN ADDED A SECOND ADAPTER, THIS IS STRIPE
      *
-     * @param CustomerInterface $client
-     * @param string            $plan
-     * @param Request           $request
+     * @param SubscriptionCustomerInterface $client
+     * @param string                        $plan
+     * @param Request                       $request
      *
      * @return Response
      */
-    public function addStripeCard(CustomerInterface $client, string $plan, Request $request): Response
+    public function addStripeCard(SubscriptionCustomerInterface $client, string $plan, Request $request): Response
     {
         /** @var PlanInterface $plan */
         $plan = $this->planManager->convert($plan);
@@ -125,13 +122,13 @@ class SubscribeController extends AbstractController
     }
 
     /**
-     * @param CustomerInterface $client
-     * @param string            $plan
-     * @param Request           $request
+     * @param SubscriptionCustomerInterface $client
+     * @param string                        $plan
+     * @param Request                       $request
      *
      * @return Response
      */
-    public function subscribe(CustomerInterface $client, string $plan, Request $request): Response
+    public function subscribe(SubscriptionCustomerInterface $client, string $plan, Request $request): Response
     {
         /** @var PlanInterface $plan */
         $plan = $this->planManager->convert($plan);
@@ -170,12 +167,13 @@ class SubscribeController extends AbstractController
     }
 
     /**
-     * @param CustomerInterface $client
-     * @param string $plan
-     * @param Request $request
+     * @param SubscriptionCustomerInterface $client
+     * @param string                        $plan
+     * @param Request                       $request
+     *
      * @return Response
      */
-    public function trial(CustomerInterface $client, string $plan, Request $request): Response
+    public function trial(SubscriptionCustomerInterface $client, string $plan, Request $request): Response
     {
         /** @var PlanInterface $plan */
         $plan = $this->planManager->convert($plan);

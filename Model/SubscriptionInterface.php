@@ -3,6 +3,7 @@
 namespace Softspring\SubscriptionBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
+use Softspring\CustomerBundle\Model\PlatformObjectInterface;
 
 interface SubscriptionInterface extends PlatformObjectInterface
 {
@@ -56,9 +57,9 @@ interface SubscriptionInterface extends PlatformObjectInterface
      */
     const STATUS_EXPIRED = 35;
 
-    public function getCustomer(): ?CustomerInterface;
+    public function getCustomer(): ?SubscriptionCustomerInterface;
 
-    public function setCustomer(?CustomerInterface $customer): void;
+    public function setCustomer(?SubscriptionCustomerInterface $customer): void;
 
     public function getPlan(): ?PlanInterface;
 

@@ -4,7 +4,7 @@ namespace Softspring\SubscriptionBundle\Model;
 
 interface InvoiceInterface
 {
-    public function getClient(): ?CustomerInterface;
+    public function getClient(): ?SubscriptionCustomerInterface;
 
     public function getIssueDate(): ?\DateTime;
 

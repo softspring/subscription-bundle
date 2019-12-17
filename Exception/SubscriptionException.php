@@ -2,7 +2,9 @@
 
 namespace Softspring\SubscriptionBundle\Exception;
 
-class SubscriptionException extends \Exception
+use Softspring\CustomerBundle\Exception\PlatformException;
+
+class SubscriptionException extends PlatformException
 {
 
 }

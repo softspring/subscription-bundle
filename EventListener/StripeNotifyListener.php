@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\EventListener;
 
-use Softspring\SubscriptionBundle\PlatformInterface;
+use Softspring\CustomerBundle\PlatformInterface;
 use Softspring\SubscriptionBundle\Event\NotifyEvent;
 use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

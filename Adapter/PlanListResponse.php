@@ -2,6 +2,8 @@
 
 namespace Softspring\SubscriptionBundle\Adapter;
 
+use Softspring\CustomerBundle\Adapter\AbstractListResponse;
+
 class PlanListResponse extends AbstractListResponse
 {
     public function __construct(int $platform, $platformResponse)

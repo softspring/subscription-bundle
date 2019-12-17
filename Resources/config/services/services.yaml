@@ -5,7 +5,7 @@ services:
         public: false
         bind:
             $em: '@sfs_subscription.entity_manager'
-            $api: '@Softspring\SubscriptionBundle\Manager\ApiManagerInterface'
+            $api: '@Softspring\CustomerBundle\Manager\ApiManagerInterface'
 
     Softspring\SubscriptionBundle\Controller\:
         resource: '../../../Controller/*'
@@ -16,10 +16,6 @@ services:
 
     Softspring\SubscriptionBundle\Manager\:
         resource: '../../../Manager/*'
-
-    Softspring\SubscriptionBundle\Manager\ApiManager:
-        arguments:
-            $name: '%sfs_subscription.adapter.name%'
 
     Softspring\SubscriptionBundle\Request\ParamConverter\:
         resource: '../../../Request/ParamConverter/*'
