@@ -5,3 +5,7 @@ sfs_subscription_admin_plans_list:
 sfs_subscription_admin_plans_create:
     controller: sfs_subscription.admin.plan.controller::create
     path: /create
+
+sfs_subscription_admin_plans_sync_all:
+    controller: Softspring\SubscriptionBundle\Controller\Admin\PlanController::syncAll
+    path: /sync-all

@@ -12,4 +12,19 @@ interface PlanManagerInterface extends AdminEntityManagerInterface
      * @return PlanInterface|null
      */
     public function convert(string $plan): ?PlanInterface;
+
+//    /**
+//     * @param PlanInterface $plan
+//     */
+//    public function syncFromPlatform(PlanInterface $plan): void;
+//
+//    /**
+//     * @param PlanInterface $plan
+//     */
+//    public function syncToPlatform(PlanInterface $plan): void;
+
+    /**
+     *
+     */
+    public function syncAll(): void;
 }

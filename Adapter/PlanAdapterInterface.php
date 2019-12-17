@@ -20,4 +20,9 @@ interface PlanAdapterInterface
      * @param PlanInterface $plan
      */
     public function delete(PlanInterface $plan): void;
+
+    /**
+     * @return PlanListResponse
+     */
+    public function list(): PlanListResponse;
 }

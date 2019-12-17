@@ -1,9 +1,20 @@
 {% trans_default_domain 'sfs_subscription' %}
 
+
 {% for plan in entities %}
-    <tr>
-        <td>{{ plan.platform ? ('platform.values.'~plan.platform)|trans : '' }}</td>
+    {% set planTextColor = '' %}
+
+    {% if plan.platformConflict %}
+        {% set planTextColor = 'text-warning' %}
+    {% endif %}
+
+    <tr class="{{ planTextColor }}">
+        <td>
+            {{ plan.platform ? ('platform.values.'~plan.platform)|trans : '' }}
+            {{ plan.testMode ? '(test)' : '' }}
+        </td>
         <td>{{ plan.platformId }}</td>
+        <td>{{ plan.active ? 'yes' : 'no' }}</td>
         <td>{{ plan.name }}</td>
         <td>{{ plan.product|default(false) ? plan.product.name : '' }}</td>
         <td>

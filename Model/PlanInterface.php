@@ -43,4 +43,34 @@ interface PlanInterface extends PlatformObjectInterface
      * @return bool
      */
     public function isOnline(): bool;
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void;
+
+    /**
+     * @param string|null $currency
+     */
+    public function setCurrency(?string $currency): void;
+
+    /**
+     * @param float|null $amount
+     */
+    public function setAmount(?float $amount): void;
+
+    /**
+     * @param int|null $interval
+     */
+    public function setInterval(?int $interval): void;
+
+    /**
+     * @param bool|null $active
+     */
+    public function setActive(?bool $active): void;
+
+    /**
+     * @param bool $online
+     */
+    public function setOnline(bool $online): void;
 }
