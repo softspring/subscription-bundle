@@ -167,6 +167,7 @@ abstract class Subscription implements SubscriptionInterface
     {
         if (!$this->transitions->contains($transition)) {
             $this->transitions->add($transition);
+            $transition->setSubscription($this);
         }
     }
 }

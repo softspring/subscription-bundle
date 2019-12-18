@@ -17,6 +17,12 @@ services:
     Softspring\SubscriptionBundle\Manager\:
         resource: '../../../Manager/*'
 
+    Softspring\SubscriptionBundle\Entity\EntityListener\StoreSubscriptionTransitionsListener:
+        tags:
+            - { name: 'doctrine.orm.entity_listener', event: 'postLoad', entity: 'Softspring\SubscriptionBundle\Model\Subscription', lazy: true }
+            - { name: 'doctrine.orm.entity_listener', event: 'preUpdate', entity: 'Softspring\SubscriptionBundle\Model\Subscription', lazy: true }
+            - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'Softspring\SubscriptionBundle\Model\Subscription', lazy: true }
+
     Softspring\SubscriptionBundle\Request\ParamConverter\:
         resource: '../../../Request/ParamConverter/*'
         tags: ['request.param_converter']
