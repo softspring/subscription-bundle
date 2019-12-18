@@ -2,64 +2,79 @@
 
 namespace Softspring\SubscriptionBundle\Adapter;
 
-use Softspring\SubscriptionBundle\Model\CustomerInterface;
-use Softspring\SubscriptionBundle\Model\PlanInterface;
-use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
+use Softspring\CustomerBundle\Adapter\PlatformAdapterInterface;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 
 interface SubscriptionAdapterInterface extends PlatformAdapterInterface
 {
     /**
-     * @param SubscriptionInterface $subscription
-     * @param CustomerInterface     $client
-     * @param PlanInterface         $plan
+     * @param mixed $customer
+     * @param mixed $plan
+     * @param array $options
+     *
+     * @return SubscriptionResponse
      *
      * @throws SubscriptionException
      */
-    public function subscribe(SubscriptionInterface $subscription, CustomerInterface $client, PlanInterface $plan): void;
+    public function subscribe($customer, $plan, array $options = []): SubscriptionResponse;
 
     /**
-     * @param SubscriptionInterface $subscription
-     * @param CustomerInterface     $client
-     * @param PlanInterface         $plan
+     * @param mixed $customer
+     * @param mixed $plan
+     * @param int   $days
+     * @param array $options
+     *
+     * @return SubscriptionResponse
      *
      * @throws SubscriptionException
      */
-    public function trial(SubscriptionInterface $subscription, CustomerInterface $client, PlanInterface $plan): void;
+    public function trial($customer, $plan, int $days, array $options = []): SubscriptionResponse;
 
     /**
-     * @param SubscriptionInterface $subscription
-     * @return array
+     * @param mixed $subscription
+     *
+     * @return SubscriptionResponse
+     *
      * @throws SubscriptionException
      */
-    public function details(SubscriptionInterface $subscription): array;
+    public function details($subscription): SubscriptionResponse;
 
     /**
-     * @param SubscriptionInterface $subscription
-     * @return array
+     * @param mixed $subscription
+     *
+     * @return SubscriptionResponse
+     *
      * @throws SubscriptionException
      */
-    public function cancel(SubscriptionInterface $subscription): array;
+    public function cancel($subscription): SubscriptionResponse;
 
     /**
-     * @param SubscriptionInterface $subscription
-     * @return array
+     * @param mixed $subscription
+     *
+     * @return SubscriptionResponse
+     *
      * @throws SubscriptionException
      */
-    public function uncancel(SubscriptionInterface $subscription): array;
+    public function uncancel($subscription): SubscriptionResponse;
 
     /**
-     * @param SubscriptionInterface $subscription
-     * @param PlanInterface $plan
-     * @return array
+     * @param       $subscription
+     * @param       $plan
+     * @param array $options
+     *
+     * @return SubscriptionResponse
+     *
      * @throws SubscriptionException
      */
-    public function upgrade(SubscriptionInterface $subscription, PlanInterface $plan): array;
+    public function upgrade($subscription, $plan, array $options = []): SubscriptionResponse;
 
     /**
-     * @param SubscriptionInterface $subscription
-     * @param PlanInterface $plan
+     * @param mixed $subscription
+     * @param mixed $plan
+     *
+     * @return SubscriptionResponse
+     *
      * @throws SubscriptionException
      */
-    public function finishTrial(SubscriptionInterface $subscription, PlanInterface $plan): void;
+    public function finishTrial($subscription, $plan): SubscriptionResponse;
 }

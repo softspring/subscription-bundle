@@ -2,211 +2,149 @@
 
 namespace Softspring\SubscriptionBundle\Adapter\Stripe;
 
-use Softspring\SubscriptionBundle\Exception\MaxSubscriptionsReachException;
-use Softspring\SubscriptionBundle\Model\CustomerInterface;
-use Softspring\SubscriptionBundle\Model\PlanInterface;
-use Softspring\SubscriptionBundle\PlatformInterface;
-use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
+use Softspring\CustomerBundle\Adapter\Stripe\AbstractStripeAdapter;
+use Softspring\SubscriptionBundle\Adapter\SubscriptionResponse;
 use Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface;
-use Softspring\SubscriptionBundle\Exception\MissingPlatformIdException;
-use Softspring\SubscriptionBundle\Exception\SubscriptionException;
+use Softspring\CustomerBundle\Model\PlatformObjectInterface;
+use Softspring\CustomerBundle\PlatformInterface;
 use Stripe\Exception\InvalidRequestException;
 use Stripe\Invoice;
-use Stripe\Subscription;
 use Stripe\Subscription as StripeSubscription;
 
 class StripeSubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionAdapterInterface
 {
-    public function subscribe(SubscriptionInterface $subscription, CustomerInterface $client, PlanInterface $plan): void
+    /**
+     * @inheritDoc
+     */
+    public function subscribe($customer, $plan, array $options = []): SubscriptionResponse
     {
-        if (!$client->getPlatformId()) {
-            throw new MissingPlatformIdException();
-        }
-
-        if (!$plan->getPlatformId()) {
-            throw new MissingPlatformIdException();
-        }
-
-        $this->initStripe();
+        $customerId = $customer instanceof PlatformObjectInterface ? $customer->getPlatformId() : $customer;
+        $planId = $plan instanceof PlatformObjectInterface ? $plan->getPlatformId() : $plan;
 
         try {
-            /** @var StripeSubscription $subscriptionData */
-            $subscriptionData = StripeSubscription::create([
-                'customer' => $client->getPlatformId(),
-                'items' => [['plan' => $plan->getPlatformId()]],
-            ]);
+            $this->initStripe();
 
-            $subscription->setCustomer($client);
-            $subscription->setPlan($plan);
+            $subscriptionConfig = [
+                'customer' => $customerId,
+                'items' => [['plan' => $planId]],
+            ];
 
-            $subscription->setPlatform(PlatformInterface::PLATFORM_STRIPE);
-            $subscription->setPlatformId($subscriptionData->id);
-            $subscription->setStartDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_start));
-            $subscription->setEndDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_end));
-            $this->setStatus($subscriptionData, $subscription);
-
-        } catch (InvalidRequestException $e) {
-            throw new SubscriptionException('Invalid stripe request', 0, $e);
-        } catch (\Exception $e) {
-            throw new SubscriptionException('Unknown stripe exception', 0, $e);
-        }
-    }
-
-    public function trial(SubscriptionInterface $subscription, CustomerInterface $client, PlanInterface $plan): void
-    {
-        if (!$client->getPlatformId()) {
-            throw new MissingPlatformIdException();
-        }
-
-        if (!$plan->getPlatformId()) {
-            throw new MissingPlatformIdException();
-        }
-
-        $this->initStripe();
-
-        try {
-            /** @var StripeSubscription $subscriptionData */
-            $subscriptionData = StripeSubscription::create([
-                'customer' => $client->getPlatformId(),
-                'items' => [['plan' => $plan->getPlatformId()]],
-                'trial_period_days' => 7,
-            ]);
-
-            $subscription->setCustomer($client);
-            $subscription->setPlan($plan);
-
-            $subscription->setPlatform(PlatformInterface::PLATFORM_STRIPE);
-            $subscription->setPlatformId($subscriptionData->id);
-            $subscription->setStartDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_start));
-            $subscription->setEndDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_end));
-            $this->setStatus($subscriptionData, $subscription);
-
-        } catch (InvalidRequestException $e) {
-            switch ($e->getStripeCode()) {
-                case 'customer_max_subscriptions':
-                    throw new MaxSubscriptionsReachException($e->getMessage(), 0, $e);
-                    break;
-
-                default:
-                    throw new SubscriptionException('Invalid stripe request', 0, $e);
+            if (!empty($options['trial_period_days'])) {
+                $subscriptionConfig['trial_period_days'] = $options['trial_period_days'];
             }
+
+            /** @var StripeSubscription $subscriptionData */
+            $subscriptionData = StripeSubscription::create($subscriptionConfig);
+
+            return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {
-            throw new SubscriptionException('Unknown stripe exception', 0, $e);
+            $this->attachStripeExceptions($e);
         }
     }
 
-    public function details(SubscriptionInterface $subscription): array
+    /**
+     * @inheritDoc
+     */
+    public function trial($customer, $plan, int $days, array $options = []): SubscriptionResponse
     {
-        if (!$subscription->getPlatformId()) {
-            throw new MissingPlatformIdException();
-        }
+        $customerId = $customer instanceof PlatformObjectInterface ? $customer->getPlatformId() : $customer;
+        $planId = $plan instanceof PlatformObjectInterface ? $plan->getPlatformId() : $plan;
 
-        $this->initStripe();
+        $options['trial_period_days'] = $days;
+        return $this->subscribe($customerId, $planId, $options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function details($subscription): SubscriptionResponse
+    {
+        $subscriptionId = $subscription instanceof PlatformObjectInterface ? $subscription->getPlatformId() : $subscription;
 
         try {
             $this->initStripe();
 
             /** @var StripeSubscription $subscriptionData */
             $subscriptionData = StripeSubscription::retrieve([
-                'id' => $subscription->getPlatformId(),
+                'id' => $subscriptionId,
             ]);
 
-            return $subscriptionData->toArray(true);
-        } catch (InvalidRequestException $e) {
-            throw new SubscriptionException('Invalid stripe request', 0, $e);
+            return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {
-            throw new SubscriptionException('Unknown stripe exception', 0, $e);
+            $this->attachStripeExceptions($e);
         }
     }
 
-    public function cancel(SubscriptionInterface $subscription): array
+    /**
+     * @inheritDoc
+     */
+    public function cancel($subscription): SubscriptionResponse
     {
-        if (!$subscription->getPlatformId()) {
-            throw new MissingPlatformIdException();
-        }
-
-        $this->initStripe();
+        $subscriptionId = $subscription instanceof PlatformObjectInterface ? $subscription->getPlatformId() : $subscription;
 
         try {
             $this->initStripe();
 
             /** @var StripeSubscription $subscriptionData */
             $subscriptionData = StripeSubscription::retrieve([
-                'id' => $subscription->getPlatformId(),
+                'id' => $subscriptionId,
             ]);
-
             $subscriptionData->updateAttributes([
                 'cancel_at_period_end' => true,
             ]);
-
             $subscriptionData->save();
 
-            $subscription->setCancelScheduled(\DateTime::createFromFormat('U', $subscriptionData->cancel_at));
-
-            return $subscriptionData->toArray(true);
-        } catch (InvalidRequestException $e) {
-            throw new SubscriptionException('Invalid stripe request', 0, $e);
+            return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {
-            throw new SubscriptionException('Unknown stripe exception', 0, $e);
+            $this->attachStripeExceptions($e);
         }
     }
 
-    public function uncancel(SubscriptionInterface $subscription): array
+    /**
+     * @inheritDoc
+     */
+    public function uncancel($subscription): SubscriptionResponse
     {
-        if (!$subscription->getPlatformId()) {
-            throw new MissingPlatformIdException();
-        }
-
-        $this->initStripe();
+        $subscriptionId = $subscription instanceof PlatformObjectInterface ? $subscription->getPlatformId() : $subscription;
 
         try {
             $this->initStripe();
 
             /** @var StripeSubscription $subscriptionData */
             $subscriptionData = StripeSubscription::retrieve([
-                'id' => $subscription->getPlatformId(),
+                'id' => $subscriptionId,
             ]);
-
             $subscriptionData->updateAttributes([
                 'cancel_at_period_end' => false,
             ]);
-
             $subscriptionData->save();
 
-            $subscription->setCancelScheduled(null);
-
-            return $subscriptionData->toArray(true);
-        } catch (InvalidRequestException $e) {
-            throw new SubscriptionException('Invalid stripe request', 0, $e);
+            return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {
-            throw new SubscriptionException('Unknown stripe exception', 0, $e);
+            $this->attachStripeExceptions($e);
         }
     }
 
-    public function upgrade(SubscriptionInterface $subscription, PlanInterface $plan): array
+    /**
+     * @inheritDoc
+     */
+    public function upgrade($subscription, $plan, array $options = []): SubscriptionResponse
     {
-        if (!$subscription->getPlatformId()) {
-            throw new MissingPlatformIdException();
-        }
-
-        $this->initStripe();
+        $subscriptionId = $subscription instanceof PlatformObjectInterface ? $subscription->getPlatformId() : $subscription;
+        $planId = $plan instanceof PlatformObjectInterface ? $plan->getPlatformId() : $plan;
 
         try {
             $this->initStripe();
 
             /** @var StripeSubscription $subscriptionData */
             $subscriptionData = StripeSubscription::retrieve([
-                'id' => $subscription->getPlatformId(),
+                'id' => $subscriptionId,
             ]);
-
             $subscriptionData->updateAttributes([
-                'plan' => $plan->getPlatformId(),
+                'plan' => $planId,
                 'prorate' => true,
             ]);
-
             $subscriptionData->save();
-
-            $subscription->setPlan($plan);
 
             try {
                 /** @var Invoice $invoice */
@@ -220,73 +158,36 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
                 }
             }
 
-            return $subscriptionData->toArray(true);
-        } catch (InvalidRequestException $e) {
-            throw new SubscriptionException('Invalid stripe request', 0, $e);
+            return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {
-            throw new SubscriptionException('Unknown stripe exception', 0, $e);
+            $this->attachStripeExceptions($e);
         }
     }
 
-    public function finishTrial(SubscriptionInterface $subscription, PlanInterface $plan): void
+    /**
+     * @inheritDoc
+     */
+    public function finishTrial($subscriptionId, $planId): SubscriptionResponse
     {
-        if (!$subscription->getPlatformId()) {
-            throw new MissingPlatformIdException();
-        }
-
-        if (!$plan->getPlatformId()) {
-            throw new MissingPlatformIdException();
-        }
-
-        if ($subscription->getStatus() != SubscriptionInterface::STATUS_TRIALING) {
-            throw new SubscriptionException('Subscription is not trialing now');
-        }
+        $subscriptionId = $subscriptionId instanceof PlatformObjectInterface ? $subscriptionId->getPlatformId() : $subscriptionId;
+        $planId = $planId instanceof PlatformObjectInterface ? $planId->getPlatformId() : $planId;
 
         try {
             $this->initStripe();
 
             /** @var StripeSubscription $subscriptionData */
             $subscriptionData = StripeSubscription::retrieve([
-                'id' => $subscription->getPlatformId(),
+                'id' => $subscriptionId,
             ]);
-
             $subscriptionData->updateAttributes([
-                'plan' => $plan->getPlatformId(),
+                'plan' => $planId,
                 'trial_end' => 'now',
             ]);
-
             $subscriptionData->save();
 
-            $subscription->setPlan($plan);
-            $subscription->setStartDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_start));
-            $subscription->setEndDate(\DateTime::createFromFormat('U', $subscriptionData->current_period_end));
-            $this->setStatus($subscriptionData, $subscription);
-
-        } catch (InvalidRequest $e) {
-            throw new SubscriptionException('Invalid stripe request', 0, $e);
+            return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {
-            throw new SubscriptionException('Unknown stripe exception', 0, $e);
-        }
-    }
-
-    /**
-     * @param StripeSubscription $stripe
-     * @param SubscriptionInterface $subscription
-     * @throws SubscriptionException
-     */
-    protected function setStatus(Subscription $stripe, SubscriptionInterface $subscription)
-    {
-        switch ($stripe->status) {
-            case 'active':
-                $subscription->setStatus(SubscriptionInterface::STATUS_ACTIVE);
-                break;
-
-            case 'trialing':
-                $subscription->setStatus(SubscriptionInterface::STATUS_TRIALING);
-                break;
-
-            default:
-                throw new SubscriptionException('Not yet implemented');
+            $this->attachStripeExceptions($e);
         }
     }
 }

@@ -33,6 +33,7 @@ admin_plans:
         page_title: "Subscription plans"
         fields:
             platformId.header: "ID"
+            active.header: "Active"
             name.header: "Name"
             product.header: "Product"
             platform.header: "Platform"
