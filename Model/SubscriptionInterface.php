@@ -38,7 +38,7 @@ interface SubscriptionInterface extends PlatformObjectInterface
 
     /**
      * Subscription is cancelled, but still active
-     * Stripe: canceled
+     * Stripe:
      * Paypal: CANCELLED
      */
     const STATUS_CANCELED = 21;
@@ -52,7 +52,7 @@ interface SubscriptionInterface extends PlatformObjectInterface
 
     /**
      * Subscription is expired, and no active anymore
-     * Stripe:
+     * Stripe: canceled
      * Paypal: EXPIRED
      */
     const STATUS_EXPIRED = 35;
