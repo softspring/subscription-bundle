@@ -1,0 +1,16 @@
+{% extends '@SfsSubscription/customer_layout.html.twig' %}
+
+{% block content %}
+    {{ subscription.id }}
+    {{ subscription.statusString }}
+
+    {% if subscription.cancelScheduled %}
+        Cancel on {{ subscription.cancelScheduled|date('d-m-Y') }}
+    {% endif %}
+
+    {% if subscription.cancelScheduled %}
+        <a href="{{ url('sfs_subscription_customer_subscription_reactivate', {'subscription': subscription}) }}">reactivate</a>
+    {% else %}
+        <a href="{{ url('sfs_subscription_customer_subscription_cancel', {'subscription': subscription}) }}">cancel</a>
+    {% endif %}
+{% endblock content %}

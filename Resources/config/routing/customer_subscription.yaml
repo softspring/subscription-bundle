@@ -1,0 +1,25 @@
+sfs_subscription_customer_subscription_details:
+    controller: sfs_subscription.customer.subscription.controller::details
+    path: /{subscription}
+
+sfs_subscription_customer_subscription_choose_upgrade:
+    controller: sfs_subscription.customer.subscription.controller::chooseUpgrade
+    path: /{subscription}/upgrade
+
+sfs_subscription_customer_subscription_upgrade_plan:
+    controller: sfs_subscription.customer.subscription.controller::upgradePlan
+    path: /{subscription}/{plan}/upgrade
+
+sfs_subscription_customer_subscription_upgrade:
+    controller: sfs_subscription.customer.subscription.controller::upgradePlan
+    path: /{subscription}/upgrade
+
+sfs_subscription_customer_subscription_cancel:
+    controller: sfs_subscription.customer.subscription.controller::cancel
+    path: /{subscription}/cancel
+
+sfs_subscription_customer_subscription_reactivate:
+    controller: sfs_subscription.customer.subscription.controller::reactivate
+    path: /{subscription}/reactivate
+
+

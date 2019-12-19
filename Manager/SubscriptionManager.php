@@ -56,16 +56,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
         /** @var SubscriptionResponse $subscriptionResponse */
         $subscriptionResponse = $this->api->get('subscription')->subscribe($customer, $plan, []);
 
-        $subscription->setTestMode($subscriptionResponse->isTesting());
-        $subscription->setPlatformId($subscriptionResponse->getId());
-        $subscription->setPlatformData($subscriptionResponse->getPlatformNativeArray());
-        $subscription->setStartDate($subscriptionResponse->getCurrentPeriodStart());
-        $subscription->setEndDate($subscriptionResponse->getCurrentPeriodEnd());
-        $subscription->setStatus($subscriptionResponse->getStatus());
-
-        $this->saveEntity($subscription);
-
-        return $subscription;
+        return $this->updateFromPlatform($subscription, $subscriptionResponse);
     }
 
     /**
@@ -82,59 +73,48 @@ class SubscriptionManager implements SubscriptionManagerInterface
         /** @var SubscriptionResponse $subscriptionResponse */
         $subscriptionResponse = $this->api->get('subscription')->trial($customer, $plan, $days, []);
 
-        $subscription->setTestMode($subscriptionResponse->isTesting());
-        $subscription->setPlatformId($subscriptionResponse->getId());
-        $subscription->setPlatformData($subscriptionResponse->getPlatformNativeArray());
-        $subscription->setStartDate($subscriptionResponse->getCurrentPeriodStart());
-        $subscription->setEndDate($subscriptionResponse->getCurrentPeriodEnd());
-        $subscription->setStatus($subscriptionResponse->getStatus());
-
         if ($customer instanceof CustomerHasTriedInterface) {
             $customer->setTried(true);
         }
 
-        $this->saveEntity($subscription);
-
-        return $subscription;
+        return $this->updateFromPlatform($subscription, $subscriptionResponse);
     }
 
     /**
      * @inheritDoc
      */
-    public function cancel(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription): void
+    public function cancel(SubscriptionInterface $subscription): void
     {
         /** @var SubscriptionResponse $subscriptionResponse */
         $subscriptionResponse = $this->api->get('subscription')->cancel($subscription);
-        $subscription->setCancelScheduled($subscriptionResponse->getCancelAt());
-        $this->saveEntity($subscription);
+        $this->updateFromPlatform($subscription, $subscriptionResponse);
     }
 
     /**
      * @inheritDoc
      */
-    public function uncancel(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription): void
+    public function uncancel(SubscriptionInterface $subscription): void
     {
         /** @var SubscriptionResponse $subscriptionResponse */
         $subscriptionResponse = $this->api->get('subscription')->uncancel($subscription);
-        $subscription->setCancelScheduled(null);
-        $this->saveEntity($subscription);
+        $this->updateFromPlatform($subscription, $subscriptionResponse);
     }
 
     /**
      * @inheritDoc
      */
-    public function upgrade(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription, PlanInterface $plan): void
+    public function upgrade(SubscriptionInterface $subscription, PlanInterface $plan): void
     {
         /** @var SubscriptionResponse $subscriptionResponse */
         $subscriptionResponse = $this->api->get('subscription')->upgrade($subscription, $plan);
         $subscription->setPlan($plan);
-        $this->saveEntity($subscription);
+        $this->updateFromPlatform($subscription, $subscriptionResponse);
     }
 
     /**
      * @inheritDoc
      */
-    public function finishTrial(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription, PlanInterface $plan): void
+    public function finishTrial(SubscriptionInterface $subscription, PlanInterface $plan): void
     {
         if ($subscription->getStatus() != SubscriptionInterface::STATUS_TRIALING) {
             throw new SubscriptionException('Subscription is not trialing now');
@@ -143,10 +123,30 @@ class SubscriptionManager implements SubscriptionManagerInterface
         /** @var SubscriptionResponse $subscriptionResponse */
         $subscriptionResponse = $this->api->get('subscription')->finishTrial($subscription, $plan);
 
+        $this->updateFromPlatform($subscription, $subscriptionResponse);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function updateFromPlatform(SubscriptionInterface $subscription, SubscriptionResponse $subscriptionResponse): SubscriptionInterface
+    {
+        $subscription->setPlatformId($subscriptionResponse->getId());
+        $subscription->setPlatformData($subscriptionResponse->getPlatformNativeArray());
+        $subscription->setTestMode($subscriptionResponse->isTesting());
+
         $subscription->setStartDate($subscriptionResponse->getCurrentPeriodStart());
         $subscription->setEndDate($subscriptionResponse->getCurrentPeriodEnd());
         $subscription->setStatus($subscriptionResponse->getStatus());
 
+        if ($subscriptionResponse->getCancelAt() instanceof \DateTime) {
+            $subscription->setCancelScheduled($subscriptionResponse->getCancelAt());
+        } else {
+            $subscription->setCancelScheduled(null);
+        }
+
         $this->saveEntity($subscription);
+
+        return $subscription;
     }
 }

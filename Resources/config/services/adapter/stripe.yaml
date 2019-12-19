@@ -6,6 +6,7 @@ services:
         bind:
             $apiSecretKey: '%sfs_customer.adapter.stripe.apiSecretKey%'
             $webhookSigningSecret: '%sfs_customer.adapter.stripe.webhookSigningSecret%'
+            $logger: '@?monolog.logger.stripe'
 
     Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface:
         class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeSubscriptionAdapter
@@ -20,7 +21,7 @@ services:
     Softspring\SubscriptionBundle\EventListener\StripeSubscriptionListener:
         tags: ['kernel.event_subscriber']
 
-    Softspring\SubscriptionBundle\EventListener\StripeNotifyListener:
+    Softspring\SubscriptionBundle\EventListener\StripeSubscriptionsNotifyListener:
         tags: ['kernel.event_subscriber']
 
     Softspring\SubscriptionBundle\EventListener\StripeAdminSubscriptionListener:

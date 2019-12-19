@@ -3,6 +3,7 @@
 namespace Softspring\SubscriptionBundle\Manager;
 
 use Softspring\AdminBundle\Manager\AdminEntityManagerInterface;
+use Softspring\SubscriptionBundle\Adapter\SubscriptionResponse;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
@@ -30,36 +31,40 @@ interface SubscriptionManagerInterface extends AdminEntityManagerInterface
     public function trial(SubscriptionCustomerInterface $customer, PlanInterface $plan, int $days): SubscriptionInterface;
 
     /**
-     * @param SubscriptionCustomerInterface $client
-     * @param SubscriptionInterface         $subscription
+     * @param SubscriptionInterface $subscription
      *
      * @throws SubscriptionException
      */
-    public function cancel(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription): void;
+    public function cancel(SubscriptionInterface $subscription): void;
 
     /**
-     * @param SubscriptionCustomerInterface $client
-     * @param SubscriptionInterface         $subscription
+     * @param SubscriptionInterface $subscription
      *
      * @throws SubscriptionException
      */
-    public function uncancel(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription): void;
+    public function uncancel(SubscriptionInterface $subscription): void;
 
     /**
-     * @param SubscriptionCustomerInterface $client
-     * @param SubscriptionInterface         $subscription
-     * @param PlanInterface                 $plan
+     * @param SubscriptionInterface $subscription
+     * @param PlanInterface         $plan
      *
      * @throws SubscriptionException
      */
-    public function upgrade(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void;
+    public function upgrade(SubscriptionInterface $subscription, PlanInterface $plan): void;
 
     /**
-     * @param SubscriptionCustomerInterface $client
-     * @param SubscriptionInterface         $subscription
-     * @param PlanInterface                 $plan
+     * @param SubscriptionInterface $subscription
+     * @param PlanInterface         $plan
      *
      * @throws SubscriptionException
      */
-    public function finishTrial(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription, PlanInterface $plan): void;
+    public function finishTrial(SubscriptionInterface $subscription, PlanInterface $plan): void;
+
+    /**
+     * @param SubscriptionInterface $subscription
+     * @param SubscriptionResponse  $subscriptionResponse
+     *
+     * @return SubscriptionInterface
+     */
+    public function updateFromPlatform(SubscriptionInterface $subscription, SubscriptionResponse $subscriptionResponse): SubscriptionInterface;
 }

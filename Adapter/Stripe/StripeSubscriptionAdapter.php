@@ -36,6 +36,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
             /** @var StripeSubscription $subscriptionData */
             $subscriptionData = StripeSubscription::create($subscriptionConfig);
 
+            $this->logger->info(sprintf('Stripe created subscription %s%s', $subscriptionData->id, !empty($options['trial_period_days']) ? ' with trial' : ''));
+
             return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {
             $this->attachStripeExceptions($e);
@@ -69,6 +71,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
                 'id' => $subscriptionId,
             ]);
 
+            $this->logger->info(sprintf('Stripe retrieve details for %s', $subscriptionId));
+
             return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {
             $this->attachStripeExceptions($e);
@@ -94,6 +98,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
             ]);
             $subscriptionData->save();
 
+            $this->logger->info(sprintf('Stripe cancel renewal for %s', $subscriptionId));
+
             return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {
             $this->attachStripeExceptions($e);
@@ -118,6 +124,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
                 'cancel_at_period_end' => false,
             ]);
             $subscriptionData->save();
+
+            $this->logger->info(sprintf('Stripe un cancel renewal for %s', $subscriptionId));
 
             return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {
@@ -158,6 +166,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
                 }
             }
 
+            $this->logger->info(sprintf('Stripe upgraded plan for %s', $subscriptionId));
+
             return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {
             $this->attachStripeExceptions($e);
@@ -184,6 +194,8 @@ class StripeSubscriptionAdapter extends AbstractStripeAdapter implements Subscri
                 'trial_end' => 'now',
             ]);
             $subscriptionData->save();
+
+            $this->logger->info(sprintf('Stripe finish trial for %s', $subscriptionId));
 
             return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {

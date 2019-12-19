@@ -1,6 +1,6 @@
 <?php
 
-namespace Softspring\SubscriptionBundle\Controller\Account;
+namespace Softspring\SubscriptionBundle\Controller\Customer;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\CoreBundle\Controller\AbstractController;
@@ -64,73 +64,58 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param SubscriptionCustomerInterface $client
-     * @param Request                       $request
+     * @param SubscriptionInterface $subscription
+     * @param Request               $request
      *
      * @return Response
      */
-    public function details(SubscriptionCustomerInterface $client, Request $request): Response
+    public function details(SubscriptionInterface $subscription, Request $request): Response
     {
-        /** @var SubscriptionCustomerInterface $client */
-
-        $defaultSource = null;
-
-        if (!$client->getActiveSubscriptions()->count()) {
-            return $this->redirectToRoute('sfs_subscription_subscribe_choose_plan', ['_account' => $client]);
-        }
-
-        $subscription = $client->getActiveSubscriptions()->first();
-
         $viewData = new \ArrayObject([
-            'businessAccount' => $client,
-            'defaultSource' => $defaultSource ?? [],
-            'subscription' => $subscription ?? null,
-            'account' => $client,
+            'subscription' => $subscription,
         ]);
 
         // $this->eventDispatcher->dispatch(new ViewEvent($viewData), SfsSubscriptionEvents::SUBSCRIPTION_PRICING_LIST_VIEW);
 
-        return $this->render('@SfsSubscription/account/subscription/details.html.twig', $viewData->getArrayCopy());
+        return $this->render('@SfsSubscription/customer/subscription/details.html.twig', $viewData->getArrayCopy());
     }
 
     /**
-     * @param SubscriptionCustomerInterface $client
-     * @param SubscriptionInterface         $subscription
+     * @param SubscriptionInterface $subscription
      *
      * @return Response
      */
-    public function cancel(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription): Response
+    public function cancel(SubscriptionInterface $subscription): Response
     {
         // TODO DISPATCH EVENT
 
         try {
-            $this->subscriptionManager->cancel($client, $subscription);
+            $this->subscriptionManager->cancel($subscription);
             // TODO DISPATCH EVENT
         } catch (SubscriptionException $e) {
             // TODO DISPATCH EVENT
         }
 
-        return $this->redirectToRoute('sfs_subscription_account_subscription_details', ['_account' => $client]);
+        return $this->redirectToRoute('sfs_subscription_customer_subscription_details', ['subscription' => $subscription]);
     }
 
     /**
-     * @param SubscriptionCustomerInterface $client
-     * @param SubscriptionInterface         $subscription
+     * @param SubscriptionInterface $subscription
      *
      * @return Response
      */
-    public function reactivate(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription): Response
+    public function reactivate(SubscriptionInterface $subscription): Response
     {
         // TODO DISPATCH EVENT
 
         try {
-            $this->subscriptionManager->uncancel($client, $subscription);
+            $this->subscriptionManager->uncancel($subscription);
             // TODO DISPATCH EVENT
         } catch (SubscriptionException $e) {
             // TODO DISPATCH EVENT
         }
 
-        return $this->redirectToRoute('sfs_subscription_account_subscription_details', ['_account' => $client]);
+        return $this->redirectToRoute('sfs_subscription_customer_subscription_details', ['subscription' => $subscription]);
     }
 
     /**
@@ -158,7 +143,7 @@ class SubscriptionController extends AbstractController
 
         // $this->eventDispatcher->dispatch(new ViewEvent($viewData), SfsSubscriptionEvents::SUBSCRIPTION_PRICING_LIST_VIEW);
 
-        return $this->render('@SfsSubscription/account/subscription/choose_upgrade.html.twig', $viewData->getArrayCopy());
+        return $this->render('@SfsSubscription/customer/subscription/choose_upgrade.html.twig', $viewData->getArrayCopy());
     }
 
     /**
@@ -206,6 +191,6 @@ class SubscriptionController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('sfs_subscription_account_subscription_details', ['_account' => $client]);
+        return $this->redirectToRoute('sfs_subscription_customer_subscription_details', ['_customer' => $client]);
     }
 }

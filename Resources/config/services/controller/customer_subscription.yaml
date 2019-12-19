@@ -1,6 +1,6 @@
 services:
-    sfs_subscription.account.subscription.controller:
-        class: Softspring\SubscriptionBundle\Controller\Account\SubscriptionController
+    sfs_subscription.customer.subscription.controller:
+        class: Softspring\SubscriptionBundle\Controller\Customer\SubscriptionController
         public: true
         arguments:
             $subscriptionManager: '@Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface'
