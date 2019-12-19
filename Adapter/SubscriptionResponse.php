@@ -56,6 +56,7 @@ class SubscriptionResponse extends AbstractResponse
                 if (!empty($platformResponse->status)) {
                     switch ($platformResponse->status) {
                         case 'active':
+                        case 'incomplete':
                             $this->status = SubscriptionInterface::STATUS_ACTIVE;
                             break;
 
@@ -63,8 +64,18 @@ class SubscriptionResponse extends AbstractResponse
                             $this->status = SubscriptionInterface::STATUS_TRIALING;
                             break;
 
+                        case 'unpaid':
+                        case 'past_due':
+                            $this->status = SubscriptionInterface::STATUS_UNPAID;
+                            break;
+
+                        case 'incomplete_expired':
+                        case 'canceled':
+                            $this->status = SubscriptionInterface::STATUS_EXPIRED;
+                            break;
+
                         default:
-                            throw new SubscriptionException('Status not yet implemented');
+                            throw new SubscriptionException($this->platform, 'status_not_yet_implemented', 'Status not yet implemented');
                     }
                 }
 
@@ -83,7 +94,7 @@ class SubscriptionResponse extends AbstractResponse
                 break;
 
             default:
-                throw new PlatformNotYetImplemented();
+                throw new PlatformNotYetImplemented(-1, 'platform_not_yet_implemented');
         }
     }
 

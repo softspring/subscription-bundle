@@ -85,7 +85,7 @@ class PlanResponse extends AbstractResponse
                 break;
 
             default:
-                throw new PlatformNotYetImplemented();
+                throw new \Softspring\CustomerBundle\Exception\PlatformNotYetImplemented(-1, 'platform_not_yet_implemented');
         }
     }
 
