@@ -2,7 +2,7 @@
 
 {% for subscription in entities %}
     <tr>
-        <td>{{ subscription.customer.name }}</td>
+        <td>{{ subscription.customer.name|default('') }}</td>
         <td>{{ subscription.plan.name|default('') }}</td>
         <td>{{ subscription.statusString }}</td>
         <td>{{ subscription.startDate ? subscription.startDate|date('d-m-Y') : '' }}</td>
