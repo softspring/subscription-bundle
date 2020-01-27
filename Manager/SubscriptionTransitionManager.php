@@ -3,12 +3,12 @@
 namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\AdminBundle\Manager\AdminEntityManagerTrait;
+use Softspring\CrudlBundle\Manager\CrudlEntityManagerTrait;
 use Softspring\SubscriptionBundle\Model\SubscriptionTransitionInterface;
 
 class SubscriptionTransitionManager implements SubscriptionTransitionManagerInterface
 {
-    use AdminEntityManagerTrait;
+    use CrudlEntityManagerTrait;
 
     /**
      * @var EntityManagerInterface

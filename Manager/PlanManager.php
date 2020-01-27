@@ -4,14 +4,14 @@ namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\AdminBundle\Manager\AdminEntityManagerTrait;
+use Softspring\CrudlBundle\Manager\CrudlEntityManagerTrait;
 use Softspring\CustomerBundle\Manager\ApiManagerInterface;
 use Softspring\SubscriptionBundle\Adapter\PlanResponse;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 
 class PlanManager implements PlanManagerInterface
 {
-    use AdminEntityManagerTrait;
+    use CrudlEntityManagerTrait;
 
     /**
      * @var EntityManagerInterface

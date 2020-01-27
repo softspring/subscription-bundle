@@ -2,11 +2,11 @@
 
 namespace Softspring\SubscriptionBundle\Form\Admin;
 
-use Softspring\AdminBundle\Form\AdminEntityListFilterForm;
+use Softspring\CrudlBundle\Form\EntityListFilterForm;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PlanListFilterForm extends AdminEntityListFilterForm implements PlanListFilterFormInterface
+class PlanListFilterForm extends EntityListFilterForm implements PlanListFilterFormInterface
 {
     public function configureOptions(OptionsResolver $resolver)
     {

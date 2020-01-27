@@ -3,7 +3,7 @@
 namespace Softspring\SubscriptionBundle\Form\Admin;
 
 use Jhg\DoctrinePaginationBundle\Request\RequestParam;
-use Softspring\AdminBundle\Form\AdminEntityListFilterForm;
+use Softspring\CrudlBundle\Form\EntityListFilterForm;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SubscriptionListFilterForm extends AdminEntityListFilterForm implements SubscriptionListFilterFormInterface
+class SubscriptionListFilterForm extends EntityListFilterForm implements SubscriptionListFilterFormInterface
 {
     public function configureOptions(OptionsResolver $resolver)
     {

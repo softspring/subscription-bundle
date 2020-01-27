@@ -3,7 +3,7 @@
 namespace Softspring\SubscriptionBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\AdminBundle\Event\ViewEvent;
+use Softspring\CoreBundle\Event\ViewEvent;
 use Softspring\CoreBundle\Controller\AbstractController;
 use Softspring\CustomerBundle\Adapter\CustomerAdapterInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;

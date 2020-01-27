@@ -9,13 +9,12 @@ services:
         alias: 'Softspring\SubscriptionBundle\Form\Admin\ProductUpdateForm'
 
     sfs_subscription.admin.product.controller:
-        class: Softspring\AdminBundle\Controller\EntityController
+        class: Softspring\CrudlBundle\Controller\CrudlController
         public: true
         calls:
             - { method: setContainer, arguments: ['@service_container'] }
         arguments:
             $manager: '@Softspring\SubscriptionBundle\Manager\ProductManagerInterface'
-            $eventDispatcher: '@event_dispatcher'
             $listFilterForm: '@Softspring\SubscriptionBundle\Form\Admin\ProductListFilterFormInterface'
             $createForm: '@Softspring\SubscriptionBundle\Form\Admin\ProductCreateFormInterface'
             $updateForm: '@Softspring\SubscriptionBundle\Form\Admin\ProductUpdateFormInterface'

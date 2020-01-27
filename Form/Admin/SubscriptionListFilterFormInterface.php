@@ -2,9 +2,9 @@
 
 namespace Softspring\SubscriptionBundle\Form\Admin;
 
-use Softspring\AdminBundle\Form\AdminEntityListFilterFormInterface;
+use Softspring\CrudlBundle\Form\EntityListFilterFormInterface;
 
-interface SubscriptionListFilterFormInterface extends AdminEntityListFilterFormInterface
+interface SubscriptionListFilterFormInterface extends EntityListFilterFormInterface
 {
 
 }
