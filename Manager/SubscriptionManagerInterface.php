@@ -2,14 +2,14 @@
 
 namespace Softspring\SubscriptionBundle\Manager;
 
-use Softspring\AdminBundle\Manager\AdminEntityManagerInterface;
+use Softspring\CrudlBundle\Manager\CrudlEntityManagerInterface;
 use Softspring\SubscriptionBundle\Adapter\SubscriptionResponse;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 
-interface SubscriptionManagerInterface extends AdminEntityManagerInterface
+interface SubscriptionManagerInterface extends CrudlEntityManagerInterface
 {
     /**
      * @param SubscriptionCustomerInterface $client

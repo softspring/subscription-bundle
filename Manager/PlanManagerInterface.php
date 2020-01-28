@@ -2,10 +2,10 @@
 
 namespace Softspring\SubscriptionBundle\Manager;
 
-use Softspring\AdminBundle\Manager\AdminEntityManagerInterface;
+use Softspring\CrudlBundle\Manager\CrudlEntityManagerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 
-interface PlanManagerInterface extends AdminEntityManagerInterface
+interface PlanManagerInterface extends CrudlEntityManagerInterface
 {
     /**
      * @param string $plan

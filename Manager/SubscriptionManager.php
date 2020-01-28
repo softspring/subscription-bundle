@@ -3,7 +3,7 @@
 namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\AdminBundle\Manager\AdminEntityManagerTrait;
+use Softspring\CrudlBundle\Manager\CrudlEntityManagerTrait;
 use Softspring\CustomerBundle\Manager\ApiManagerInterface;
 use Softspring\SubscriptionBundle\Adapter\SubscriptionResponse;
 use Softspring\SubscriptionBundle\Model\CustomerHasTriedInterface;
@@ -14,7 +14,7 @@ use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 
 class SubscriptionManager implements SubscriptionManagerInterface
 {
-    use AdminEntityManagerTrait;
+    use CrudlEntityManagerTrait;
 
     /**
      * @var EntityManagerInterface

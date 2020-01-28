@@ -2,9 +2,9 @@
 
 namespace Softspring\SubscriptionBundle\Manager;
 
-use Softspring\AdminBundle\Manager\AdminEntityManagerInterface;
+use Softspring\CrudlBundle\Manager\CrudlEntityManagerInterface;
 
-interface ProductManagerInterface extends AdminEntityManagerInterface
+interface ProductManagerInterface extends CrudlEntityManagerInterface
 {
 
 }
