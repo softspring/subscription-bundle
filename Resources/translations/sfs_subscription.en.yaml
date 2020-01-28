@@ -31,6 +31,7 @@ admin_products:
 admin_plans:
     list:
         page_title: "Subscription plans"
+        sync_button: "Syncronize all"
         fields:
             platformId.header: "ID"
             active.header: "Active"
@@ -38,6 +39,8 @@ admin_plans:
             product.header: "Product"
             platform.header: "Platform"
             price.header: "Price"
+        actions:
+            details.button: "Details"
 
 admin_subscriptions:
     list:
