@@ -47,7 +47,7 @@ class StripeAdminSubscriptionListener implements EventSubscriberInterface
         }
 
         $data = $event->getData();
-        $subscription = $data['entity'];
+        $subscription = $data['subscription'];
 
         if (!$subscription instanceof SubscriptionInterface) {
             return;

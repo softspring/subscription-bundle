@@ -20,6 +20,7 @@ services:
             $updateForm: '@Softspring\SubscriptionBundle\Form\Admin\PlanUpdateFormInterface'
             $deleteForm: null
             $config:
+                entity_attribute: 'plan'
                 list:
                     view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_LIST_VIEW
                     view: '@@SfsSubscription/admin/plan/list.html.twig'

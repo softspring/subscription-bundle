@@ -20,6 +20,7 @@ services:
             $updateForm: '@Softspring\SubscriptionBundle\Form\Admin\ProductUpdateFormInterface'
             $deleteForm: null
             $config:
+                entity_attribute: 'product'
                 list:
                     view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PRODUCTS_LIST_VIEW
                     view: '@@SfsSubscription/admin/product/list.html.twig'

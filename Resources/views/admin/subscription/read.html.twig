@@ -3,8 +3,6 @@
 {% block title %}{{ 'admin_subscriptions.read.page_title'|trans }}{% endblock %}
 
 {% block content %}
-    {% set subscription = entity %}
-
     <ul>
         <li><strong>Customer:</strong> {{ subscription.customer.name }}</li>
         {% if subscription.product|default(false) %}

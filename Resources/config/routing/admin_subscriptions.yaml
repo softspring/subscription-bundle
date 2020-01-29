@@ -4,4 +4,4 @@ sfs_subscription_admin_subscriptions_list:
 
 sfs_subscription_admin_subscriptions_read:
     controller: sfs_subscription.admin.subscription.controller::read
-    path: /{entity}
+    path: /{subscription}
