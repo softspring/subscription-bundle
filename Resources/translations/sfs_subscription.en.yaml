@@ -51,6 +51,8 @@ admin_subscriptions:
             status.header: "Status"
             startDate.header: "Start date"
             endDate.header: "End date"
+        actions:
+            details.button: "details"
         filter_form:
             status.label: "Status"
             actions.search: "Search"
