@@ -16,6 +16,7 @@ services:
             $config:
                 entity_attribute: 'subscription'
                 list:
+                    filter_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_SUBSCRIPTIONS_LIST_FILTER
                     view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_SUBSCRIPTIONS_LIST_VIEW
                     view: '@@SfsSubscription/admin/subscription/list.html.twig'
                     view_page: '@@SfsSubscription/admin/subscription/list-page.html.twig'

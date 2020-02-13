@@ -125,6 +125,11 @@ class SfsSubscriptionEvents
     const ADMIN_PLANS_CREATE_VIEW = 'sfs_subscription.admin.plans.create_view';
 
     /**
+     * @Event("Softspring\CrudlBundle\Event\FilterEvent")
+     */
+    const ADMIN_SUBSCRIPTIONS_LIST_FILTER = 'sfs_subscription.admin.subscriptions.list_filter';
+
+    /**
      * @Event("Softspring\CoreBundle\Event\ViewEvent")
      */
     const ADMIN_SUBSCRIPTIONS_LIST_VIEW = 'sfs_subscription.admin.subscriptions.list_view';
