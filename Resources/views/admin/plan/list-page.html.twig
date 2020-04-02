@@ -14,12 +14,19 @@
             {{ plan.testMode ? '(test)' : '' }}
         </td>
         <td>{{ plan.platformId }}</td>
-        <td>{{ plan.active ? 'yes' : 'no' }}</td>
-        <td>{{ plan.name }}</td>
         <td>{{ plan.product|default(false) ? plan.product.name : '' }}</td>
+        <td>{{ plan.name }}</td>
+        <td>
+{#            {{ plan.active ? 'yes' : 'no' }}#}
+            {% if plan.active %}
+                <span class="mdi mdi-18px mdi-check align-middle text-success"></span>
+            {% else %}
+                <span class="mdi mdi-18px mdi-close align-middle text-danger"></span>
+            {% endif %}
+        </td>
         <td>
             {{ plan.amount|number_format(2) }}
-            <small>{{ plan.currency|upper }} {% if plan.interval %}/{{ ('plan.interval.values.'~plan.interval)|trans }}{% endif %}</small>
+            <small>{{ plan.currency|upper }} {% if plan.interval %}/ {{ ('plan.interval.values.'~plan.interval)|trans }}{% endif %}</small>
         </td>
     </tr>
 {% endfor %}

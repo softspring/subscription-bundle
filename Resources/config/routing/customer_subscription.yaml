@@ -1,3 +1,7 @@
+sfs_subscription_customer_subscription_overview:
+    controller: sfs_subscription.customer.subscription.controller::overview
+    path: /
+
 sfs_subscription_customer_subscription_details:
     controller: sfs_subscription.customer.subscription.controller::details
     path: /{subscription}

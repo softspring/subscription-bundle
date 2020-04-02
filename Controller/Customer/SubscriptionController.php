@@ -4,13 +4,13 @@ namespace Softspring\SubscriptionBundle\Controller\Customer;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\CoreBundle\Controller\AbstractController;
-use Softspring\CustomerBundle\Adapter\CustomerAdapterInterface;
+use Softspring\CustomerBundle\Platform\Adapter\CustomerAdapterInterface;
 use Softspring\SubscriptionBundle\Event\UpgradeFailedGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
-use Softspring\SubscriptionBundle\Exception\SubscriptionException;
+use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
 use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
@@ -61,6 +61,23 @@ class SubscriptionController extends AbstractController
         $this->eventDispatcher = $eventDispatcher;
         $this->em = $em;
         $this->clientAdapter = $clientAdapter;
+    }
+
+    /**
+     * @param SubscriptionCustomerInterface $customer
+     * @param Request                       $request
+     *
+     * @return Response
+     */
+    public function overview(SubscriptionCustomerInterface $customer, Request $request): Response
+    {
+        $viewData = new \ArrayObject([
+            'customer' => $customer,
+        ]);
+
+        // $this->eventDispatcher->dispatch(new ViewEvent($viewData), SfsSubscriptionEvents::SUBSCRIPTION_PRICING_LIST_VIEW);
+
+        return $this->render('@SfsSubscription/customer/subscription/overview.html.twig', $viewData->getArrayCopy());
     }
 
     /**

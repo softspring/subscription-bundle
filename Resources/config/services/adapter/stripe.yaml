@@ -8,15 +8,20 @@ services:
             $webhookSigningSecret: '%sfs_customer.adapter.stripe.webhookSigningSecret%'
             $logger: '@?monolog.logger.stripe'
 
-    Softspring\SubscriptionBundle\Adapter\SubscriptionAdapterInterface:
-        class: Softspring\SubscriptionBundle\Adapter\Stripe\StripeSubscriptionAdapter
+    Softspring\SubscriptionBundle\Platform\Adapter\SubscriptionAdapterInterface:
+        class: Softspring\SubscriptionBundle\Platform\Adapter\Stripe\SubscriptionAdapter
         tags:
           - { name: 'sfs_customer.platform.adapter', alias: 'subscription' }
 
-    Softspring\SubscriptionBundle\Adapter\PlanAdapterInterface:
-        class: Softspring\SubscriptionBundle\Adapter\Stripe\StripePlanAdapter
+    Softspring\SubscriptionBundle\Platform\Adapter\PlanAdapterInterface:
+        class: Softspring\SubscriptionBundle\Platform\Adapter\Stripe\PlanAdapter
         tags:
           - { name: 'sfs_customer.platform.adapter', alias: 'plan' }
+
+    Softspring\SubscriptionBundle\Platform\Adapter\ProductAdapterInterface:
+        class: Softspring\SubscriptionBundle\Platform\Adapter\Stripe\ProductAdapter
+        tags:
+          - { name: 'sfs_customer.platform.adapter', alias: 'product' }
 
     Softspring\SubscriptionBundle\EventListener\StripeSubscriptionListener:
         tags: ['kernel.event_subscriber']

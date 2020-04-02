@@ -1,8 +1,8 @@
 <?php
 
-namespace Softspring\SubscriptionBundle\Adapter;
+namespace Softspring\SubscriptionBundle\Platform\Response;
 
-use Softspring\CustomerBundle\Adapter\AbstractListResponse;
+use Softspring\CustomerBundle\Platform\Response\AbstractListResponse;
 
 class PlanListResponse extends AbstractListResponse
 {

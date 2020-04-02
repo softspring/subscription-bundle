@@ -2,39 +2,51 @@
 {% extends '@SfsSubscription/admin_layout.html.twig' %}
 {% block title %}{{ 'admin_products.list.page_title'|trans }}{% endblock %}
 
+{% block breadcrums_content %}
+    {{ parent() }}
+    <li class="breadcrumb-item">Subscriptions</li>
+    <li class="breadcrumb-item active" aria-current="page">Products</li>
+{% endblock breadcrums_content %}
+
 {% block content %}
     <div class="d-flex align-items-center justify-content-between mb-4">
         <h1 class="h3">Products</h1>
+
+        {# TODO restrict by permission #}
+        <div class="float-right">
+            <a class="btn btn-outline-primary" href="{{ url('sfs_subscription_admin_products_sync_all') }}">{{ 'admin_products.list.sync_button'|trans }} <span class="mdi mdi-sync"></span></a>
+        </div>
     </div>
 
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
+    {% embed '@SfsAdmin/components/table.html.twig' with {'collection':entities} %}
+        {% trans_default_domain 'sfs_subscription' %}
+        {% block ths %}
             <th scope="col">{{ 'admin_products.list.fields.platform.header'|trans }}</th>
             <th scope="col">{{ 'admin_products.list.fields.platformId.header'|trans }}</th>
             <th scope="col">{{ 'admin_products.list.fields.name.header'|trans }}</th>
-{#            <th>&nbsp;</th>#}
-        </tr>
-        </thead>
+            {#            <th>&nbsp;</th>#}
+        {% endblock ths %}
 
-        <tbody>
-        {% include '@SfsSubscription/admin/product/list-page.html.twig' %}
-        </tbody>
+        {% block tbody %}
+            {% include '@SfsSubscription/admin/product/list-page.html.twig' %}
+        {% endblock tbody %}
 
-        {% if entities.pages|default(false) %}
-            <tfoot>
-            <tr>
-                <td colspan="20">
-                    {% if entities.prevPage %}
-                        <a href="{{ url('sfs_subscription_admin_products_list', app.request.query.all|merge({ page: entities.prevPage })) }}" title="Prev page"><span class="mdi mdi-24px mdi-chevron-left"></span></a>
-                    {% endif %}
+        {% block tfooter %}
+            {% if entities.pages|default(false) %}
+                <tfoot>
+                <tr>
+                    <td colspan="20">
+                        {% if entities.prevPage %}
+                            <a href="{{ url('sfs_subscription_admin_products_list', app.request.query.all|merge({ page: entities.prevPage })) }}" title="Prev page"><span class="mdi mdi-24px mdi-chevron-left"></span></a>
+                        {% endif %}
 
-                    {% if entities.nextPage %}
-                        <a class="float-right" href="{{ url('sfs_subscription_admin_products_list', app.request.query.all|merge({ page: entities.nextPage })) }}" title="Next page"><span class="mdi mdi-24px mdi-chevron-right"></span></a>
-                    {% endif %}
-                </td>
-            </tr>
-            </tfoot>
-        {% endif %}
-    </table>
+                        {% if entities.nextPage %}
+                            <a class="float-right" href="{{ url('sfs_subscription_admin_products_list', app.request.query.all|merge({ page: entities.nextPage })) }}" title="Next page"><span class="mdi mdi-24px mdi-chevron-right"></span></a>
+                        {% endif %}
+                    </td>
+                </tr>
+                </tfoot>
+            {% endif %}
+        {% endblock tfooter %}
+    {% endembed %}
 {% endblock content %}

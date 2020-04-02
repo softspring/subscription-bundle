@@ -1,9 +1,10 @@
 <?php
 
-namespace Softspring\SubscriptionBundle\Adapter;
+namespace Softspring\SubscriptionBundle\Platform\Adapter;
 
-use Softspring\CustomerBundle\Adapter\PlatformAdapterInterface;
-use Softspring\SubscriptionBundle\Exception\SubscriptionException;
+use Softspring\CustomerBundle\Platform\Adapter\PlatformAdapterInterface;
+use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
+use Softspring\SubscriptionBundle\Platform\Response\SubscriptionResponse;
 
 interface SubscriptionAdapterInterface extends PlatformAdapterInterface
 {

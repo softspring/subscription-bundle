@@ -1,6 +1,6 @@
 <?php
 
-namespace Softspring\SubscriptionBundle\Exception;
+namespace Softspring\SubscriptionBundle\Platform\Exception;
 
 class MaxSubscriptionsReachException extends SubscriptionException
 {

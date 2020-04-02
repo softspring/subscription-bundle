@@ -75,4 +75,14 @@ interface PlanInterface extends PlatformObjectInterface
      * @param bool $online
      */
     public function setOnline(bool $online): void;
+
+    /**
+     * @return ProductInterface|null
+     */
+    public function getProduct(): ?ProductInterface;
+
+    /**
+     * @param ProductInterface|null $product
+     */
+    public function setProduct(?ProductInterface $product): void;
 }

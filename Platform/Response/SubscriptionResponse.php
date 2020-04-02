@@ -1,12 +1,12 @@
 <?php
 
-namespace Softspring\SubscriptionBundle\Adapter;
+namespace Softspring\SubscriptionBundle\Platform\Response;
 
-use Softspring\CustomerBundle\Adapter\AbstractResponse;
-use Softspring\CustomerBundle\Exception\PlatformNotYetImplemented;
-use Softspring\SubscriptionBundle\Exception\SubscriptionException;
+use Softspring\CustomerBundle\Platform\Response\AbstractResponse;
+use Softspring\CustomerBundle\Platform\Exception\PlatformNotYetImplemented;
+use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
-use Softspring\CustomerBundle\PlatformInterface;
+use Softspring\CustomerBundle\Platform\PlatformInterface;
 
 class SubscriptionResponse extends AbstractResponse
 {

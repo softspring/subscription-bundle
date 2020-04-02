@@ -1,11 +1,11 @@
 <?php
 
-namespace Softspring\SubscriptionBundle\Adapter;
+namespace Softspring\SubscriptionBundle\Platform\Response;
 
-use Softspring\CustomerBundle\Adapter\AbstractResponse;
-use Softspring\SubscriptionBundle\Exception\PlatformNotYetImplemented;
-use Softspring\SubscriptionBundle\Exception\SubscriptionException;
-use Softspring\CustomerBundle\PlatformInterface;
+use Softspring\CustomerBundle\Platform\Response\AbstractResponse;
+use Softspring\CustomerBundle\Platform\Exception\PlatformNotYetImplemented;
+use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
+use Softspring\CustomerBundle\Platform\PlatformInterface;
 
 class PlanResponse extends AbstractResponse
 {
@@ -38,6 +38,11 @@ class PlanResponse extends AbstractResponse
      * @var int|null
      */
     protected $interval;
+
+    /**
+     * @var string|null
+     */
+    protected $productId;
 
     /**
      * SubscriptionResponse constructor.
@@ -82,10 +87,14 @@ class PlanResponse extends AbstractResponse
                     ];
                     $this->interval = $intervalMapping[$platformResponse->interval] * $platformResponse->interval_count;
                 }
+
+                if (isset($platformResponse->product)) {
+                    $this->productId = $platformResponse->product;
+                }
                 break;
 
             default:
-                throw new \Softspring\CustomerBundle\Exception\PlatformNotYetImplemented(-1, 'platform_not_yet_implemented');
+                throw new PlatformNotYetImplemented(-1, 'platform_not_yet_implemented');
         }
     }
 
@@ -135,5 +144,13 @@ class PlanResponse extends AbstractResponse
     public function getInterval(): ?int
     {
         return $this->interval;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProductId(): ?string
+    {
+        return $this->productId;
     }
 }

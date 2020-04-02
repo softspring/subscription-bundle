@@ -5,3 +5,7 @@ sfs_subscription_admin_products_list:
 sfs_subscription_admin_products_create:
     controller: sfs_subscription.admin.product.controller::create
     path: /create
+
+sfs_subscription_admin_products_sync_all:
+    controller: Softspring\SubscriptionBundle\Controller\Admin\ProductController::syncAll
+    path: /sync-all

@@ -6,5 +6,8 @@ use Softspring\CrudlBundle\Manager\CrudlEntityManagerInterface;
 
 interface ProductManagerInterface extends CrudlEntityManagerInterface
 {
-
+    /**
+     *
+     */
+    public function syncAll(): void;
 }

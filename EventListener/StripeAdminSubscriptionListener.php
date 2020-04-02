@@ -3,7 +3,7 @@
 namespace Softspring\SubscriptionBundle\EventListener;
 
 use Softspring\CoreBundle\Event\ViewEvent;
-use Softspring\CustomerBundle\Manager\ApiManagerInterface;
+use Softspring\CustomerBundle\Platform\ApiManagerInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

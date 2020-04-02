@@ -5,7 +5,7 @@ namespace Softspring\SubscriptionBundle\Event;
 use Softspring\CoreBundle\Event\GetResponseTrait;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
-use Softspring\SubscriptionBundle\Exception\SubscriptionException;
+use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
 use Symfony\Component\HttpFoundation\Request;
 
 class SubscriptionFailedGetResponseEvent extends GetResponseEvent

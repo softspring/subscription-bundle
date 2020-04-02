@@ -5,11 +5,12 @@ services:
         public: false
         bind:
             $em: '@sfs_subscription.entity_manager'
-            $api: '@Softspring\CustomerBundle\Manager\ApiManagerInterface'
+            $api: '@Softspring\CustomerBundle\Platform\ApiManagerInterface'
 
     Softspring\SubscriptionBundle\Controller\:
         resource: '../../../Controller/*'
         public: true
+        tags: ['controller.service_arguments']
 
     Softspring\SubscriptionBundle\Form\:
         resource: '../../../Form/*'

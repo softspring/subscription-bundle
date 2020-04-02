@@ -4,7 +4,7 @@ namespace Softspring\SubscriptionBundle\Event;
 
 use Softspring\CoreBundle\Event\GetResponseTrait;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
-use Softspring\SubscriptionBundle\Exception\SubscriptionException;
+use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Symfony\Component\HttpFoundation\Request;
 

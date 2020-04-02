@@ -1,11 +1,17 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
     sfs_subscription.subscribe.controller:
         class: Softspring\SubscriptionBundle\Controller\SubscribeController
         public: true
+        tags: ['controller.service_arguments']
         arguments:
             $subscriptionManager: '@Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface'
             $planManager: '@Softspring\SubscriptionBundle\Manager\PlanManagerInterface'
             $eventDispatcher: '@event_dispatcher'
             $em: '@sfs_subscription.entity_manager'
-            $clientAdapter: '@Softspring\CustomerBundle\Adapter\CustomerAdapterInterface'
+            $customerAdapter: '@Softspring\CustomerBundle\Platform\Adapter\CustomerAdapterInterface'
 

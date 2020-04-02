@@ -5,6 +5,8 @@ plan:
             2: 'week'
             3: 'month'
             4: 'year'
+            30: 'mes'
+            365: 'año'
 
 subscription:
     status:
@@ -14,6 +16,7 @@ subscription:
 admin_products:
     list:
         page_title: "Productos de suscripción"
+        sync_button: "Sincronizar"
         fields:
             platformId.header: "ID"
             name.header: "Nombre"
@@ -31,6 +34,7 @@ admin_products:
 admin_plans:
     list:
         page_title: "Planes de suscripción"
+        sync_button: "Sincronizar"
         fields:
             platformId.header: "ID"
             active.header: "Activo"

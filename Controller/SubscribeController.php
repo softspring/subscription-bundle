@@ -5,13 +5,13 @@ namespace Softspring\SubscriptionBundle\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\CoreBundle\Event\ViewEvent;
 use Softspring\CoreBundle\Controller\AbstractController;
-use Softspring\CustomerBundle\Adapter\CustomerAdapterInterface;
+use Softspring\CustomerBundle\Platform\Adapter\CustomerAdapterInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\SubscriptionFailedGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\SubscriptionGetResponseEvent;
-use Softspring\SubscriptionBundle\Exception\SubscriptionException;
+use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Form\StripeAddCardForm;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
@@ -46,7 +46,7 @@ class SubscribeController extends AbstractController
     /**
      * @var CustomerAdapterInterface
      */
-    protected $clientAdapter;
+    protected $customerAdapter;
 
     /**
      * SubscribeController constructor.
@@ -55,29 +55,29 @@ class SubscribeController extends AbstractController
      * @param PlanManagerInterface         $planManager
      * @param EventDispatcherInterface     $eventDispatcher
      * @param EntityManagerInterface       $em
-     * @param CustomerAdapterInterface     $clientAdapter
+     * @param CustomerAdapterInterface     $customerAdapter
      */
-    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, CustomerAdapterInterface $clientAdapter)
+    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, CustomerAdapterInterface $customerAdapter)
     {
         $this->subscriptionManager = $subscriptionManager;
         $this->planManager = $planManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->em = $em;
-        $this->clientAdapter = $clientAdapter;
+        $this->customerAdapter = $customerAdapter;
     }
 
     /**
-     * @param SubscriptionCustomerInterface $client
+     * @param SubscriptionCustomerInterface $customer
      *
      * @return Response
      */
-    public function choosePlan(SubscriptionCustomerInterface $client): Response
+    public function choosePlan(SubscriptionCustomerInterface $customer): Response
     {
         $repo = $this->planManager->getRepository();
         $plans = $repo->findBy(['active' => true, 'online' => true]);
 
         $viewData = new \ArrayObject([
-            'client' => $client,
+            'customer' => $customer,
             'plans' => $plans,
         ]);
 
@@ -94,13 +94,13 @@ class SubscribeController extends AbstractController
     /**
      * TODO: REFACTOR THIS METHOD AND FEATURE WHEN ADDED A SECOND ADAPTER, THIS IS STRIPE
      *
-     * @param SubscriptionCustomerInterface $client
+     * @param SubscriptionCustomerInterface $customer
      * @param string                        $plan
      * @param Request                       $request
      *
      * @return Response
      */
-    public function addStripeCard(SubscriptionCustomerInterface $client, string $plan, Request $request): Response
+    public function addStripeCard(SubscriptionCustomerInterface $customer, string $plan, Request $request): Response
     {
         /** @var PlanInterface $plan */
         $plan = $this->planManager->convert($plan);
@@ -110,9 +110,9 @@ class SubscribeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $token = $form->get('stripeToken')->getData();
 
-            $customer = $this->clientAdapter->customerAddToken($client, $token);
+            $customer = $this->customerAdapter->customerAddToken($customer, $token);
 
-            return $this->redirectToRoute('sfs_subscription_subscribe', ['_account' => $client, 'plan' => $plan]);
+            return $this->redirectToRoute('sfs_subscription_subscribe', ['_account' => $customer, 'plan' => $plan]);
         }
 
         return $this->render('@SfsSubscription/subscribe/add_stripe_card.html.twig', [
@@ -122,33 +122,33 @@ class SubscribeController extends AbstractController
     }
 
     /**
-     * @param SubscriptionCustomerInterface $client
+     * @param SubscriptionCustomerInterface $customer
      * @param string                        $plan
      * @param Request                       $request
      *
      * @return Response
      */
-    public function subscribe(SubscriptionCustomerInterface $client, string $plan, Request $request): Response
+    public function subscribe(SubscriptionCustomerInterface $customer, string $plan, Request $request): Response
     {
         /** @var PlanInterface $plan */
         $plan = $this->planManager->convert($plan);
 
-        if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_INITIALIZE, new PreSubscribeGetResponseEvent($client, $plan, $request))) {
+        if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_INITIALIZE, new PreSubscribeGetResponseEvent($customer, $plan, $request))) {
             return $response;
         }
 
         try {
             /** @var SubscriptionInterface $subscription */
-            $subscription = $client->getActiveSubscriptions()->last();
-            if ($subscription->getStatus() == SubscriptionInterface::STATUS_TRIALING) {
-                $this->subscriptionManager->finishTrial($client, $subscription, $plan);
+            $subscription = $customer->getActiveSubscriptions()->last();
+            if ($subscription && $subscription->getStatus() == SubscriptionInterface::STATUS_TRIALING) {
+                $this->subscriptionManager->finishTrial($customer, $subscription, $plan);
 
                 if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
                     $this->subscriptionManager->saveEntity($subscription);
                     return $response;
                 }
             } else {
-                $subscription = $this->subscriptionManager->subscribe($client, $plan);
+                $subscription = $this->subscriptionManager->subscribe($customer, $plan);
 
                 if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
                     $this->subscriptionManager->saveEntity($subscription);
@@ -158,7 +158,7 @@ class SubscribeController extends AbstractController
 
             throw new \RuntimeException('After subscription success, SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS event must set a response to continue');
         } catch (SubscriptionException $e) {
-            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_FAILED, new SubscriptionFailedGetResponseEvent($client, $plan, $e, $request))) {
+            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_FAILED, new SubscriptionFailedGetResponseEvent($customer, $plan, $e, $request))) {
                 return $response;
             }
 
@@ -167,13 +167,13 @@ class SubscribeController extends AbstractController
     }
 
     /**
-     * @param SubscriptionCustomerInterface $client
+     * @param SubscriptionCustomerInterface $customer
      * @param string                        $plan
      * @param Request                       $request
      *
      * @return Response
      */
-    public function trial(SubscriptionCustomerInterface $client, string $plan, Request $request): Response
+    public function trial(SubscriptionCustomerInterface $customer, string $plan, Request $request): Response
     {
         /** @var PlanInterface $plan */
         $plan = $this->planManager->convert($plan);
@@ -183,12 +183,12 @@ class SubscribeController extends AbstractController
 //            return $this->redirectToRoute('sfs_subscription_subscribe_choose_plan');
 //        }
 
-        if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_INITIALIZE, new PreSubscribeGetResponseEvent($client, $plan, $request))) {
+        if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_INITIALIZE, new PreSubscribeGetResponseEvent($customer, $plan, $request))) {
             return $response;
         }
 
         try {
-            $subscription = $this->subscriptionManager->trial($client, $plan);
+            $subscription = $this->subscriptionManager->trial($customer, $plan);
             if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
                 $this->subscriptionManager->saveEntity($subscription);
                 return $response;
@@ -196,7 +196,7 @@ class SubscribeController extends AbstractController
 
             throw new \RuntimeException('After subscription success, SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_SUCCESS event must set a response to continue');
         } catch (SubscriptionException $e) {
-            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_FAILED, new SubscriptionFailedGetResponseEvent($client, $plan, $e, $request))) {
+            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_FAILED, new SubscriptionFailedGetResponseEvent($customer, $plan, $e, $request))) {
                 return $response;
             }
 

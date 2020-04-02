@@ -34,6 +34,11 @@ abstract class Plan implements PlanInterface
      */
     protected $online;
 
+    /**
+     * @var ProductInterface|null
+     */
+    protected $product;
+
     public function getPlanKey(): ?string
     {
         return $this->getPlatformId();
@@ -133,5 +138,21 @@ abstract class Plan implements PlanInterface
     public function setOnline(bool $online): void
     {
         $this->online = $online;
+    }
+
+    /**
+     * @return ProductInterface|null
+     */
+    public function getProduct(): ?ProductInterface
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param ProductInterface|null $product
+     */
+    public function setProduct(?ProductInterface $product): void
+    {
+        $this->product = $product;
     }
 }

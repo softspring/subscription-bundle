@@ -3,11 +3,11 @@
 namespace Softspring\SubscriptionBundle\Manager;
 
 use Softspring\CrudlBundle\Manager\CrudlEntityManagerInterface;
-use Softspring\SubscriptionBundle\Adapter\SubscriptionResponse;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
-use Softspring\SubscriptionBundle\Exception\SubscriptionException;
+use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
+use Softspring\SubscriptionBundle\Platform\Response\SubscriptionResponse;
 
 interface SubscriptionManagerInterface extends CrudlEntityManagerInterface
 {

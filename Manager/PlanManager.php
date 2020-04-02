@@ -5,9 +5,9 @@ namespace Softspring\SubscriptionBundle\Manager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\CrudlBundle\Manager\CrudlEntityManagerTrait;
-use Softspring\CustomerBundle\Manager\ApiManagerInterface;
-use Softspring\SubscriptionBundle\Adapter\PlanResponse;
+use Softspring\CustomerBundle\Platform\ApiManagerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Platform\Response\PlanResponse;
 
 class PlanManager implements PlanManagerInterface
 {
@@ -24,15 +24,22 @@ class PlanManager implements PlanManagerInterface
     protected $api;
 
     /**
+     * @var ProductManagerInterface
+     */
+    protected $productManager;
+
+    /**
      * PlanManager constructor.
      *
-     * @param EntityManagerInterface $em
-     * @param ApiManagerInterface    $api
+     * @param EntityManagerInterface  $em
+     * @param ApiManagerInterface     $api
+     * @param ProductManagerInterface $productManager
      */
-    public function __construct(EntityManagerInterface $em, ApiManagerInterface $api)
+    public function __construct(EntityManagerInterface $em, ApiManagerInterface $api, ProductManagerInterface $productManager)
     {
         $this->em = $em;
         $this->api = $api;
+        $this->productManager = $productManager;
     }
 
     public function getTargetClass(): string
@@ -54,7 +61,7 @@ class PlanManager implements PlanManagerInterface
 
     public function convert(string $plan): ?PlanInterface
     {
-        return $this->getRepository()->findOneBy(['platformId' => $plan]);
+        return $this->getRepository()->findOneBy(['id' => $plan]);
     }
 
 //    /**
@@ -103,6 +110,14 @@ class PlanManager implements PlanManagerInterface
             $dbPlan->setPlatformData($platformPlan->getPlatformNativeArray());
             $dbPlan->setPlatformLastSync(new \DateTime('now'));
             $dbPlan->setPlatformConflict(false);
+            
+            if ($platformPlan->getProductId()) {
+                $dbProduct = $this->productManager->getRepository()->findOneByPlatformId($platformPlan->getProductId());
+                $dbPlan->setProduct($dbProduct);
+            } else {
+                $dbPlan->setProduct(null);
+            }
+            
             $this->saveEntity($dbPlan);
 
             $dbPlans->removeElement($dbPlan);

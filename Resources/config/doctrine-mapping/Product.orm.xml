@@ -4,7 +4,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                       https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Softspring\SubscriptionBundle\Model\Product" table="product">
+    <mapped-superclass name="Softspring\SubscriptionBundle\Model\Product" table="subscription_product">
         <field name="name" column="name" type="string" nullable="false" />
 
         <field name="type" column="type" type="smallint" nullable="true">

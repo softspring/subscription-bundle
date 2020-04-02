@@ -1,0 +1,23 @@
+{% extends '@SfsSubscription/customer_layout.html.twig' %}
+
+{% block content %}
+    {% if customer.activeSubscriptions|length %}
+        {% for subscription in customer.activeSubscriptions %}
+            <div class="mb-5">
+                Subscribed to
+                {{ subscription.plan.name }}
+                <br/>
+                Price {{ subscription.plan.amount|number_format(2) }}
+                    {{ subscription.plan.currency|upper }} / {{ subscription.plan.interval }}
+                <br/>
+                Current period
+                {{ subscription.startDate|date('d-m-Y') }}
+                {{ subscription.endDate|date('d-m-Y') }}
+
+                <a href="{{ url('sfs_subscription_customer_subscription_details', {'subscription': subscription}) }}">details</a>
+            </div>
+        {% endfor %}
+    {% else %}
+    {% endif %}
+    <a href="{{ url('sfs_subscription_subscribe_choose_plan') }}">subscribe</a>
+{% endblock content %}

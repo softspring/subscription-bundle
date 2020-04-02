@@ -1,15 +1,15 @@
 <?php
 
-namespace Softspring\SubscriptionBundle\Adapter\Stripe;
+namespace Softspring\SubscriptionBundle\Platform\Adapter\Stripe;
 
-use Softspring\CustomerBundle\Adapter\Stripe\AbstractStripeAdapter;
-use Softspring\SubscriptionBundle\Adapter\PlanListResponse;
+use Softspring\CustomerBundle\Platform\Adapter\Stripe\AbstractStripeAdapter;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
-use Softspring\SubscriptionBundle\Adapter\PlanAdapterInterface;
-use Softspring\CustomerBundle\PlatformInterface;
+use Softspring\CustomerBundle\Platform\PlatformInterface;
+use Softspring\SubscriptionBundle\Platform\Adapter\PlanAdapterInterface;
+use Softspring\SubscriptionBundle\Platform\Response\PlanListResponse;
 use Stripe\Plan as StripePlan;
 
-class StripePlanAdapter extends AbstractStripeAdapter implements PlanAdapterInterface
+class PlanAdapter extends AbstractStripeAdapter implements PlanAdapterInterface
 {
     public function create(PlanInterface $plan): void
     {

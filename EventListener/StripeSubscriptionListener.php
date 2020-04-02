@@ -2,7 +2,8 @@
 
 namespace Softspring\SubscriptionBundle\EventListener;
 
-use Softspring\CustomerBundle\Manager\ApiManagerInterface;
+use Softspring\CustomerBundle\Platform\ApiManagerInterface;
+use Softspring\CustomerBundle\Manager\CustomerManagerInterface;
 use Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent;
 use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
@@ -23,14 +24,22 @@ class StripeSubscriptionListener implements EventSubscriberInterface
     protected $router;
 
     /**
-     * StripeSubscriptionListener constructor.
-     * @param ApiManagerInterface $api
-     * @param RouterInterface $router
+     * @var CustomerManagerInterface
      */
-    public function __construct(ApiManagerInterface $api, RouterInterface $router)
+    protected $customerManager;
+
+    /**
+     * StripeSubscriptionListener constructor.
+     *
+     * @param ApiManagerInterface      $api
+     * @param RouterInterface          $router
+     * @param CustomerManagerInterface $customerManager
+     */
+    public function __construct(ApiManagerInterface $api, RouterInterface $router, CustomerManagerInterface $customerManager)
     {
         $this->api = $api;
         $this->router = $router;
+        $this->customerManager = $customerManager;
     }
 
     /**
@@ -59,12 +68,17 @@ class StripeSubscriptionListener implements EventSubscriberInterface
         }
 
         $client = $event->getClient();
+
+        if (!$client->getPlatformId()) {
+            // $this->customerManager->createInPlatform($client);
+        }
+
         $plan = $event->getPlan();
 
-        $clientData = $this->api->client()->getClientData($client);
+        $clientData = $this->api->get('customer')->get($client);
 
-        if (!$clientData->default_source) {
-            $url = $this->router->generate('sfs_subscription_subscribe_add_card', ['_account'=>$client, 'plan' => $plan]);
+        if (!$clientData->default_source && $plan->getAmount()) {
+            $url = $this->router->generate('sfs_subscription_subscribe_add_card', ['plan' => $plan]);
             $event->setResponse(new RedirectResponse($url));
         }
     }
@@ -79,10 +93,15 @@ class StripeSubscriptionListener implements EventSubscriberInterface
             throw new \Exception('This listener should not be instanced with any other driver');
         }
 
-        $client = $event->getSubscription()->getClient();
+        $client = $event->getSubscription()->getCustomer();
+
+        if (!$client->getPlatformId()) {
+            // $this->customerManager->createInPlatform($client);
+        }
+
         $plan = $event->getNewPlan();
 
-        $clientData = $this->api->client()->getClientData($client);
+        $clientData = $this->api->get('customer')->get($client);
 
         if (!$clientData->default_source) {
             $url = $this->router->generate('sfs_subscription_subscribe_add_card', ['_account'=>$client, 'plan' => $plan]);

@@ -2,10 +2,12 @@ services:
     sfs_subscription.customer.subscription.controller:
         class: Softspring\SubscriptionBundle\Controller\Customer\SubscriptionController
         public: true
+        calls:
+              - { method: setContainer, arguments: ['@service_container'] }
         arguments:
             $subscriptionManager: '@Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface'
             $planManager: '@Softspring\SubscriptionBundle\Manager\PlanManagerInterface'
             $eventDispatcher: '@event_dispatcher'
             $em: '@sfs_subscription.entity_manager'
-            $clientAdapter: '@Softspring\CustomerBundle\Adapter\CustomerAdapterInterface'
+            $clientAdapter: '@Softspring\CustomerBundle\Platform\Adapter\CustomerAdapterInterface'
 

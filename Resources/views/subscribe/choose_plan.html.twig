@@ -1,2 +1,13 @@
-{% extends ['@SfsCore/base.html.twig', 'base.html.twig'] %}
+{% extends '@SfsSubscription/subscribe_layout.html.twig' %}
 
+{% block content %}
+    <div class="row">
+        {% for plan in plans %}
+            <div class="col">
+                {{ plan.name }}
+                {{ plan.amount }}
+                <a href="{{ url('sfs_subscription_subscribe', {'plan': plan}) }}">subscribe</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

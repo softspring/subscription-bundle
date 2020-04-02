@@ -4,7 +4,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                       https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Softspring\SubscriptionBundle\Model\Plan" table="plan">
+    <mapped-superclass name="Softspring\SubscriptionBundle\Model\Plan" table="subscription_plan">
         <field name="name" column="name" type="string" nullable="false" />
 
         <field name="currency" column="currency" type="string" nullable="true" length="3">
