@@ -5,7 +5,7 @@
     "require": {
         "php": "^7.0",
         "softspring/crudl-bundle": "^1.0.1",
-        "softspring/customer-bundle": "*"
+        "softspring/customer-bundle": "^1.1@dev"
     },
     "autoload": {
         "psr-4": {
