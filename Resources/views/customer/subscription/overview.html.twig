@@ -18,6 +18,6 @@
             </div>
         {% endfor %}
     {% else %}
+        <a href="{{ url('sfs_subscription_subscribe_choose_plan') }}">subscribe</a>
     {% endif %}
-    <a href="{{ url('sfs_subscription_subscribe_choose_plan') }}">subscribe</a>
 {% endblock content %}

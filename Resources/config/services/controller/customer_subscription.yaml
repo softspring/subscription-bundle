@@ -9,5 +9,5 @@ services:
             $planManager: '@Softspring\SubscriptionBundle\Manager\PlanManagerInterface'
             $eventDispatcher: '@event_dispatcher'
             $em: '@sfs_subscription.entity_manager'
-            $clientAdapter: '@Softspring\CustomerBundle\Platform\Adapter\CustomerAdapterInterface'
+            $customerAdapter: '@Softspring\CustomerBundle\Platform\Adapter\CustomerAdapterInterface'
 

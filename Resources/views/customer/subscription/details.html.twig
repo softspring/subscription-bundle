@@ -9,8 +9,10 @@
     {% endif %}
 
     {% if subscription.cancelScheduled %}
-        <a href="{{ url('sfs_subscription_customer_subscription_reactivate', {'subscription': subscription}) }}">reactivate</a>
+        <a href="{{ url('sfs_subscription_customer_subscription_reactivate', {'subscription': subscription}) }}">reactivate renovation</a>
     {% else %}
-        <a href="{{ url('sfs_subscription_customer_subscription_cancel', {'subscription': subscription}) }}">cancel</a>
+        <a href="{{ url('sfs_subscription_customer_subscription_cancel', {'subscription': subscription}) }}">cancel renovation</a>
     {% endif %}
+
+    <a href="{{ url('sfs_subscription_customer_subscription_choose_upgrade', {'subscription':subscription}) }}">upgrade</a>
 {% endblock content %}

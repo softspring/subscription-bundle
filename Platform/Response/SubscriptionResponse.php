@@ -88,6 +88,10 @@ class SubscriptionResponse extends AbstractResponse
                 }
 
                 if (!empty($platformResponse->cancel_at)) {
+                    if (in_array($this->status, [SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::STATUS_TRIALING])) {
+                        $this->status = SubscriptionInterface::STATUS_CANCELED;
+                    }
+
                     $this->cancelAt = \DateTime::createFromFormat('U', $platformResponse->cancel_at) ?? null;
                 }
 

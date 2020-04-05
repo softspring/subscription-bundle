@@ -38,7 +38,13 @@ trait CustomerSubscriptionsTrait
     public function getActiveSubscriptions(): Collection
     {
         return $this->getSubscriptions()->filter(function (SubscriptionInterface $subscription) {
-            return in_array($subscription->getStatus(), [SubscriptionInterface::STATUS_ACTIVE, SubscriptionInterface::STATUS_TRIALING]);
+            return in_array($subscription->getStatus(), [
+                SubscriptionInterface::STATUS_ACTIVE,
+                SubscriptionInterface::STATUS_TRIALING,
+                SubscriptionInterface::STATUS_UNPAID,
+                SubscriptionInterface::STATUS_CANCELED,
+                SubscriptionInterface::STATUS_SUSPENDED,
+            ]);
         });
     }
 }

@@ -47,7 +47,7 @@ interface SubscriptionAdapterInterface extends PlatformAdapterInterface
      *
      * @throws SubscriptionException
      */
-    public function cancel($subscription): SubscriptionResponse;
+    public function cancelRenovation($subscription): SubscriptionResponse;
 
     /**
      * @param mixed $subscription
@@ -56,7 +56,16 @@ interface SubscriptionAdapterInterface extends PlatformAdapterInterface
      *
      * @throws SubscriptionException
      */
-    public function uncancel($subscription): SubscriptionResponse;
+    public function uncancelRenovation($subscription): SubscriptionResponse;
+
+    /**
+     * @param mixed $subscription
+     *
+     * @return SubscriptionResponse
+     *
+     * @throws SubscriptionException
+     */
+    public function cancel($subscription): SubscriptionResponse;
 
     /**
      * @param       $subscription

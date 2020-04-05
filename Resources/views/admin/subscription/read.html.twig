@@ -3,6 +3,25 @@
 {% block title %}{{ 'admin_subscriptions.read.page_title'|trans }}{% endblock %}
 
 {% block content %}
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3">Subscription</h1>
+
+        {# TODO restrict by permission #}
+        <div class="float-right">
+            <a class="btn btn-outline-primary" href="{{ url('sfs_subscription_admin_subscriptions_sync', {'subscription':subscription}) }}">Sync <span class="mdi mdi-sync"></span></a>
+
+            {% if subscription.status < 30 %}
+                {% if subscription.cancelScheduled %}
+                    <a class="btn btn-outline-primary" href="{{ url('sfs_subscription_admin_subscriptions_reactivate', {'subscription': subscription}) }}">reactivate</a>
+                {% else %}
+                    <a class="btn btn-outline-primary" href="{{ url('sfs_subscription_admin_subscriptions_cancel_schedule', {'subscription': subscription}) }}">cancel renovation</a>
+                {% endif %}
+
+                <a class="btn btn-outline-primary" href="{{ url('sfs_subscription_admin_subscriptions_cancel', {'subscription': subscription}) }}">cancel</a>
+            {% endif %}
+        </div>
+    </div>
+
     <ul>
         <li><strong>Customer:</strong> {{ subscription.customer.name }}</li>
         {% if subscription.product|default(false) %}
@@ -15,6 +34,10 @@
         <li><strong>Status:</strong> {{ subscription.statusString }}</li>
         <li><strong>Start date:</strong> {{ subscription.startDate|date('d-m-Y') }}</li>
         <li><strong>End date:</strong> {{ subscription.endDate|date('d-m-Y') }}</li>
+
+        {% if subscription.cancelScheduled %}
+            <li><strong>Cancel on:</strong> {{ subscription.cancelScheduled|date('d-m-Y') }}</li>
+        {% endif %}
     </ul>
 
     {% if stripe_subscription_data is defined %}

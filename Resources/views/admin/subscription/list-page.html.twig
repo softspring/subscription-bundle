@@ -4,7 +4,9 @@
     <tr>
         <td>{{ subscription.customer.name|default('') }}</td>
         <td>{{ subscription.plan.name|default('') }}</td>
-        <td>{{ subscription.statusString }}</td>
+        <td class="{{ {35:'text-muted', 15:'text-success', 21:'text-warning'}[subscription.status] | default('') }}">
+            {{ subscription.statusString }}
+        </td>
         <td>{{ subscription.startDate ? subscription.startDate|date('d-m-Y') : '' }}</td>
         <td>{{ subscription.endDate ? subscription.endDate|date('d-m-Y') : '' }}</td>
 

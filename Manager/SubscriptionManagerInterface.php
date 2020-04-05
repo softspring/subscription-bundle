@@ -35,14 +35,28 @@ interface SubscriptionManagerInterface extends CrudlEntityManagerInterface
      *
      * @throws SubscriptionException
      */
-    public function cancel(SubscriptionInterface $subscription): void;
+    public function cancelRenovation(SubscriptionInterface $subscription): void;
 
     /**
      * @param SubscriptionInterface $subscription
      *
      * @throws SubscriptionException
      */
-    public function uncancel(SubscriptionInterface $subscription): void;
+    public function uncancelRenovation(SubscriptionInterface $subscription): void;
+
+    /**
+     * @param SubscriptionInterface $subscription
+     *
+     * @throws SubscriptionException
+     */
+    public function sync(SubscriptionInterface $subscription): void;
+
+    /**
+     * @param SubscriptionInterface $subscription
+     *
+     * @throws SubscriptionException
+     */
+    public function cancel(SubscriptionInterface $subscription): void;
 
     /**
      * @param SubscriptionInterface $subscription

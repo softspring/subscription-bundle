@@ -82,7 +82,7 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
     /**
      * @inheritDoc
      */
-    public function cancel($subscription): SubscriptionResponse
+    public function cancelRenovation($subscription): SubscriptionResponse
     {
         $subscriptionId = $subscription instanceof PlatformObjectInterface ? $subscription->getPlatformId() : $subscription;
 
@@ -109,7 +109,7 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
     /**
      * @inheritDoc
      */
-    public function uncancel($subscription): SubscriptionResponse
+    public function uncancelRenovation($subscription): SubscriptionResponse
     {
         $subscriptionId = $subscription instanceof PlatformObjectInterface ? $subscription->getPlatformId() : $subscription;
 
@@ -126,6 +126,30 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
             $subscriptionData->save();
 
             $this->logger && $this->logger->info(sprintf('Stripe un cancel renewal for %s', $subscriptionId));
+
+            return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
+        } catch (\Exception $e) {
+            $this->attachStripeExceptions($e);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function cancel($subscription): SubscriptionResponse
+    {
+        $subscriptionId = $subscription instanceof PlatformObjectInterface ? $subscription->getPlatformId() : $subscription;
+
+        try {
+            $this->initStripe();
+
+            /** @var StripeSubscription $subscriptionData */
+            $subscriptionData = StripeSubscription::retrieve([
+                'id' => $subscriptionId,
+            ]);
+            $subscriptionData->cancel();
+
+            $this->logger && $this->logger->info(sprintf('Stripe deleted %s subscription', $subscriptionId));
 
             return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
         } catch (\Exception $e) {

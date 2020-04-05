@@ -43,7 +43,7 @@ class SubscriptionController extends AbstractController
     /**
      * @var CustomerAdapterInterface
      */
-    protected $clientAdapter;
+    protected $customerAdapter;
 
     /**
      * SubscribeController constructor.
@@ -52,15 +52,15 @@ class SubscriptionController extends AbstractController
      * @param PlanManagerInterface         $planManager
      * @param EventDispatcherInterface     $eventDispatcher
      * @param EntityManagerInterface       $em
-     * @param CustomerAdapterInterface     $clientAdapter
+     * @param CustomerAdapterInterface     $customerAdapter
      */
-    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, CustomerAdapterInterface $clientAdapter)
+    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, CustomerAdapterInterface $customerAdapter)
     {
         $this->subscriptionManager = $subscriptionManager;
         $this->planManager = $planManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->em = $em;
-        $this->clientAdapter = $clientAdapter;
+        $this->customerAdapter = $customerAdapter;
     }
 
     /**
@@ -107,7 +107,7 @@ class SubscriptionController extends AbstractController
         // TODO DISPATCH EVENT
 
         try {
-            $this->subscriptionManager->cancel($subscription);
+            $this->subscriptionManager->cancelRenovation($subscription);
             // TODO DISPATCH EVENT
         } catch (SubscriptionException $e) {
             // TODO DISPATCH EVENT
@@ -126,7 +126,7 @@ class SubscriptionController extends AbstractController
         // TODO DISPATCH EVENT
 
         try {
-            $this->subscriptionManager->uncancel($subscription);
+            $this->subscriptionManager->uncancelRenovation($subscription);
             // TODO DISPATCH EVENT
         } catch (SubscriptionException $e) {
             // TODO DISPATCH EVENT
@@ -136,19 +136,19 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param SubscriptionCustomerInterface $client
+     * @param SubscriptionCustomerInterface $customer
      * @param SubscriptionInterface         $subscription
      * @param Request                       $request
      *
      * @return Response
      */
-    public function chooseUpgrade(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription, Request $request): Response
+    public function chooseUpgrade(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription, Request $request): Response
     {
         $repo = $this->planManager->getRepository();
         $plans = $repo->findBy(['active' => true, 'online' => true]);
 
         $viewData = new \ArrayObject([
-            'client' => $client,
+            'customer' => $customer,
             'plans' => $plans,
             'subscription' => $subscription,
         ]);
@@ -164,14 +164,14 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param SubscriptionCustomerInterface $client
+     * @param SubscriptionCustomerInterface $customer
      * @param SubscriptionInterface         $subscription
      * @param PlanInterface                 $plan
      * @param Request                       $request
      *
      * @return Response
      */
-    public function upgradePlan(SubscriptionCustomerInterface $client, SubscriptionInterface $subscription, PlanInterface $plan, Request $request): Response
+    public function upgradePlan(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription, PlanInterface $plan, Request $request): Response
     {
         $oldPlan = $subscription->getPlan();
 
@@ -181,16 +181,16 @@ class SubscriptionController extends AbstractController
 
         try {
             /** @var SubscriptionInterface $activeSubscription */
-            $activeSubscription = $client->getActiveSubscriptions()->last();
+            $activeSubscription = $customer->getActiveSubscriptions()->last();
             if ($activeSubscription->getStatus() == SubscriptionInterface::STATUS_TRIALING) {
-                $this->subscriptionManager->finishTrial($client, $subscription, $plan);
+                $this->subscriptionManager->finishTrial($subscription, $plan);
 
                 if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_TRIAL_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
                     $this->subscriptionManager->saveEntity($subscription);
                     return $response;
                 }
             } else {
-                $this->subscriptionManager->upgrade($client, $subscription, $plan);
+                $this->subscriptionManager->upgrade($subscription, $plan);
 
                 if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_PLAN_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
                     $this->subscriptionManager->saveEntity($subscription);
@@ -208,6 +208,6 @@ class SubscriptionController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('sfs_subscription_customer_subscription_details', ['_customer' => $client]);
+        return $this->redirectToRoute('sfs_subscription_customer_subscription_details', ['subscription' => $subscription]);
     }
 }

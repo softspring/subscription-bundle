@@ -1,6 +1,16 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
     Softspring\SubscriptionBundle\Form\Admin\SubscriptionListFilterFormInterface:
         alias: 'Softspring\SubscriptionBundle\Form\Admin\SubscriptionListFilterForm'
+
+    Softspring\SubscriptionBundle\Controller\Admin\SubscriptionController:
+        public: true
+        calls:
+            - { method: setContainer, arguments: ['@service_container'] }
 
     sfs_subscription.admin.subscription.controller:
         class: Softspring\CrudlBundle\Controller\CrudlController

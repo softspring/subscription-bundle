@@ -4,9 +4,16 @@
     <div class="row">
         {% for plan in plans %}
             <div class="col">
-                {{ plan.name }}
-                {{ plan.amount }}
-                <a href="{{ url('sfs_subscription_subscribe', {'plan': plan}) }}">subscribe</a>
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>{{ plan.name }}</h2>
+                        <h3>{{ plan.amount }}</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <a class="btn btn-block btn-primary" href="{{ url('sfs_subscription_subscribe', {'plan': plan}) }}">subscribe</a>
+                    </div>
+                </div>
             </div>
         {% endfor %}
     </div>

@@ -2,9 +2,12 @@
 
 namespace Softspring\SubscriptionBundle\Controller;
 
+use App\Entity\CustomerSource;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\CoreBundle\Event\ViewEvent;
 use Softspring\CoreBundle\Controller\AbstractController;
+use Softspring\CustomerBundle\Manager\SourceManagerInterface;
+use Softspring\CustomerBundle\Model\SourceInterface;
 use Softspring\CustomerBundle\Platform\Adapter\CustomerAdapterInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
@@ -49,6 +52,11 @@ class SubscribeController extends AbstractController
     protected $customerAdapter;
 
     /**
+     * @var SourceManagerInterface
+     */
+    protected $sourcesManager;
+
+    /**
      * SubscribeController constructor.
      *
      * @param SubscriptionManagerInterface $subscriptionManager
@@ -56,14 +64,16 @@ class SubscribeController extends AbstractController
      * @param EventDispatcherInterface     $eventDispatcher
      * @param EntityManagerInterface       $em
      * @param CustomerAdapterInterface     $customerAdapter
+     * @param SourceManagerInterface       $sourcesManager
      */
-    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, CustomerAdapterInterface $customerAdapter)
+    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, CustomerAdapterInterface $customerAdapter, SourceManagerInterface $sourcesManager)
     {
         $this->subscriptionManager = $subscriptionManager;
         $this->planManager = $planManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->em = $em;
         $this->customerAdapter = $customerAdapter;
+        $this->sourcesManager = $sourcesManager;
     }
 
     /**
@@ -110,7 +120,12 @@ class SubscribeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $token = $form->get('stripeToken')->getData();
 
-            $customer = $this->customerAdapter->customerAddToken($customer, $token);
+            /** @var CustomerSource $source */
+            $source = $this->sourcesManager->createEntity();
+            $source->setType(SourceInterface::TYPE_CARD);
+            $source->setPlatformToken($token);
+            $customer->addSource($source);
+            $this->sourcesManager->saveEntity($source);
 
             return $this->redirectToRoute('sfs_subscription_subscribe', ['_account' => $customer, 'plan' => $plan]);
         }

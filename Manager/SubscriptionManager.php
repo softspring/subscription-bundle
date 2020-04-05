@@ -83,20 +83,38 @@ class SubscriptionManager implements SubscriptionManagerInterface
     /**
      * @inheritDoc
      */
-    public function cancel(SubscriptionInterface $subscription): void
+    public function cancelRenovation(SubscriptionInterface $subscription): void
     {
         /** @var SubscriptionResponse $subscriptionResponse */
-        $subscriptionResponse = $this->api->get('subscription')->cancel($subscription);
+        $subscriptionResponse = $this->api->get('subscription')->cancelRenovation($subscription);
         $this->updateFromPlatform($subscription, $subscriptionResponse);
     }
 
     /**
      * @inheritDoc
      */
-    public function uncancel(SubscriptionInterface $subscription): void
+    public function uncancelRenovation(SubscriptionInterface $subscription): void
     {
         /** @var SubscriptionResponse $subscriptionResponse */
-        $subscriptionResponse = $this->api->get('subscription')->uncancel($subscription);
+        $subscriptionResponse = $this->api->get('subscription')->uncancelRenovation($subscription);
+        $this->updateFromPlatform($subscription, $subscriptionResponse);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function sync(SubscriptionInterface $subscription): void
+    {
+        $subscriptionResponse = $this->api->get('subscription')->details($subscription);
+        $this->updateFromPlatform($subscription, $subscriptionResponse);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function cancel(SubscriptionInterface $subscription): void
+    {
+        $subscriptionResponse = $this->api->get('subscription')->cancel($subscription);
         $this->updateFromPlatform($subscription, $subscriptionResponse);
     }
 

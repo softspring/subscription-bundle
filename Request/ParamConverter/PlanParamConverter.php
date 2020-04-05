@@ -27,7 +27,7 @@ class PlanParamConverter implements ParamConverterInterface
     public function apply(Request $request, ParamConverter $configuration)
     {
         $query = $request->attributes->get($configuration->getName());
-        $entity = $this->manager->getRepository()->findOneBy(['platformId' => $query]);
+        $entity = $this->manager->getRepository()->findOneBy(['id' => $query]);
         $request->attributes->set($configuration->getName(), $entity);
     }
 

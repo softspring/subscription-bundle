@@ -5,3 +5,27 @@ sfs_subscription_admin_subscriptions_list:
 sfs_subscription_admin_subscriptions_read:
     controller: sfs_subscription.admin.subscription.controller::read
     path: /{subscription}
+
+sfs_subscription_admin_subscriptions_sync:
+    controller: Softspring\SubscriptionBundle\Controller\Admin\SubscriptionController::sync
+    path: /{subscription}/sync
+
+sfs_subscription_admin_subscriptions_cancel_schedule:
+    controller: Softspring\SubscriptionBundle\Controller\Admin\SubscriptionController::cancelRenovation
+    path: /{subscription}/cancel-renovation
+
+sfs_subscription_admin_subscriptions_reactivate:
+    controller: Softspring\SubscriptionBundle\Controller\Admin\SubscriptionController::uncancelRenovation
+    path: /{subscription}/uncancel-renovation
+
+sfs_subscription_admin_subscriptions_cancel:
+    controller: Softspring\SubscriptionBundle\Controller\Admin\SubscriptionController::cancelNow
+    path: /{subscription}/cancel
+
+sfs_subscription_admin_subscriptions_count_widget:
+    controller: Softspring\SubscriptionBundle\Controller\Admin\SubscriptionController::subscriptionsCountWidget
+    path: /_widget/subscriptions-count
+
+sfs_subscription_admin_subscriptions_expected_incomes_widget:
+    controller: Softspring\SubscriptionBundle\Controller\Admin\SubscriptionController::expectedMonthlyIncomesWidget
+    path: /_widget/expected-incomes

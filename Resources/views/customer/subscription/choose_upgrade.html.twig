@@ -1,0 +1,25 @@
+{% extends '@SfsSubscription/customer_layout.html.twig' %}
+
+{% block content %}
+    <div class="row">
+    {% for plan in plans %}
+        <div class="col">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>{{ plan.name }}</h2>
+                    <h3>{{ plan.amount }}</h3>
+                </div>
+
+                <div class="card-body">
+                {% if subscription.plan == plan %}
+                    <a class="btn btn-block btn-outline-primary disabled" href="">your plan</a>
+                {% else %}
+                    {# check if available #}
+                    <a class="btn btn-block btn-primary" href="{{ url('sfs_subscription_customer_subscription_upgrade_plan', {'subscription':subscription,'plan': plan}) }}">upgrade</a>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock content %}
