@@ -26,6 +26,10 @@ sfs_subscription_admin_subscriptions_count_widget:
     controller: Softspring\SubscriptionBundle\Controller\Admin\SubscriptionController::subscriptionsCountWidget
     path: /_widget/subscriptions-count
 
-sfs_subscription_admin_subscriptions_expected_incomes_widget:
+sfs_subscription_admin_subscriptions_expected_monthly_incomes_widget:
     controller: Softspring\SubscriptionBundle\Controller\Admin\SubscriptionController::expectedMonthlyIncomesWidget
-    path: /_widget/expected-incomes
+    path: /_widget/expected-monthly-incomes
+
+sfs_subscription_admin_subscriptions_expected_yearly_incomes_widget:
+    controller: Softspring\SubscriptionBundle\Controller\Admin\SubscriptionController::expectedYearlyIncomesWidget
+    path: /_widget/expected-yearly-incomes

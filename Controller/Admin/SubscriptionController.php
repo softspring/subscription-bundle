@@ -106,12 +106,39 @@ class SubscriptionController extends AbstractController
         $qb->leftJoin('s.plan', 'p');
         $qb->select('SUM(p.amount) AS total');
         $qb->where('s.status < '. SubscriptionInterface::STATUS_CANCELED);
-        // $qb->select('SUM(IF(p.interval == 365 ; p.amount/12 ; p.amount) AS total');
+        $qb->where('p.interval = 30');
+        $monthlyIncomes = $qb->getQuery()->getSingleScalarResult();
 
-        $incomes = $qb->getQuery()->getSingleScalarResult();
+        $qb = $this->subscriptionManager->getRepository()->createQueryBuilder('s');
+        $qb->leftJoin('s.plan', 'p');
+        $qb->select('SUM(p.amount) AS total');
+        $qb->where('s.status < '. SubscriptionInterface::STATUS_CANCELED);
+        $qb->where('p.interval = 365');
+        $yearlyIncomes = $qb->getQuery()->getSingleScalarResult();
 
         return $this->render('@SfsSubscription/admin/subscription/widget-expected-monthly-incomes.html.twig', [
-            'incomes' => $incomes,
+            'incomes' => $monthlyIncomes + ($yearlyIncomes? $yearlyIncomes/12 : 0),
+        ]);
+    }
+
+    public function expectedYearlyIncomesWidget(): Response
+    {
+        $qb = $this->subscriptionManager->getRepository()->createQueryBuilder('s');
+        $qb->leftJoin('s.plan', 'p');
+        $qb->select('SUM(p.amount) AS total');
+        $qb->where('s.status < '. SubscriptionInterface::STATUS_CANCELED);
+        $qb->where('p.interval = 30');
+        $monthlyIncomes = $qb->getQuery()->getSingleScalarResult();
+
+        $qb = $this->subscriptionManager->getRepository()->createQueryBuilder('s');
+        $qb->leftJoin('s.plan', 'p');
+        $qb->select('SUM(p.amount) AS total');
+        $qb->where('s.status < '. SubscriptionInterface::STATUS_CANCELED);
+        $qb->where('p.interval = 365');
+        $yearlyIncomes = $qb->getQuery()->getSingleScalarResult();
+
+        return $this->render('@SfsSubscription/admin/subscription/widget-expected-yearly-incomes.html.twig', [
+            'incomes' => $monthlyIncomes*12 + $yearlyIncomes,
         ]);
     }
 }
