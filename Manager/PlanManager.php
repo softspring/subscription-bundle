@@ -24,18 +24,18 @@ class PlanManager implements PlanManagerInterface
     protected $api;
 
     /**
-     * @var ProductManagerInterface
+     * @var ProductManagerInterface|null
      */
     protected $productManager;
 
     /**
      * PlanManager constructor.
      *
-     * @param EntityManagerInterface  $em
-     * @param ApiManagerInterface     $api
-     * @param ProductManagerInterface $productManager
+     * @param EntityManagerInterface       $em
+     * @param ApiManagerInterface          $api
+     * @param ProductManagerInterface|null $productManager
      */
-    public function __construct(EntityManagerInterface $em, ApiManagerInterface $api, ProductManagerInterface $productManager)
+    public function __construct(EntityManagerInterface $em, ApiManagerInterface $api, ?ProductManagerInterface $productManager)
     {
         $this->em = $em;
         $this->api = $api;
@@ -111,7 +111,7 @@ class PlanManager implements PlanManagerInterface
             $dbPlan->setPlatformLastSync(new \DateTime('now'));
             $dbPlan->setPlatformConflict(false);
             
-            if ($platformPlan->getProductId()) {
+            if ($this->productManager && $platformPlan->getProductId()) {
                 $dbProduct = $this->productManager->getRepository()->findOneByPlatformId($platformPlan->getProductId());
                 $dbPlan->setProduct($dbProduct);
             } else {

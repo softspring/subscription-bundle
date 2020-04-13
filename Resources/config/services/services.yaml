@@ -3,20 +3,11 @@ services:
         autowire: true
         autoconfigure: true
         public: false
-        bind:
-            $em: '@sfs_subscription.entity_manager'
-            $api: '@Softspring\CustomerBundle\Platform\ApiManagerInterface'
-
-    Softspring\SubscriptionBundle\Controller\:
-        resource: '../../../Controller/*'
-        public: true
-        tags: ['controller.service_arguments']
+#        bind:
+#            $em: '@sfs_subscription.entity_manager'
 
     Softspring\SubscriptionBundle\Form\:
         resource: '../../../Form/*'
-
-    Softspring\SubscriptionBundle\Manager\:
-        resource: '../../../Manager/*'
 
     Softspring\SubscriptionBundle\Entity\EntityListener\StoreSubscriptionTransitionsListener:
         tags:

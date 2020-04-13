@@ -1,4 +1,13 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Softspring\SubscriptionBundle\Controller\Admin\ProductController:
+        public: true
+        tags: ['controller.service_arguments']
+
     Softspring\SubscriptionBundle\Form\Admin\ProductListFilterFormInterface:
         alias: 'Softspring\SubscriptionBundle\Form\Admin\ProductListFilterForm'
 

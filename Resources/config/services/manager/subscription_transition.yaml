@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $em: '@sfs_subscription.entity_manager'
+
+    Softspring\SubscriptionBundle\Manager\SubscriptionTransitionManagerInterface:
+        class: Softspring\SubscriptionBundle\Manager\SubscriptionTransitionManager

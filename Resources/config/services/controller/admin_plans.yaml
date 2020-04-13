@@ -1,4 +1,13 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Softspring\SubscriptionBundle\Controller\Admin\PlanController:
+        public: true
+        tags: ['controller.service_arguments']
+
     Softspring\SubscriptionBundle\Form\Admin\PlanListFilterFormInterface:
         alias: 'Softspring\SubscriptionBundle\Form\Admin\PlanListFilterForm'
 

@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $em: '@sfs_subscription.entity_manager'
+            $api: '@Softspring\CustomerBundle\Platform\ApiManagerInterface'
+
+    Softspring\SubscriptionBundle\Manager\ProductManagerInterface:
+        class: Softspring\SubscriptionBundle\Manager\ProductManager
