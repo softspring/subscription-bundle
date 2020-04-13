@@ -22,10 +22,12 @@ services:
             $config:
                 entity_attribute: 'product'
                 list:
+                    is_granted: 'ROLE_SUBSCRIPTION_ADMIN_PRODUCTS_LIST'
                     view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PRODUCTS_LIST_VIEW
                     view: '@@SfsSubscription/admin/product/list.html.twig'
                     view_page: '@@SfsSubscription/admin/product/list-page.html.twig'
                 create:
+                    is_granted: 'ROLE_SUBSCRIPTION_ADMIN_PRODUCTS_CREATE'
                     initialize_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PRODUCTS_CREATE_INITIALIZE
                     form_valid_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PRODUCTS_CREATE_FORM_VALID
                     success_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PRODUCTS_CREATE_SUCCESS

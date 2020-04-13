@@ -2,6 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Controller\Admin;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Softspring\CoreBundle\Controller\AbstractController;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +25,7 @@ class PlanController extends AbstractController
     }
 
     /**
-     * @return Response
-     *
-     * TODO restrict by permission
+     * @Security(expression="is_granted('ROLE_SUBSCRIPTION_ADMIN_PLANS_SYNC_ALL')")
      */
     public function syncAll(): Response
     {

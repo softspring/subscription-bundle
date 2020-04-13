@@ -2,6 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Controller\Admin;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Softspring\CoreBundle\Controller\AbstractController;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
@@ -26,8 +27,7 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @return Response
-     * TODO restrict by permission
+     * @Security(expression="is_granted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_SYNC', subscription)")
      */
     public function sync(SubscriptionInterface $subscription): Response
     {
@@ -37,9 +37,7 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param SubscriptionInterface $subscription
-     *
-     * @return Response
+     * @Security(expression="is_granted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_CANCEL_RENOVATION', subscription)")
      */
     public function cancelRenovation(SubscriptionInterface $subscription): Response
     {
@@ -56,9 +54,7 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param SubscriptionInterface $subscription
-     *
-     * @return Response
+     * @Security(expression="is_granted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_UNCANCEL_RENOVATION', subscription)")
      */
     public function uncancelRenovation(SubscriptionInterface $subscription): Response
     {
@@ -75,9 +71,7 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     * @param SubscriptionInterface $subscription
-     *
-     * @return Response
+     * @Security(expression="is_granted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_CANCEL_NOW', subscription)")
      */
     public function cancelNow(SubscriptionInterface $subscription): Response
     {
