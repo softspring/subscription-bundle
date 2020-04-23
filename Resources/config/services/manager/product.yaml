@@ -9,3 +9,6 @@ services:
 
     Softspring\SubscriptionBundle\Manager\ProductManagerInterface:
         class: Softspring\SubscriptionBundle\Manager\ProductManager
+
+    Softspring\SubscriptionBundle\Command\SyncAllProductsCommand:
+        tags: ['console.command']

@@ -9,3 +9,6 @@ services:
 
     Softspring\SubscriptionBundle\Manager\PlanManagerInterface:
         class: Softspring\SubscriptionBundle\Manager\PlanManager
+
+    Softspring\SubscriptionBundle\Command\SyncAllPlansCommand:
+        tags: ['console.command']
