@@ -81,4 +81,19 @@ interface SubscriptionManagerInterface extends CrudlEntityManagerInterface
      * @return SubscriptionInterface
      */
     public function updateFromPlatform(SubscriptionInterface $subscription, SubscriptionResponse $subscriptionResponse): SubscriptionInterface;
+
+    /**
+     * @return SubscriptionInterface
+     */
+    public function createEntity();
+
+    /**
+     * @param SubscriptionInterface $entity
+     */
+    public function saveEntity($entity): void;
+
+    /**
+     * @param SubscriptionInterface $entity
+     */
+    public function deleteEntity($entity): void;
 }

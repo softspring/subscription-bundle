@@ -27,4 +27,19 @@ interface PlanManagerInterface extends CrudlEntityManagerInterface
      *
      */
     public function syncAll(): void;
+
+    /**
+     * @return PlanInterface
+     */
+    public function createEntity();
+
+    /**
+     * @param PlanInterface $entity
+     */
+    public function saveEntity($entity): void;
+
+    /**
+     * @param PlanInterface $entity
+     */
+    public function deleteEntity($entity): void;
 }
