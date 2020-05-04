@@ -30,6 +30,8 @@ trait CustomerSubscriptionsTrait
         if (!$this->subscriptions->contains($subscription)) {
             $this->subscriptions->add($subscription);
         }
+
+        $subscription->setCustomer($this);
     }
 
     /**

@@ -9,6 +9,7 @@ use Softspring\SubscriptionBundle\Model\CustomerHasTriedInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionItemInterface;
 use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Platform\Response\SubscriptionResponse;
 
@@ -17,24 +18,35 @@ class SubscriptionManager implements SubscriptionManagerInterface
     use CrudlEntityManagerTrait;
 
     /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
-    /**
      * @var ApiManagerInterface
      */
     protected $api;
 
     /**
-     * SubscriptionManager constructor.
-     * @param EntityManagerInterface $em
-     * @param ApiManagerInterface $api
+     * @var SubscriptionItemManagerInterface
      */
-    public function __construct(EntityManagerInterface $em, ApiManagerInterface $api)
+    protected $itemManager;
+
+    /**
+     * SubscriptionManager constructor.
+     *
+     * @param EntityManagerInterface           $em
+     * @param ApiManagerInterface              $api
+     * @param SubscriptionItemManagerInterface $itemManager
+     */
+    public function __construct(EntityManagerInterface $em, ApiManagerInterface $api, SubscriptionItemManagerInterface $itemManager)
     {
         $this->em = $em;
         $this->api = $api;
+        $this->itemManager = $itemManager;
+    }
+
+    /**
+     * @return SubscriptionItemManagerInterface
+     */
+    public function getItemManager(): SubscriptionItemManagerInterface
+    {
+        return $this->itemManager;
     }
 
     public function getTargetClass(): string
@@ -45,19 +57,64 @@ class SubscriptionManager implements SubscriptionManagerInterface
     /**
      * @inheritDoc
      */
-    public function subscribe(SubscriptionCustomerInterface $customer, PlanInterface $plan): SubscriptionInterface
+    public function subscribe(SubscriptionCustomerInterface $customer, PlanInterface $plan, int $quantity = 1): SubscriptionInterface
     {
         /** @var SubscriptionInterface $subscription */
         $subscription = $this->createEntity();
-        $subscription->setCustomer($customer);
-        $subscription->setPlan($plan);
+        $customer->addSubscription($subscription);
         $subscription->setPlatform($this->api->platformId());
 
-        /** @var SubscriptionResponse $subscriptionResponse */
-        $subscriptionResponse = $this->api->get('subscription')->subscribe($customer, $plan, []);
+        $subscription->addItem($item = $this->itemManager->createEntity());
+        $item->setPlatform($this->api->platformId());
+        $item->setPlan($plan);
+        $item->setQuantity($quantity);
 
-        return $this->updateFromPlatform($subscription, $subscriptionResponse);
+        $this->api->get('subscription')->create($subscription);
+
+        $this->saveEntity($subscription);
+
+        return $subscription;
     }
+
+    public function addPlan(SubscriptionInterface $subscription, PlanInterface $plan, int $quantity = 1): SubscriptionItemInterface
+    {
+        $items = $subscription->getItemsForPlan($plan);
+
+        if ($items->count()) {
+            /** @var SubscriptionItemInterface $item */
+            $item = $items->first();
+            $item->setQuantity($item->getQuantity() + $quantity);
+        } else {
+            $subscription->addItem($item = $this->itemManager->createEntity());
+            $item->setPlatform($this->api->platformId());
+            $item->setPlan($plan);
+            $item->setQuantity($quantity);
+        }
+
+        $this->api->get('subscription')->update($subscription);
+
+        $this->saveEntity($subscription);
+
+        return $item;
+    }
+
+    public function unsubscribe(SubscriptionItemInterface $item)
+    {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * @inheritDoc
@@ -146,6 +203,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
 
     /**
      * @inheritDoc
+     * @deprecated
      */
     public function updateFromPlatform(SubscriptionInterface $subscription, SubscriptionResponse $subscriptionResponse): SubscriptionInterface
     {

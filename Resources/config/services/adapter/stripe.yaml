@@ -10,6 +10,9 @@ services:
 
     Softspring\SubscriptionBundle\Platform\Adapter\SubscriptionAdapterInterface:
         class: Softspring\SubscriptionBundle\Platform\Adapter\Stripe\SubscriptionAdapter
+        calls:
+            - ['setItemManager', ['@Softspring\SubscriptionBundle\Manager\SubscriptionItemManagerInterface']]
+            - ['setPlanManager', ['@Softspring\SubscriptionBundle\Manager\PlanManagerInterface']]
         tags:
           - { name: 'sfs_customer.platform.adapter', alias: 'subscription' }
 

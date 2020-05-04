@@ -12,13 +12,19 @@ use Softspring\SubscriptionBundle\Platform\Response\SubscriptionResponse;
 interface SubscriptionManagerInterface extends CrudlEntityManagerInterface
 {
     /**
-     * @param SubscriptionCustomerInterface $client
+     * @return SubscriptionItemManagerInterface
+     */
+    public function getItemManager(): SubscriptionItemManagerInterface;
+
+    /**
+     * @param SubscriptionCustomerInterface $customer
      * @param PlanInterface                 $plan
+     * @param int                           $quantity
      *
      * @return SubscriptionInterface
      * @throws SubscriptionException
      */
-    public function subscribe(SubscriptionCustomerInterface $client, PlanInterface $plan): SubscriptionInterface;
+    public function subscribe(SubscriptionCustomerInterface $customer, PlanInterface $plan, int $quantity = 1): SubscriptionInterface;
 
     /**
      * @param SubscriptionCustomerInterface $customer
@@ -79,6 +85,7 @@ interface SubscriptionManagerInterface extends CrudlEntityManagerInterface
      * @param SubscriptionResponse  $subscriptionResponse
      *
      * @return SubscriptionInterface
+     * @deprecated
      */
     public function updateFromPlatform(SubscriptionInterface $subscription, SubscriptionResponse $subscriptionResponse): SubscriptionInterface;
 

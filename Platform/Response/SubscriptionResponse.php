@@ -8,6 +8,9 @@ use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\CustomerBundle\Platform\PlatformInterface;
 
+/**
+ * @deprecated
+ */
 class SubscriptionResponse extends AbstractResponse
 {
     /**

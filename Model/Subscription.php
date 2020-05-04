@@ -15,9 +15,9 @@ abstract class Subscription implements SubscriptionInterface
     protected $customer;
 
     /**
-     * @var PlanInterface|null
+     * @var SubscriptionItemInterface[]|Collection
      */
-    protected $plan;
+    protected $items;
 
     /**
      * @var int|null
@@ -49,6 +49,7 @@ abstract class Subscription implements SubscriptionInterface
      */
     public function __construct()
     {
+        $this->items = new ArrayCollection();
         $this->transitions = new ArrayCollection();
     }
 
@@ -68,24 +69,31 @@ abstract class Subscription implements SubscriptionInterface
         $this->customer = $customer;
     }
 
-    /**
-     * @return PlanInterface|null
-     */
-    public function getPlan(): ?PlanInterface
+    public function getItems(): Collection
     {
-        return $this->plan;
+        return $this->items;
     }
 
-    /**
-     * @param PlanInterface|null $plan
-     */
-    public function setPlan(?PlanInterface $plan): void
+    public function addItem(SubscriptionItemInterface $item): void
     {
-        if ($plan instanceof PlanHasProductInterface) {
-            $this->setProduct($plan->getProduct());
+        $item->setSubscription($this);
+        if (!$this->items->contains($item)) {
+            $this->items->add($item);
         }
+    }
 
-        $this->plan = $plan;
+    public function removeItem(SubscriptionItemInterface $item): void
+    {
+        if ($this->items->contains($item)) {
+            $this->items->removeElement($item);
+        }
+    }
+
+    public function getItemsForPlan(PlanInterface $plan): Collection
+    {
+        return $this->items->filter(function(SubscriptionItemInterface $item) use ($plan) {
+            return $item->getPlan() === $plan;
+        });
     }
 
     /**

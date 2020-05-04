@@ -5,7 +5,14 @@ services:
         public: false
         bind:
             $em: '@sfs_subscription.entity_manager'
-            $api: '@Softspring\CustomerBundle\Platform\ApiManagerInterface'
+
+    Softspring\SubscriptionBundle\Manager\SubscriptionItemManagerInterface:
+        class: Softspring\SubscriptionBundle\Manager\SubscriptionItemManager
+        arguments:
+            $targetClass: 'Softspring\SubscriptionBundle\Model\SubscriptionItemInterface'
 
     Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface:
         class: Softspring\SubscriptionBundle\Manager\SubscriptionManager
+        arguments:
+            $api: '@Softspring\CustomerBundle\Platform\ApiManagerInterface'
+            $itemManager: '@Softspring\SubscriptionBundle\Manager\SubscriptionItemManagerInterface'

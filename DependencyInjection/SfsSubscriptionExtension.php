@@ -25,6 +25,7 @@ class SfsSubscriptionExtension extends Extension
         $container->setParameter('sfs_subscription.plan.class', $config['model']['plan']);
         $container->setParameter('sfs_subscription.product.class', $config['model']['product']);
         $container->setParameter('sfs_subscription.subscription.class', $config['model']['subscription']);
+        $container->setParameter('sfs_subscription.subscription_item.class', $config['model']['subscription_item']);
         $container->setParameter('sfs_subscription.subscription_transition.class', $config['model']['subscription_transition']);
 
         // load services

@@ -61,9 +61,16 @@ interface SubscriptionInterface extends PlatformObjectInterface
 
     public function setCustomer(?SubscriptionCustomerInterface $customer): void;
 
-    public function getPlan(): ?PlanInterface;
+    /**
+     * @return Collection|SubscriptionItemInterface[]
+     */
+    public function getItems(): Collection;
 
-    public function setPlan(?PlanInterface $plan): void;
+    public function addItem(SubscriptionItemInterface $item): void;
+
+    public function removeItem(SubscriptionItemInterface $item): void;
+
+    public function getItemsForPlan(PlanInterface $plan): Collection;
 
     public function getStatus(): ?int;
 
