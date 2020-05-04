@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\CrudlBundle\Manager\CrudlEntityManagerTrait;
 use Softspring\CustomerBundle\Platform\ApiManagerInterface;
+use Softspring\SubscriptionBundle\Model\PlanHasProductInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Platform\Response\PlanResponse;
 
@@ -110,12 +111,14 @@ class PlanManager implements PlanManagerInterface
             $dbPlan->setPlatformData($platformPlan->getPlatformNativeArray());
             $dbPlan->setPlatformLastSync(new \DateTime('now'));
             $dbPlan->setPlatformConflict(false);
-            
-            if ($this->productManager && $platformPlan->getProductId()) {
-                $dbProduct = $this->productManager->getRepository()->findOneByPlatformId($platformPlan->getProductId());
-                $dbPlan->setProduct($dbProduct);
-            } else {
-                $dbPlan->setProduct(null);
+
+            if ($dbPlan instanceof PlanHasProductInterface) {
+                if ($this->productManager && $platformPlan->getProductId()) {
+                    $dbProduct = $this->productManager->getRepository()->findOneByPlatformId($platformPlan->getProductId());
+                    $dbPlan->setProduct($dbProduct);
+                } else {
+                    $dbPlan->setProduct(null);
+                }
             }
             
             $this->saveEntity($dbPlan);

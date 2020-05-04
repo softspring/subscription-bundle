@@ -162,8 +162,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
      */
     public function sync(SubscriptionInterface $subscription): void
     {
-        $subscriptionResponse = $this->api->get('subscription')->details($subscription);
-        $this->updateFromPlatform($subscription, $subscriptionResponse);
+        $this->api->get('subscription')->get($subscription);
     }
 
     /**

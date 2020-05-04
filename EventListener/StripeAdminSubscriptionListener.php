@@ -53,6 +53,6 @@ class StripeAdminSubscriptionListener implements EventSubscriberInterface
             return;
         }
 
-        $data['stripe_subscription_data'] = $this->api->get('subscription')->details($subscription);
+        $data['stripe_subscription_data'] = $this->api->get('subscription')->get($subscription);
     }
 }
