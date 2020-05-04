@@ -4,6 +4,9 @@ namespace Softspring\SubscriptionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @deprecated
+ */
 trait CustomerHasTriedTrait
 {
     /**

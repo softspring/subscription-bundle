@@ -11,6 +11,7 @@ abstract class Product implements ProductInterface
 
     /**
      * @var int|null
+     * @todo review if needed
      */
     protected $type;
 

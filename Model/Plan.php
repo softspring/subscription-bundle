@@ -27,12 +27,13 @@ abstract class Plan implements PlanInterface
     /**
      * @var bool
      */
-    protected $active;
+    protected $active = false;
 
     /**
      * @var bool
+     * @deprecated
      */
-    protected $online;
+    protected $online = false;
 
     /**
      * @var ProductInterface|null
@@ -126,6 +127,7 @@ abstract class Plan implements PlanInterface
 
     /**
      * @return bool
+     * @deprecated
      */
     public function isOnline(): bool
     {
@@ -134,25 +136,10 @@ abstract class Plan implements PlanInterface
 
     /**
      * @param bool $online
+     * @deprecated
      */
     public function setOnline(bool $online): void
     {
         $this->online = $online;
-    }
-
-    /**
-     * @return ProductInterface|null
-     */
-    public function getProduct(): ?ProductInterface
-    {
-        return $this->product;
-    }
-
-    /**
-     * @param ProductInterface|null $product
-     */
-    public function setProduct(?ProductInterface $product): void
-    {
-        $this->product = $product;
     }
 }

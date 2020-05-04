@@ -4,6 +4,10 @@ namespace Softspring\SubscriptionBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
 
+/**
+ * Interface CustomerHasTriedInterface
+ * @deprecated
+ */
 interface CustomerHasTriedInterface
 {
     /**

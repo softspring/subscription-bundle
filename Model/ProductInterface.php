@@ -19,7 +19,13 @@ interface ProductInterface extends PlatformObjectInterface
     public function getName(): ?string;
 
     /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void;
+
+    /**
      * @return int|null
+     * @todo review if needed
      */
     public function getType(): ?int;
 

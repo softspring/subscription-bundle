@@ -2,6 +2,9 @@
 
 namespace Softspring\SubscriptionBundle\Model;
 
+/**
+ * @deprecated
+ */
 interface SubscriptionHasProductInterface
 {
     public function getProduct(): ?ProductInterface;

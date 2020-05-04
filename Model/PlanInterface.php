@@ -13,6 +13,7 @@ interface PlanInterface extends PlatformObjectInterface
 
     /**
      * @return string|null
+     * @deprecated
      */
     public function getPlanKey(): ?string;
 
@@ -43,6 +44,7 @@ interface PlanInterface extends PlatformObjectInterface
 
     /**
      * @return bool
+     * @deprecated
      */
     public function isOnline(): bool;
 
@@ -73,16 +75,7 @@ interface PlanInterface extends PlatformObjectInterface
 
     /**
      * @param bool $online
+     * @deprecated
      */
     public function setOnline(bool $online): void;
-
-    /**
-     * @return ProductInterface|null
-     */
-    public function getProduct(): ?ProductInterface;
-
-    /**
-     * @param ProductInterface|null $product
-     */
-    public function setProduct(?ProductInterface $product): void;
 }

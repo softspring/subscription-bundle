@@ -158,7 +158,7 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
             $data = self::prepareDataForPlatform($subscription, 'create');
 
             /** @var StripeSubscription $subscriptionStripe */
-            $subscriptionStripe = StripeSubscription::create($data['subscription']);
+            $subscriptionStripe = $this->stripeClientCreate($data['subscription']);
 
             $this->logger && $this->logger->info(sprintf('Stripe created subscription %s', $subscriptionStripe->id));
 
@@ -178,9 +178,13 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
         try {
             $this->initStripe();
 
-            return StripeSubscription::retrieve([
+            $response = $this->stripeClientRetrieve([
                 'id' => $subscription->getPlatformId(),
             ]);
+
+            $this->syncSubscription($subscription, $response);
+
+            return $response;
         } catch (\Exception $e) {
             $this->attachStripeExceptions($e);
         }
@@ -263,22 +267,7 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
      */
     public function details($subscription): SubscriptionResponse
     {
-        $subscriptionId = $subscription instanceof PlatformObjectInterface ? $subscription->getPlatformId() : $subscription;
-
-        try {
-            $this->initStripe();
-
-            /** @var StripeSubscription $subscriptionData */
-            $subscriptionData = StripeSubscription::retrieve([
-                'id' => $subscriptionId,
-            ]);
-
-            $this->logger && $this->logger->info(sprintf('Stripe retrieve details for %s', $subscriptionId));
-
-            return new SubscriptionResponse(PlatformInterface::PLATFORM_STRIPE, $subscriptionData);
-        } catch (\Exception $e) {
-            $this->attachStripeExceptions($e);
-        }
+        return $this->get($subscription);
     }
 
     /**
@@ -292,7 +281,7 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
             $this->initStripe();
 
             /** @var StripeSubscription $subscriptionData */
-            $subscriptionData = StripeSubscription::retrieve([
+            $subscriptionData = $this->stripeClientRetrieve([
                 'id' => $subscriptionId,
             ]);
             $subscriptionData->updateAttributes([
@@ -319,7 +308,7 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
             $this->initStripe();
 
             /** @var StripeSubscription $subscriptionData */
-            $subscriptionData = StripeSubscription::retrieve([
+            $subscriptionData = $this->stripeClientRetrieve([
                 'id' => $subscriptionId,
             ]);
             $subscriptionData->updateAttributes([
@@ -346,7 +335,7 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
             $this->initStripe();
 
             /** @var StripeSubscription $subscriptionData */
-            $subscriptionData = StripeSubscription::retrieve([
+            $subscriptionData = $this->stripeClientRetrieve([
                 'id' => $subscriptionId,
             ]);
             $subscriptionData->cancel();
@@ -371,7 +360,7 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
             $this->initStripe();
 
             /** @var StripeSubscription $subscriptionData */
-            $subscriptionData = StripeSubscription::retrieve([
+            $subscriptionData = $this->stripeClientRetrieve([
                 'id' => $subscriptionId,
             ]);
             $subscriptionData->updateAttributes([
@@ -412,7 +401,7 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
             $this->initStripe();
 
             /** @var StripeSubscription $subscriptionData */
-            $subscriptionData = StripeSubscription::retrieve([
+            $subscriptionData = $this->stripeClientRetrieve([
                 'id' => $subscriptionId,
             ]);
             $subscriptionData->updateAttributes([
@@ -427,5 +416,15 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
         } catch (\Exception $e) {
             $this->attachStripeExceptions($e);
         }
+    }
+
+    protected function stripeClientCreate($params = null, $options = null): StripeSubscription
+    {
+        return StripeSubscription::create($params, $options);
+    }
+
+    protected function stripeClientRetrieve($id, $opts = null): StripeSubscription
+    {
+        return StripeSubscription::retrieve($id, $opts);
     }
 }
