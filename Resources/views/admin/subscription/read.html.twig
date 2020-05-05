@@ -40,12 +40,11 @@
         {% endif %}
     </ul>
 
-    {% if stripe_subscription_data is defined %}
         <h3>Stripe data</h3>
         <ul>
             <li>
                 <strong>Latest invoice:</strong>
-                {{ stripe_subscription_data.platformNativeResponse.latest_invoice }}
+                {{ subscription.platformData.latest_invoice }}
             </li>
         </ul>
 {#        'id' => string(18) "sub_xxxxxxxx"#}
@@ -108,7 +107,6 @@
 {#        'tax_percent' => NULL#}
 {#        'trial_end' => NULL#}
 {#        'trial_start' => NULL#}
-    {% endif %}
 
 
 

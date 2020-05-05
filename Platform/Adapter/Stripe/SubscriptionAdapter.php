@@ -4,11 +4,14 @@ namespace Softspring\SubscriptionBundle\Platform\Adapter\Stripe;
 
 use Softspring\CustomerBundle\Platform\Adapter\Stripe\AbstractStripeAdapter;
 use Softspring\CustomerBundle\Model\PlatformObjectInterface;
+use Softspring\CustomerBundle\Platform\Exception\PlatformException;
 use Softspring\CustomerBundle\Platform\PlatformInterface;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
 use Softspring\SubscriptionBundle\Manager\SubscriptionItemManagerInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionItemInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionMultiPlanInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionSinglePlanInterface;
 use Softspring\SubscriptionBundle\Platform\Adapter\SubscriptionAdapterInterface;
 use Softspring\SubscriptionBundle\Platform\Response\SubscriptionResponse;
 use Stripe\Exception\InvalidRequestException;
@@ -65,17 +68,25 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
             $data['subscription']['customer'] = $subscription->getCustomer()->getPlatformId();
         }
 
-        foreach ($subscription->getItems() as $item) {
-            if ($action == 'create' || ($action == 'update' && !$item->getPlatformId())) {
+        if ($subscription instanceof SubscriptionMultiPlanInterface) {
+            foreach ($subscription->getItems() as $item) {
+                if ($action == 'create' || ($action == 'update' && !$item->getPlatformId())) {
+                    $data['subscription']['items'][] = [
+                        'plan' => $item->getPlan()->getPlatformId(),
+                        'quantity' => $item->getQuantity(),
+                    ];
+                } elseif ($action == 'update' && $item->getPlatformId()) {
+                    $data['subscription']['items'][] = [
+                        'id' => $item->getPlatformId(),
+                        'plan' => $item->getPlan()->getPlatformId(),
+                        'quantity' => $item->getQuantity(),
+                    ];
+                }
+            }
+        } elseif ($subscription instanceof SubscriptionSinglePlanInterface) {
+            if ($action == 'create') {
                 $data['subscription']['items'][] = [
-                    'plan' => $item->getPlan()->getPlatformId(),
-                    'quantity' => $item->getQuantity(),
-                ];
-            } elseif ($action == 'update' && $item->getPlatformId()) {
-                $data['subscription']['items'][] = [
-                    'id' => $item->getPlatformId(),
-                    'plan' => $item->getPlan()->getPlatformId(),
-                    'quantity' => $item->getQuantity(),
+                    'plan' => $subscription->getPlan()->getPlatformId(),
                 ];
             }
         }
@@ -85,6 +96,10 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
 
     protected function getSubscriptionItem(SubscriptionInterface $subscription, StripeSubscriptionItem $itemStripe): SubscriptionItemInterface
     {
+        if (!$subscription instanceof SubscriptionMultiPlanInterface) {
+            throw new PlatformException(PlatformInterface::PLATFORM_STRIPE, 'invalid_subscription_mapping_configuration');
+        }
+
         foreach ($subscription->getItems() as $item) {
             if ($item->getPlatformId() == $itemStripe->id) {
                 return $item;
@@ -124,14 +139,16 @@ class SubscriptionAdapter extends AbstractStripeAdapter implements SubscriptionA
         $subscription->setPlatformConflict(false);
         $subscription->setPlatformData($subscriptionStripe->toArray());
 
-        foreach ($subscriptionStripe->items as $itemStripe) {
-            $subscriptionItem = $this->getSubscriptionItem($subscription, $itemStripe);
-            $subscriptionItem->setPlatform(PlatformInterface::PLATFORM_STRIPE);
-            $subscriptionItem->setPlatformId($itemStripe->id);
-            $subscriptionItem->setTestMode(!$itemStripe->livemode);
-            $subscriptionItem->setPlatformLastSync(\DateTime::createFromFormat('U', $itemStripe->created));
-            $subscriptionItem->setPlatformConflict(false);
-            $subscriptionItem->setPlatformData($itemStripe->toArray());
+        if ($subscription instanceof SubscriptionMultiPlanInterface) {
+            foreach ($subscriptionStripe->items as $itemStripe) {
+                $subscriptionItem = $this->getSubscriptionItem($subscription, $itemStripe);
+                $subscriptionItem->setPlatform(PlatformInterface::PLATFORM_STRIPE);
+                $subscriptionItem->setPlatformId($itemStripe->id);
+                $subscriptionItem->setTestMode(!$itemStripe->livemode);
+                $subscriptionItem->setPlatformLastSync(\DateTime::createFromFormat('U', $itemStripe->created));
+                $subscriptionItem->setPlatformConflict(false);
+                $subscriptionItem->setPlatformData($itemStripe->toArray());
+            }
         }
 
         $subscription->setStartDate(\DateTime::createFromFormat('U', $subscriptionStripe->current_period_start));
