@@ -9,8 +9,6 @@
             <join-column name="customer_id" referenced-column-name="id" on-delete="CASCADE" />
         </many-to-one>
 
-<!--        <one-to-many field="items" target-entity="Softspring\SubscriptionBundle\Model\SubscriptionItemInterface" mapped-by="subscription" />-->
-
         <field name="status" column="status" type="integer" nullable="true">
             <options>
                 <option name="unsigned">true</option>

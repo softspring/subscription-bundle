@@ -36,7 +36,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('plan')->defaultValue('App\Entity\Plan')->end()
                         ->scalarNode('product')->defaultNull()->end()
                         ->scalarNode('subscription')->defaultValue('App\Entity\Subscription')->end()
-                        ->scalarNode('subscription_item')->defaultValue('App\Entity\SubscriptionItem')->end()
+                        ->scalarNode('subscription_item')->defaultNull()->end()
                         ->scalarNode('subscription_transition')->defaultValue('App\Entity\SubscriptionTransition')->end()
                     ->end()
                 ->end()
