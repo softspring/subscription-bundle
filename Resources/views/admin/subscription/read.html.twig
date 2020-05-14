@@ -29,8 +29,6 @@
         {% endif %}
 
         <li><strong>Plan:</strong> {{ subscription.plan.name }}</li>
-        <li><strong>Platform:</strong> {{ subscription.platform }}</li>
-        <li><strong>Platform ID:</strong> {{ subscription.platformId }}</li>
         <li><strong>Status:</strong> {{ subscription.statusString }}</li>
         <li><strong>Start date:</strong> {{ subscription.startDate|date('d-m-Y') }}</li>
         <li><strong>End date:</strong> {{ subscription.endDate|date('d-m-Y') }}</li>
@@ -44,71 +42,9 @@
         <ul>
             <li>
                 <strong>Latest invoice:</strong>
-                {{ subscription.platformData.latest_invoice }}
+                {{ subscription.platformData.latest_invoice|default('') }}
             </li>
         </ul>
-{#        'id' => string(18) "sub_xxxxxxxx"#}
-{#        'object' => string(12) "subscription"#}
-{#        'application_fee_percent' => NULL#}
-{#        'billing' => string(20) "charge_automatically"#}
-{#        'billing_cycle_anchor' => int(111111111111)#}
-{#        'billing_thresholds' => NULL#}
-{#        'cancel_at' => NULL#}
-{#        'cancel_at_period_end' => bool(false)#}
-{#        'canceled_at' => NULL#}
-{#        'collection_method' => string(20) "charge_automatically"#}
-{#        'created' => int(1565259817)#}
-{#        'current_period_end' => int(111111111111)#}
-{#        'current_period_start' => int(111111111111)#}
-{#        'customer' => string(18) "cus_xxxxxxxx"#}
-{#        'days_until_due' => NULL#}
-{#        'default_payment_method' => NULL#}
-{#        'default_source' => NULL#}
-{#        'default_tax_rates' => array(0) { }#}
-{#        'discount' => NULL#}
-{#        'ended_at' => NULL#}
-{#        'items' => array(5) {#}
-{#        'object' => string(4) "list"#}
-{#        'data' => array(1) {#}
-{#        [0] => array(9) { ... } }#}
-{#        'has_more' => bool(false)#}
-{#        'total_count' => int(1)#}
-{#        'url' => string(54) "/v1/subscription_items?subscription=sub_xxxxxxxx" }#}
-{#        'latest_invoice' => string(27) "in_xxxxxxxx"#}
-{#        'livemode' => bool(false)#}
-{#        'metadata' => array(0) { }#}
-{#        'pending_setup_intent' => NULL#}
-{#        'plan' => array(19) {#}
-{#        'id' => string(5) "small"#}
-{#        'object' => string(4) "plan"#}
-{#        'active' => bool(true)#}
-{#        'aggregate_usage' => NULL#}
-{#        'amount' => int(4900)#}
-{#        'billing_scheme' => string(8) "per_unit"#}
-{#        'created' => int(111111111111)#}
-{#        'currency' => string(3) "eur"#}
-{#        'interval' => string(5) "month"#}
-{#        'interval_count' => int(1)#}
-{#        'livemode' => bool(false)#}
-{#        'metadata' => array(1) {#}
-{#        'credits' => string(3) "100" }#}
-{#        'nickname' => string(11) "Name"#}
-{#        'product' => string(19) "prod_xxxxxxxx"#}
-{#        'tiers' => NULL#}
-{#        'tiers_mode' => NULL#}
-{#        'transform_usage' => NULL#}
-{#        'trial_period_days' => NULL#}
-{#        'usage_type' => string(8) "licensed" }#}
-{#        'quantity' => int(1)#}
-{#        'schedule' => NULL#}
-{#        'start' => int(111111111111)#}
-{#        'start_date' => int(111111111111)#}
-{#        'status' => string(6) "active"#}
-{#        'tax_percent' => NULL#}
-{#        'trial_end' => NULL#}
-{#        'trial_start' => NULL#}
 
-
-
-
+    {% include '@SfsPlatform/platform_data.html.twig' with {'platformObject': subscription} %}
 {% endblock content %}

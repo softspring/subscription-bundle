@@ -21,8 +21,6 @@
     {% embed '@SfsAdmin/components/table.html.twig' with {'collection':entities} %}
         {% trans_default_domain 'sfs_subscription' %}
         {% block ths %}
-            <th scope="col">{{ 'admin_plans.list.fields.platform.header'|trans }}</th>
-            <th scope="col">{{ 'admin_plans.list.fields.platformId.header'|trans }}</th>
             <th scope="col">{{ 'admin_plans.list.fields.product.header'|trans }}</th>
             <th scope="col">{{ 'admin_plans.list.fields.name.header'|trans }}</th>
             <th scope="col">{{ 'admin_plans.list.fields.active.header'|trans }}</th>

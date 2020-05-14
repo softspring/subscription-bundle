@@ -1,18 +1,7 @@
 {% trans_default_domain 'sfs_subscription' %}
 
 {% for product in entities %}
-    {% set productTextColor = '' %}
-
-    {% if product.platformConflict %}
-        {% set productTextColor = 'text-warning' %}
-    {% endif %}
-
-    <tr class="{{ productTextColor }}">
-        <td>
-            {{ product.platform ? ('platform.values.'~product.platform)|trans({}, 'sfs_customer') : '' }}
-            {{ product.testMode ? '(test)' : '' }}
-        </td>
-        <td>{{ product.platformId }}</td>
+    <tr class="">
         <td>{{ product.name }}</td>
     </tr>
 {% endfor %}

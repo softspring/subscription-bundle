@@ -2,18 +2,7 @@
 
 
 {% for plan in entities %}
-    {% set planTextColor = '' %}
-
-    {% if plan.platformConflict %}
-        {% set planTextColor = 'text-warning' %}
-    {% endif %}
-
-    <tr class="{{ planTextColor }}">
-        <td>
-            {{ plan.platform ? ('platform.values.'~plan.platform)|trans({}, 'sfs_customer') : '' }}
-            {{ plan.testMode ? '(test)' : '' }}
-        </td>
-        <td>{{ plan.platformId }}</td>
+    <tr class="">
         <td>{{ plan.product|default(false) ? plan.product.name : '' }}</td>
         <td>{{ plan.name }}</td>
         <td>
