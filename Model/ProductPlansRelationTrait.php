@@ -26,10 +26,10 @@ trait ProductPlansRelationTrait
     {
         if (!$this->plans->contains($plan)) {
             $this->plans->add($plan);
-        }
 
-        if ($plan instanceof PlanHasProductInterface) {
-            $plan->setProduct($this);
+            if ($plan instanceof PlanHasProductInterface) {
+                $plan->setProduct($this);
+            }
         }
     }
 

@@ -69,9 +69,9 @@ class StripeSubscriptionListener implements EventSubscriberInterface
 
         $client = $event->getClient();
 
-        if (!$client->getPlatformId()) {
-            // $this->customerManager->createInPlatform($client);
-        }
+//        if (!$client->getPlatformId()) {
+//            // $this->customerManager->createInPlatform($client);
+//        }
 
         $plan = $event->getPlan();
 
@@ -95,9 +95,9 @@ class StripeSubscriptionListener implements EventSubscriberInterface
 
         $client = $event->getSubscription()->getCustomer();
 
-        if (!$client->getPlatformId()) {
-            // $this->customerManager->createInPlatform($client);
-        }
+//        if (!$client->getPlatformId()) {
+//            // $this->customerManager->createInPlatform($client);
+//        }
 
         $plan = $event->getNewPlan();
 

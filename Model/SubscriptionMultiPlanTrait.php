@@ -18,9 +18,9 @@ trait SubscriptionMultiPlanTrait
 
     public function addItem(SubscriptionItemInterface $item): void
     {
-        $item->setSubscription($this);
         if (!$this->items->contains($item)) {
             $this->items->add($item);
+            $item->setSubscription($this);
         }
     }
 

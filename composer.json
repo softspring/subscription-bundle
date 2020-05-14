@@ -40,6 +40,6 @@
         "symfony/dependency-injection": "^5.0",
         "phpunit/phpunit": "^9.1",
         "doctrine/common": "^2.12",
-        "stripe/stripe-php": "^7.31"
+        "softspring/platform-bundle": "^1.0@dev"
     }
 }

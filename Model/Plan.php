@@ -2,6 +2,8 @@
 
 namespace Softspring\SubscriptionBundle\Model;
 
+use Softspring\PlatformBundle\Model\PlatformObjectInterface;
+
 abstract class Plan implements PlanInterface
 {
     /**
@@ -42,7 +44,7 @@ abstract class Plan implements PlanInterface
 
     public function getPlanKey(): ?string
     {
-        return $this->getPlatformId();
+        return $this instanceof PlatformObjectInterface ? $this->getPlatformId() : null;
     }
 
     /**
