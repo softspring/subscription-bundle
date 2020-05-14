@@ -2,7 +2,6 @@
 
 namespace Softspring\SubscriptionBundle\Tests\Model;
 
-use Softspring\CustomerBundle\Model\PlatformObjectInterface;
 use PHPUnit\Framework\TestCase;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionMultiPlanInterface;
@@ -16,7 +15,6 @@ class SubscriptionTest extends TestCase
     public function testInterfaces()
     {
         $this->assertInstanceOf(SubscriptionInterface::class, new SubscriptionMultiPlanExample());
-        $this->assertInstanceOf(PlatformObjectInterface::class, new SubscriptionMultiPlanExample());
         $this->assertInstanceOf(SubscriptionMultiPlanInterface::class, new SubscriptionMultiPlanExample());
     }
 

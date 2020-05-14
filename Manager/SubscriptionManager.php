@@ -4,23 +4,21 @@ namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\CrudlBundle\Manager\CrudlEntityManagerTrait;
-use Softspring\CustomerBundle\Platform\ApiManagerInterface;
-use Softspring\SubscriptionBundle\Model\CustomerHasTriedInterface;
+use Softspring\SubscriptionBundle\Event\SubscriptionEvent;
+use Softspring\SubscriptionBundle\Event\SubscriptionUpgradeEvent;
+use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionItemInterface;
-use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
-use Softspring\SubscriptionBundle\Platform\Response\SubscriptionResponse;
+use Softspring\SubscriptionBundle\Model\SubscriptionMultiPlanInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionSinglePlanInterface;
+use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SubscriptionManager implements SubscriptionManagerInterface
 {
     use CrudlEntityManagerTrait;
-
-    /**
-     * @var ApiManagerInterface
-     */
-    protected $api;
 
     /**
      * @var SubscriptionItemManagerInterface
@@ -28,17 +26,22 @@ class SubscriptionManager implements SubscriptionManagerInterface
     protected $itemManager;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    /**
      * SubscriptionManager constructor.
      *
      * @param EntityManagerInterface           $em
-     * @param ApiManagerInterface              $api
      * @param SubscriptionItemManagerInterface $itemManager
+     * @param EventDispatcherInterface         $eventDispatcher
      */
-    public function __construct(EntityManagerInterface $em, ApiManagerInterface $api, SubscriptionItemManagerInterface $itemManager)
+    public function __construct(EntityManagerInterface $em, SubscriptionItemManagerInterface $itemManager, EventDispatcherInterface $eventDispatcher)
     {
         $this->em = $em;
-        $this->api = $api;
         $this->itemManager = $itemManager;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -62,14 +65,16 @@ class SubscriptionManager implements SubscriptionManagerInterface
         /** @var SubscriptionInterface $subscription */
         $subscription = $this->createEntity();
         $customer->addSubscription($subscription);
-        $subscription->setPlatform($this->api->platformId());
 
-        $subscription->addItem($item = $this->itemManager->createEntity());
-        $item->setPlatform($this->api->platformId());
-        $item->setPlan($plan);
-        $item->setQuantity($quantity);
+        if ($subscription instanceof SubscriptionSinglePlanInterface) {
+            $subscription->setPlan($plan);
+        } elseif ($subscription instanceof SubscriptionMultiPlanInterface) {
+            $subscription->addItem($item = $this->itemManager->createEntity());
+            $item->setPlan($plan);
+            $item->setQuantity($quantity);
+        }
 
-        $this->api->get('subscription')->create($subscription);
+        $this->eventDispatcher->dispatch(new SubscriptionEvent($subscription), SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE);
 
         $this->saveEntity($subscription);
 
@@ -78,6 +83,10 @@ class SubscriptionManager implements SubscriptionManagerInterface
 
     public function addPlan(SubscriptionInterface $subscription, PlanInterface $plan, int $quantity = 1): SubscriptionItemInterface
     {
+        if (! $subscription instanceof SubscriptionMultiPlanInterface) {
+            throw new SubscriptionException('Can not add a plan to a single plan subscription');
+        }
+
         $items = $subscription->getItemsForPlan($plan);
 
         if ($items->count()) {
@@ -86,109 +95,104 @@ class SubscriptionManager implements SubscriptionManagerInterface
             $item->setQuantity($item->getQuantity() + $quantity);
         } else {
             $subscription->addItem($item = $this->itemManager->createEntity());
-            $item->setPlatform($this->api->platformId());
             $item->setPlan($plan);
             $item->setQuantity($quantity);
         }
 
-        $this->api->get('subscription')->update($subscription);
+        $this->eventDispatcher->dispatch(new SubscriptionEvent($subscription), SfsSubscriptionEvents::SUBSCRIPTION_ADD_PLAN);
 
         $this->saveEntity($subscription);
 
         return $item;
     }
 
-    public function unsubscribe(SubscriptionItemInterface $item)
+    public function removePlan(SubscriptionInterface $subscription, PlanInterface $plan, int $quantity = 1): SubscriptionInterface
     {
+        $this->eventDispatcher->dispatch(new SubscriptionEvent($subscription), SfsSubscriptionEvents::SUBSCRIPTION_UNSUBSCRIBE);
 
+        $this->saveEntity($subscription);
+
+        return $subscription;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * @inheritDoc
      */
     public function trial(SubscriptionCustomerInterface $customer, PlanInterface $plan, int $days): SubscriptionInterface
     {
-        /** @var SubscriptionInterface $subscription */
-        $subscription = $this->createEntity();
-        $subscription->setCustomer($customer);
-        $subscription->setPlan($plan);
-        $subscription->setPlatform($this->api->platformId());
+        // TODO REVIEW THIS
+    }
 
-        /** @var SubscriptionResponse $subscriptionResponse */
-        $subscriptionResponse = $this->api->get('subscription')->trial($customer, $plan, $days, []);
+    /**
+     * @inheritDoc
+     */
+    public function cancelRenovation(SubscriptionInterface $subscription): SubscriptionInterface
+    {
+        $this->eventDispatcher->dispatch(new SubscriptionEvent($subscription), SfsSubscriptionEvents::SUBSCRIPTION_CANCEL_RENOVATION);
 
-        if ($customer instanceof CustomerHasTriedInterface) {
-            $customer->setTried(true);
+        $this->saveEntity($subscription);
+
+        return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function uncancelRenovation(SubscriptionInterface $subscription): SubscriptionInterface
+    {
+        $this->eventDispatcher->dispatch(new SubscriptionEvent($subscription), SfsSubscriptionEvents::SUBSCRIPTION_UNCANCEL_RENOVATION);
+
+        $this->saveEntity($subscription);
+
+        return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function cancel(SubscriptionInterface $subscription): SubscriptionInterface
+    {
+        $this->eventDispatcher->dispatch(new SubscriptionEvent($subscription), SfsSubscriptionEvents::SUBSCRIPTION_CANCEL);
+
+        $this->saveEntity($subscription);
+
+        return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function sync(SubscriptionInterface $subscription): SubscriptionInterface
+    {
+        $this->eventDispatcher->dispatch(new SubscriptionEvent($subscription), SfsSubscriptionEvents::SUBSCRIPTION_SYNC);
+
+        $this->saveEntity($subscription);
+
+        return $subscription;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function upgrade(SubscriptionInterface $subscription, PlanInterface $plan): SubscriptionInterface
+    {
+        if ($subscription instanceof SubscriptionMultiPlanInterface) {
+            // TODO IMPLEMENT THIS
+        } elseif ($subscription instanceof SubscriptionSinglePlanInterface) {
+            $oldPlan = $subscription->getPlan();
+            $subscription->setPlan($plan);
+            $this->eventDispatcher->dispatch(new SubscriptionUpgradeEvent($subscription, $oldPlan, $plan), SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE);
         }
 
-        return $this->updateFromPlatform($subscription, $subscriptionResponse);
+        $this->saveEntity($subscription);
+
+        return $subscription;
     }
 
     /**
      * @inheritDoc
      */
-    public function cancelRenovation(SubscriptionInterface $subscription): void
-    {
-        /** @var SubscriptionResponse $subscriptionResponse */
-        $subscriptionResponse = $this->api->get('subscription')->cancelRenovation($subscription);
-        $this->updateFromPlatform($subscription, $subscriptionResponse);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function uncancelRenovation(SubscriptionInterface $subscription): void
-    {
-        /** @var SubscriptionResponse $subscriptionResponse */
-        $subscriptionResponse = $this->api->get('subscription')->uncancelRenovation($subscription);
-        $this->updateFromPlatform($subscription, $subscriptionResponse);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function sync(SubscriptionInterface $subscription): void
-    {
-        $this->api->get('subscription')->get($subscription);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function cancel(SubscriptionInterface $subscription): void
-    {
-        $subscriptionResponse = $this->api->get('subscription')->cancel($subscription);
-        $this->updateFromPlatform($subscription, $subscriptionResponse);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function upgrade(SubscriptionInterface $subscription, PlanInterface $plan): void
-    {
-        /** @var SubscriptionResponse $subscriptionResponse */
-        $subscriptionResponse = $this->api->get('subscription')->upgrade($subscription, $plan);
-        $subscription->setPlan($plan);
-        $this->updateFromPlatform($subscription, $subscriptionResponse);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function finishTrial(SubscriptionInterface $subscription, PlanInterface $plan): void
+    public function finishTrial(SubscriptionInterface $subscription, PlanInterface $plan): SubscriptionInterface
     {
         if ($subscription->getStatus() != SubscriptionInterface::STATUS_TRIALING) {
             throw new SubscriptionException('Subscription is not trialing now');
@@ -197,31 +201,5 @@ class SubscriptionManager implements SubscriptionManagerInterface
         /** @var SubscriptionResponse $subscriptionResponse */
         $subscriptionResponse = $this->api->get('subscription')->finishTrial($subscription, $plan);
 
-        $this->updateFromPlatform($subscription, $subscriptionResponse);
-    }
-
-    /**
-     * @inheritDoc
-     * @deprecated
-     */
-    public function updateFromPlatform(SubscriptionInterface $subscription, SubscriptionResponse $subscriptionResponse): SubscriptionInterface
-    {
-        $subscription->setPlatformId($subscriptionResponse->getId());
-        $subscription->setPlatformData($subscriptionResponse->getPlatformNativeArray());
-        $subscription->setTestMode($subscriptionResponse->isTesting());
-
-        $subscription->setStartDate($subscriptionResponse->getCurrentPeriodStart());
-        $subscription->setEndDate($subscriptionResponse->getCurrentPeriodEnd());
-        $subscription->setStatus($subscriptionResponse->getStatus());
-
-        if ($subscriptionResponse->getCancelAt() instanceof \DateTime) {
-            $subscription->setCancelScheduled($subscriptionResponse->getCancelAt());
-        } else {
-            $subscription->setCancelScheduled(null);
-        }
-
-        $this->saveEntity($subscription);
-
-        return $subscription;
     }
 }

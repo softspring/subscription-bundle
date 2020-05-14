@@ -2,7 +2,6 @@
 
 namespace Softspring\SubscriptionBundle\Tests\Model;
 
-use Softspring\CustomerBundle\Model\PlatformObjectInterface;
 use Softspring\SubscriptionBundle\Model\ProductInterface;
 use PHPUnit\Framework\TestCase;
 use Softspring\SubscriptionBundle\Tests\Model\Examples\PlanBaseExample;
@@ -14,8 +13,6 @@ class ProductTest extends TestCase
     public function testInterfaces()
     {
         $this->assertInstanceOf(ProductInterface::class, new ProductBaseExample());
-        $this->assertInstanceOf(PlatformObjectInterface::class, new ProductBaseExample());
-        $this->assertInstanceOf(PlatformObjectInterface::class, new ProductBaseExample());
     }
 
     public function testBasePlanGetterAndSetters()

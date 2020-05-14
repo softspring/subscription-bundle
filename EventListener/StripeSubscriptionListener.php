@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\EventListener;
 
-use Softspring\CustomerBundle\Platform\ApiManagerInterface;
+use Softspring\PlatformBundle\Manager\AdapterManagerInterface;
 use Softspring\CustomerBundle\Manager\CustomerManagerInterface;
 use Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\RouterInterface;
 class StripeSubscriptionListener implements EventSubscriberInterface
 {
     /**
-     * @var ApiManagerInterface
+     * @var AdapterManagerInterface
      */
     protected $api;
 
@@ -31,11 +31,11 @@ class StripeSubscriptionListener implements EventSubscriberInterface
     /**
      * StripeSubscriptionListener constructor.
      *
-     * @param ApiManagerInterface      $api
+     * @param AdapterManagerInterface  $api
      * @param RouterInterface          $router
      * @param CustomerManagerInterface $customerManager
      */
-    public function __construct(ApiManagerInterface $api, RouterInterface $router, CustomerManagerInterface $customerManager)
+    public function __construct(AdapterManagerInterface $api, RouterInterface $router, CustomerManagerInterface $customerManager)
     {
         $this->api = $api;
         $this->router = $router;

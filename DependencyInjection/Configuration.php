@@ -18,17 +18,6 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue('default')
                 ->end()
 
-                ->arrayNode('adapter')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->enumNode('driver')
-                            ->defaultValue('stripe')
-                            ->values(['stripe'])
-                        ->end()
-                        ->variableNode('options')->defaultValue([])->end()
-                    ->end()
-                ->end()
-
                 ->arrayNode('model')
                     ->addDefaultsIfNotSet()
                     ->children()

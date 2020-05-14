@@ -14,5 +14,4 @@ services:
     Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface:
         class: Softspring\SubscriptionBundle\Manager\SubscriptionManager
         arguments:
-            $api: '@Softspring\CustomerBundle\Platform\ApiManagerInterface'
             $itemManager: '@Softspring\SubscriptionBundle\Manager\SubscriptionItemManagerInterface'

@@ -3,9 +3,8 @@
 namespace Softspring\SubscriptionBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
-use Softspring\CustomerBundle\Model\PlatformObjectInterface;
 
-interface SubscriptionInterface extends PlatformObjectInterface
+interface SubscriptionInterface
 {
     /**
      * TODO MAP NEXT STATUSES:

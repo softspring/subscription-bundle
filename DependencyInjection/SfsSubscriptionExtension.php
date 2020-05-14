@@ -31,12 +31,6 @@ class SfsSubscriptionExtension extends Extension
         // load services
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
 
-        $container->setParameter('sfs_subscription.adapter.name', $config['adapter']['driver']);
-
-        if ($config['adapter']['driver'] == 'stripe') {
-            $loader->load('adapter/stripe.yaml');
-        }
-
         $loader->load('services.yaml');
         $loader->load('controller/customer_subscription.yaml');
         $loader->load('controller/admin_plans.yaml');

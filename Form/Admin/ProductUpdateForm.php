@@ -2,6 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Form\Admin;
 
+use Softspring\PlatformBundle\Model\PlatformObjectInterface;
 use Softspring\SubscriptionBundle\Model\ProductInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +23,9 @@ class ProductUpdateForm extends AbstractType implements ProductUpdateFormInterfa
     {
         $builder->add('name');
         $builder->add('type');
-        $builder->add('platformId');
+
+        if ($this->productManager->getEntityClassReflection()->implementsInterface(PlatformObjectInterface::class)) {
+            $builder->add('platformId');
+        }
     }
 }

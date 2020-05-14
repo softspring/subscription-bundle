@@ -5,6 +5,46 @@ namespace Softspring\SubscriptionBundle;
 class SfsSubscriptionEvents
 {
     /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionEvent")
+     */
+    const SUBSCRIPTION_SUBSCRIBE = 'sfs_subscription.subscription.subscribe';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionEvent")
+     */
+    const SUBSCRIPTION_ADD_PLAN = 'sfs_subscription.subscription.add_plan';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionEvent")
+     */
+    const SUBSCRIPTION_UNSUBSCRIBE = 'sfs_subscription.subscription.unsubscribe';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionEvent")
+     */
+    const SUBSCRIPTION_CANCEL_RENOVATION = 'sfs_subscription.subscription.cancel_renovation';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionEvent")
+     */
+    const SUBSCRIPTION_UNCANCEL_RENOVATION = 'sfs_subscription.subscription.uncancel_renovation';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionEvent")
+     */
+    const SUBSCRIPTION_CANCEL = 'sfs_subscription.subscription.cancel';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionEvent")
+     */
+    const SUBSCRIPTION_SYNC = 'sfs_subscription.subscription.sync';
+
+    /**
+     * @Event("Softspring\SubscriptionBundle\Event\SubscriptionUpgradeEvent")
+     */
+    const SUBSCRIPTION_UPGRADE = 'sfs_subscription.subscription.Upgrade';
+
+    /**
      * @Event("Softspring\CoreBundle\Event\ViewEvent")
      */
     const SUBSCRIPTION_PRICING_LIST_VIEW = 'sfs_subscription.subscription.pricing.list_view';

@@ -3,14 +3,12 @@
 namespace Softspring\SubscriptionBundle\Tests\Model\Examples;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Softspring\CustomerBundle\Model\PlatformObjectTrait;
 use Softspring\SubscriptionBundle\Model\Subscription;
 use Softspring\SubscriptionBundle\Model\SubscriptionMultiPlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionMultiPlanTrait;
 
 class SubscriptionMultiPlanExample extends Subscription implements SubscriptionMultiPlanInterface
 {
-    use PlatformObjectTrait;
     use SubscriptionMultiPlanTrait;
 
     public function __construct()

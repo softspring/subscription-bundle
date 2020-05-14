@@ -3,13 +3,10 @@
 namespace Softspring\SubscriptionBundle\Tests\Model;
 
 use Doctrine\Common\Collections\Collection;
-use Softspring\CustomerBundle\Model\PlatformObjectInterface;
-use Softspring\SubscriptionBundle\Model\ProductInterface;
 use PHPUnit\Framework\TestCase;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Tests\Model\Examples\CustomerExample;
-use Softspring\SubscriptionBundle\Tests\Model\Examples\ProductBaseExample;
 use Softspring\SubscriptionBundle\Tests\Model\Examples\SubscriptionMultiPlanExample;
 
 class CustomerTest extends TestCase
@@ -17,7 +14,6 @@ class CustomerTest extends TestCase
     public function testInterfaces()
     {
         $this->assertInstanceOf(SubscriptionCustomerInterface::class, new CustomerExample());
-        $this->assertInstanceOf(PlatformObjectInterface::class, new CustomerExample());
     }
 
     public function testCustomerSubscriptions()

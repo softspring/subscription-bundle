@@ -4,13 +4,12 @@ namespace Softspring\SubscriptionBundle\Controller\Customer;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\CoreBundle\Controller\AbstractController;
-use Softspring\CustomerBundle\Platform\Adapter\CustomerAdapterInterface;
 use Softspring\SubscriptionBundle\Event\UpgradeFailedGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
-use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
+use Softspring\PlatformBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
 use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
@@ -41,26 +40,19 @@ class SubscriptionController extends AbstractController
     protected $em;
 
     /**
-     * @var CustomerAdapterInterface
-     */
-    protected $customerAdapter;
-
-    /**
      * SubscribeController constructor.
      *
      * @param SubscriptionManagerInterface $subscriptionManager
      * @param PlanManagerInterface         $planManager
      * @param EventDispatcherInterface     $eventDispatcher
      * @param EntityManagerInterface       $em
-     * @param CustomerAdapterInterface     $customerAdapter
      */
-    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, CustomerAdapterInterface $customerAdapter)
+    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em)
     {
         $this->subscriptionManager = $subscriptionManager;
         $this->planManager = $planManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->em = $em;
-        $this->customerAdapter = $customerAdapter;
     }
 
     /**

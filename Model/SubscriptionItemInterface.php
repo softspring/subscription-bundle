@@ -2,9 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Model;
 
-use Softspring\CustomerBundle\Model\PlatformObjectInterface;
-
-interface SubscriptionItemInterface extends PlatformObjectInterface
+interface SubscriptionItemInterface
 {
     /**
      * @return SubscriptionInterface|null

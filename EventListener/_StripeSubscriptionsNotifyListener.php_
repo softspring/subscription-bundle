@@ -2,11 +2,8 @@
 
 namespace Softspring\SubscriptionBundle\EventListener;
 
-use Softspring\CustomerBundle\Event\NotifyEvent;
-use Softspring\CustomerBundle\Platform\PlatformInterface;
 use Softspring\CustomerBundle\SfsCustomerEvents;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
-use Softspring\SubscriptionBundle\Platform\Response\SubscriptionResponse;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class StripeSubscriptionsNotifyListener implements EventSubscriberInterface
@@ -39,8 +36,8 @@ class StripeSubscriptionsNotifyListener implements EventSubscriberInterface
     /**
      * @param NotifyEvent $event
      *
-     * @throws \Softspring\CustomerBundle\Platform\Exception\PlatformNotYetImplemented
-     * @throws \Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException
+     * @throws \Softspring\PlatformBundle\Exception\PlatformNotYetImplemented
+     * @throws \Softspring\PlatformBundle\Exception\SubscriptionException
      */
     public function onNotify(NotifyEvent $event)
     {

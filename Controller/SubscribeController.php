@@ -8,13 +8,12 @@ use Softspring\CoreBundle\Event\ViewEvent;
 use Softspring\CoreBundle\Controller\AbstractController;
 use Softspring\CustomerBundle\Manager\SourceManagerInterface;
 use Softspring\CustomerBundle\Model\SourceInterface;
-use Softspring\CustomerBundle\Platform\Adapter\CustomerAdapterInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\SubscriptionFailedGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\SubscriptionGetResponseEvent;
-use Softspring\SubscriptionBundle\Platform\Exception\SubscriptionException;
+use Softspring\PlatformBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Form\StripeAddCardForm;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
@@ -47,11 +46,6 @@ class SubscribeController extends AbstractController
     protected $em;
 
     /**
-     * @var CustomerAdapterInterface
-     */
-    protected $customerAdapter;
-
-    /**
      * @var SourceManagerInterface
      */
     protected $sourcesManager;
@@ -63,16 +57,14 @@ class SubscribeController extends AbstractController
      * @param PlanManagerInterface         $planManager
      * @param EventDispatcherInterface     $eventDispatcher
      * @param EntityManagerInterface       $em
-     * @param CustomerAdapterInterface     $customerAdapter
      * @param SourceManagerInterface       $sourcesManager
      */
-    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, CustomerAdapterInterface $customerAdapter, SourceManagerInterface $sourcesManager)
+    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, SourceManagerInterface $sourcesManager)
     {
         $this->subscriptionManager = $subscriptionManager;
         $this->planManager = $planManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->em = $em;
-        $this->customerAdapter = $customerAdapter;
         $this->sourcesManager = $sourcesManager;
     }
 
