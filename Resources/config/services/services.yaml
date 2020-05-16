@@ -3,11 +3,6 @@ services:
         autowire: true
         autoconfigure: true
         public: false
-#        bind:
-#            $em: '@sfs_subscription.entity_manager'
-
-    Softspring\SubscriptionBundle\Form\:
-        resource: '../../../Form/*'
 
     Softspring\SubscriptionBundle\Entity\EntityListener\StoreSubscriptionTransitionsListener:
         tags:

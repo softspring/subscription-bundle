@@ -9,13 +9,13 @@ services:
         tags: ['controller.service_arguments']
 
     Softspring\SubscriptionBundle\Form\Admin\PlanListFilterFormInterface:
-        alias: 'Softspring\SubscriptionBundle\Form\Admin\PlanListFilterForm'
+        class: 'Softspring\SubscriptionBundle\Form\Admin\PlanListFilterForm'
 
     Softspring\SubscriptionBundle\Form\Admin\PlanCreateFormInterface:
-        alias: 'Softspring\SubscriptionBundle\Form\Admin\PlanCreateForm'
+        class: 'Softspring\SubscriptionBundle\Form\Admin\PlanCreateForm'
 
     Softspring\SubscriptionBundle\Form\Admin\PlanUpdateFormInterface:
-        alias: 'Softspring\SubscriptionBundle\Form\Admin\PlanUpdateForm'
+        class: 'Softspring\SubscriptionBundle\Form\Admin\PlanUpdateForm'
 
     sfs_subscription.admin.plan.controller:
         class: Softspring\CrudlBundle\Controller\CrudlController
