@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    {% embed '@SfsAdmin/components/table.html.twig' with {'collection':entities} %}
+    {% embed '@SfsAdmin/components/table.html.twig' with {'collection':entities, 'pagination_route': 'sfs_subscription_admin_plans_list'} %}
         {% trans_default_domain 'sfs_subscription' %}
         {% block ths %}
             <th scope="col">{{ 'admin_plans.list.fields.product.header'|trans }}</th>
@@ -32,22 +32,5 @@
             {% include '@SfsSubscription/admin/plan/list-page.html.twig' %}
         {% endblock tbody %}
 
-        {% block tfooter %}
-            {% if entities.pages|default(false) %}
-                <tfoot>
-                <tr>
-                    <td colspan="20">
-                        {% if entities.prevPage %}
-                            <a href="{{ url('sfs_subscription_admin_plans_list', app.request.query.all|merge({ page: entities.prevPage })) }}" title="Prev page"><span class="mdi mdi-24px mdi-chevron-left"></span></a>
-                        {% endif %}
-
-                        {% if entities.nextPage %}
-                            <a class="float-right" href="{{ url('sfs_subscription_admin_plans_list', app.request.query.all|merge({ page: entities.nextPage })) }}" title="Next page"><span class="mdi mdi-24px mdi-chevron-right"></span></a>
-                        {% endif %}
-                    </td>
-                </tr>
-                </tfoot>
-            {% endif %}
-        {% endblock tfooter %}
     {% endembed %}
 {% endblock content %}
