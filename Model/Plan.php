@@ -27,6 +27,11 @@ abstract class Plan implements PlanInterface
     protected $interval;
 
     /**
+     * @var int|null
+     */
+    protected $intervalCount;
+
+    /**
      * @var bool
      */
     protected $active = false;
@@ -109,6 +114,22 @@ abstract class Plan implements PlanInterface
     public function setInterval(?int $interval): void
     {
         $this->interval = $interval;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getIntervalCount(): ?int
+    {
+        return $this->intervalCount;
+    }
+
+    /**
+     * @param int|null $intervalCount
+     */
+    public function setIntervalCount(?int $intervalCount): void
+    {
+        $this->intervalCount = $intervalCount;
     }
 
     /**

@@ -21,6 +21,12 @@
             </options>
         </field>
 
+        <field name="intervalCount" column="plan_interval_count" type="smallint" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <field name="active" column="active" type="boolean" nullable="true"><options><option name="default">1</option></options></field>
         <field name="online" column="online" type="boolean" nullable="true"><options><option name="default">1</option></options></field>
     </mapped-superclass>

@@ -36,6 +36,11 @@ interface PlanInterface
     public function getInterval(): ?int;
 
     /**
+     * @return int|null
+     */
+    public function getIntervalCount(): ?int;
+
+    /**
      * @return bool
      */
     public function isActive(): bool;
@@ -65,6 +70,11 @@ interface PlanInterface
      * @param int|null $interval
      */
     public function setInterval(?int $interval): void;
+
+    /**
+     * @param int|null $intervalCount
+     */
+    public function setIntervalCount(?int $intervalCount): void;
 
     /**
      * @param bool|null $active
