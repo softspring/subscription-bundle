@@ -8,6 +8,9 @@ services:
 
     Softspring\SubscriptionBundle\Manager\PlanManagerInterface:
         class: Softspring\SubscriptionBundle\Manager\PlanManager
+        calls:
+            - ['setAdapterManager', ['@Softspring\PlatformBundle\Manager\AdapterManagerInterface']]
+            - ['setPlatformProvider', ['@Softspring\PlatformBundle\Provider\PlatformProviderInterface']]
 
     Softspring\SubscriptionBundle\Command\SyncAllPlansCommand:
         tags: ['console.command']
