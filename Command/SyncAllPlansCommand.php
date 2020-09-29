@@ -34,5 +34,7 @@ class SyncAllPlansCommand extends Command
     {
         $this->planManager->syncAll();
         $output->writeln('Synced all plans');
+
+        return 0;
     }
 }

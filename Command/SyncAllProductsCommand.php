@@ -34,5 +34,7 @@ class SyncAllProductsCommand extends Command
     {
         $this->productManager->syncAll();
         $output->writeln('Synced all products');
+
+        return 0;
     }
 }
