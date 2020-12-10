@@ -1,3 +1,8 @@
+parameters:
+    sfs_subscription.admin.subscriptions.list_view: '@@SfsSubscription/admin/subscription/list.html.twig'
+    sfs_subscription.admin.subscriptions.list_page_view: '@@SfsSubscription/admin/subscription/list-page.html.twig'
+    sfs_subscription.admin.subscriptions.read_view: '@@SfsSubscription/admin/subscription/read.html.twig'
+
 services:
     _defaults:
         autowire: true
@@ -28,11 +33,11 @@ services:
                     is_granted: 'ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTION_LIST'
                     filter_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_SUBSCRIPTIONS_LIST_FILTER
                     view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_SUBSCRIPTIONS_LIST_VIEW
-                    view: '@@SfsSubscription/admin/subscription/list.html.twig'
-                    view_page: '@@SfsSubscription/admin/subscription/list-page.html.twig'
+                    view: '%sfs_subscription.admin.subscriptions.list_view%'
+                    view_page: '%sfs_subscription.admin.subscriptions.list_page_view%'
                     read_route: 'sfs_subscription_admin_subscriptions_read'
                 read:
                     is_granted: 'ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTION_DETAILS'
                     param_converter_key: 'id'
                     view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_SUBSCRIPTIONS_READ_VIEW
-                    view: '@@SfsSubscription/admin/subscription/read.html.twig'
+                    view: '%sfs_subscription.admin.subscriptions.read_view%'

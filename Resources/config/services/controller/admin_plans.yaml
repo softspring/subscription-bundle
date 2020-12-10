@@ -1,3 +1,8 @@
+parameters:
+    sfs_subscription.admin.plans.list_view: '@@SfsSubscription/admin/plan/list.html.twig'
+    sfs_subscription.admin.plans.list_page_view: '@@SfsSubscription/admin/plan/list-page.html.twig'
+    sfs_subscription.admin.plans.create_view: '@@SfsSubscription/admin/plan/create.html.twig'
+
 services:
     _defaults:
         autowire: true
@@ -33,8 +38,8 @@ services:
                 list:
                     is_granted: 'ROLE_SUBSCRIPTION_ADMIN_PLANS_LIST'
                     view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_LIST_VIEW
-                    view: '@@SfsSubscription/admin/plan/list.html.twig'
-                    view_page: '@@SfsSubscription/admin/plan/list-page.html.twig'
+                    view: '%sfs_subscription.admin.plans.list_view%'
+                    view_page: '%sfs_subscription.admin.plans.list_page_view%'
                 create:
                     is_granted: 'ROLE_SUBSCRIPTION_ADMIN_PLANS_CREATE'
                     initialize_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_CREATE_INITIALIZE
@@ -42,4 +47,4 @@ services:
                     success_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_CREATE_SUCCESS
                     form_invalid_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_CREATE_FORM_INVALID
                     view_event_name: !php/const Softspring\SubscriptionBundle\SfsSubscriptionEvents::ADMIN_PLANS_CREATE_VIEW
-                    view: '@@SfsSubscription/admin/plan/create.html.twig'
+                    view: '%sfs_subscription.admin.plans.create_view%'
