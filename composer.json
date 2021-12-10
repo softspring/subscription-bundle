@@ -38,8 +38,8 @@
         "softspring/stripe-platform": "Integrate stripe platform"
     },
     "require-dev": {
-        "symfony/http-kernel": "^5.0",
-        "symfony/dependency-injection": "^5.0",
+        "symfony/http-kernel": "^4.4 || ^5.3 || ^6.0",
+        "symfony/dependency-injection": "^4.4 || ^5.3 || ^6.0",
         "phpunit/phpunit": "^9.1",
         "doctrine/common": "^2.12",
         "softspring/platform-bundle": "^4.0"
