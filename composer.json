@@ -1,12 +1,14 @@
 {
     "name": "softspring/subscription-bundle",
     "description": "This bundle provides subscription features.",
+    "type": "symfony-bundle",
     "license": "MIT",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=7.4",
-        "softspring/crudl-bundle": "^1.0.1",
-        "softspring/customer-bundle": "^1.1@dev",
-        "softspring/doctrine-templates": "^1.0.4"
+        "softspring/crudl-bundle": "^4.0",
+        "softspring/customer-bundle": "^4.0",
+        "softspring/doctrine-templates": "^4.0"
     },
     "autoload": {
         "psr-4": {
@@ -40,6 +42,6 @@
         "symfony/dependency-injection": "^5.0",
         "phpunit/phpunit": "^9.1",
         "doctrine/common": "^2.12",
-        "softspring/platform-bundle": "^1.0@dev"
+        "softspring/platform-bundle": "^4.0"
     }
 }
