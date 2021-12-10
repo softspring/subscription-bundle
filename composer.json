@@ -3,7 +3,7 @@
     "description": "This bundle provides subscription features.",
     "license": "MIT",
     "require": {
-        "php": "^7.1",
+        "php": "^7.4",
         "softspring/crudl-bundle": "^1.0.1",
         "softspring/customer-bundle": "^1.1@dev",
         "softspring/doctrine-templates": "^1.0.4"
