@@ -4,7 +4,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/softspring/subscription-bundle/v/unstable.svg)](https://packagist.org/packages/softspring/subscription-bundle)
 [![License](https://poser.pugx.org/softspring/subscription-bundle/license.svg)](https://packagist.org/packages/softspring/subscription-bundle)
 [![Total Downloads](https://poser.pugx.org/softspring/subscription-bundle/downloads)](https://packagist.org/packages/softspring/subscription-bundle)
-[![Build status](https://travis-ci.com/softspring/subscription-bundle.svg?branch=master)](https://travis-ci.com/softspring/subscription-bundle)
+[![Build status](https://app.travis-ci.com/github/softspring/subscription-bundle.svg?branch=master)](https://app.travis-ci.com/github/softspring/subscription-bundle)
 
 ## Installation
 
