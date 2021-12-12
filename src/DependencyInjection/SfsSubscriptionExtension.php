@@ -29,7 +29,7 @@ class SfsSubscriptionExtension extends Extension
         $container->setParameter('sfs_subscription.subscription_transition.class', $config['model']['subscription_transition']);
 
         // load services
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/services'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../config/services'));
 
         $loader->load('services.yaml');
         $loader->load('controller/customer_subscription.yaml');
