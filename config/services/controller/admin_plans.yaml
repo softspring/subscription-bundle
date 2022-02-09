@@ -29,6 +29,7 @@ services:
             - { method: setContainer, arguments: ['@service_container'] }
         arguments:
             $manager: '@Softspring\SubscriptionBundle\Manager\PlanManagerInterface'
+            $eventDispatcher: '@event_dispatcher'
             $listFilterForm: '@Softspring\SubscriptionBundle\Form\Admin\PlanListFilterFormInterface'
             $createForm: '@Softspring\SubscriptionBundle\Form\Admin\PlanCreateFormInterface'
             $updateForm: '@Softspring\SubscriptionBundle\Form\Admin\PlanUpdateFormInterface'
