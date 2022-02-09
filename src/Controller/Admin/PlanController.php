@@ -3,8 +3,8 @@
 namespace Softspring\SubscriptionBundle\Controller\Admin;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Softspring\CoreBundle\Controller\AbstractController;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class PlanController extends AbstractController
