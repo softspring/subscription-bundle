@@ -3,8 +3,8 @@
 namespace Softspring\SubscriptionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Softspring\SubscriptionBundle\Model\ProductInterface;
 use Softspring\SubscriptionBundle\Model\PlanProductRelationTrait as ModelPlanProductRelationTrait;
+use Softspring\SubscriptionBundle\Model\ProductInterface;
 
 trait PlanProductRelationTrait
 {

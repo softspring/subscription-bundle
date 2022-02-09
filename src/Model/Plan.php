@@ -38,6 +38,7 @@ abstract class Plan implements PlanInterface
 
     /**
      * @var bool
+     *
      * @deprecated
      */
     protected $online = false;
@@ -52,104 +53,67 @@ abstract class Plan implements PlanInterface
         return $this instanceof PlatformObjectInterface ? $this->getPlatformId() : null;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     */
     public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCurrency(): ?string
     {
         return $this->currency;
     }
 
-    /**
-     * @param string|null $currency
-     */
     public function setCurrency(?string $currency): void
     {
         $this->currency = $currency;
     }
 
-    /**
-     * @return float|null
-     */
     public function getAmount(): ?float
     {
         return $this->amount;
     }
 
-    /**
-     * @param float|null $amount
-     */
     public function setAmount(?float $amount): void
     {
         $this->amount = $amount;
     }
 
-    /**
-     * @return int|null
-     */
     public function getInterval(): ?int
     {
         return $this->interval;
     }
 
-    /**
-     * @param int|null $interval
-     */
     public function setInterval(?int $interval): void
     {
         $this->interval = $interval;
     }
 
-    /**
-     * @return int|null
-     */
     public function getIntervalCount(): ?int
     {
         return $this->intervalCount;
     }
 
-    /**
-     * @param int|null $intervalCount
-     */
     public function setIntervalCount(?int $intervalCount): void
     {
         $this->intervalCount = $intervalCount;
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         return $this->active;
     }
 
-    /**
-     * @param bool|null $active
-     */
     public function setActive(?bool $active): void
     {
         $this->active = $active;
     }
 
     /**
-     * @return bool
      * @deprecated
      */
     public function isOnline(): bool
@@ -158,7 +122,6 @@ abstract class Plan implements PlanInterface
     }
 
     /**
-     * @param bool $online
      * @deprecated
      */
     public function setOnline(bool $online): void

@@ -47,88 +47,58 @@ abstract class Subscription implements SubscriptionInterface
         $this->transitions = new ArrayCollection();
     }
 
-    /**
-     * @return SubscriptionCustomerInterface|null
-     */
     public function getCustomer(): ?SubscriptionCustomerInterface
     {
         return $this->customer;
     }
 
-    /**
-     * @param SubscriptionCustomerInterface|null $customer
-     */
     public function setCustomer(?SubscriptionCustomerInterface $customer): void
     {
         $this->customer = $customer;
     }
 
-    /**
-     * @return int|null
-     */
     public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    /**
-     * @param int|null $status
-     */
     public function setStatus(?int $status): void
     {
         $this->status = $status;
     }
 
-    /**
-     * @return \DateTime|null
-     */
     public function getStartDate(): ?\DateTime
     {
         return $this->startDate ? \DateTime::createFromFormat('U', $this->startDate) : null;
     }
 
-    /**
-     * @param \DateTime|null $startDate
-     */
     public function setStartDate(?\DateTime $startDate): void
     {
         $this->startDate = $startDate instanceof \DateTime ? $startDate->format('U') : null;
     }
 
-    /**
-     * @return \DateTime|null
-     */
     public function getEndDate(): ?\DateTime
     {
         return $this->endDate ? \DateTime::createFromFormat('U', $this->endDate) : null;
     }
 
-    /**
-     * @param \DateTime|null $endDate
-     */
     public function setEndDate(?\DateTime $endDate): void
     {
         $this->endDate = $endDate instanceof \DateTime ? $endDate->format('U') : null;
     }
 
-    /**
-     * @return \DateTime|null
-     */
     public function getCancelScheduled(): ?\DateTime
     {
         return $this->cancelScheduled ? \DateTime::createFromFormat('U', $this->cancelScheduled) : null;
     }
 
-    /**
-     * @param \DateTime|null $cancelScheduled
-     */
     public function setCancelScheduled(?\DateTime $cancelScheduled): void
     {
         $this->cancelScheduled = $cancelScheduled instanceof \DateTime ? $cancelScheduled->format('U') : null;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getTransitions(): Collection
     {
@@ -136,7 +106,7 @@ abstract class Subscription implements SubscriptionInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function addTransition(SubscriptionTransitionInterface $transition): void
     {

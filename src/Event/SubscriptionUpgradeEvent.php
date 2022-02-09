@@ -24,17 +24,11 @@ class SubscriptionUpgradeEvent extends SubscriptionEvent
         $this->newPlan = $newPlan;
     }
 
-    /**
-     * @return PlanInterface
-     */
     public function getOldPlan(): PlanInterface
     {
         return $this->oldPlan;
     }
 
-    /**
-     * @return PlanInterface
-     */
     public function getNewPlan(): PlanInterface
     {
         return $this->newPlan;

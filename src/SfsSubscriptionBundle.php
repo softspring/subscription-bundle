@@ -15,9 +15,6 @@ class SfsSubscriptionBundle extends Bundle
         return \dirname(__DIR__);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
@@ -31,9 +28,7 @@ class SfsSubscriptionBundle extends Bundle
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param array            $mappings
-     * @param string|bool      $enablingParameter
+     * @param string|bool $enablingParameter
      */
     private function addRegisterMappingsPass(ContainerBuilder $container, array $mappings, $enablingParameter = false)
     {

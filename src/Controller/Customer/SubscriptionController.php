@@ -4,14 +4,14 @@ namespace Softspring\SubscriptionBundle\Controller\Customer;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\CoreBundle\Controller\Traits\DispatchGetResponseTrait;
+use Softspring\PlatformBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Event\UpgradeFailedGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent;
-use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
-use Softspring\SubscriptionBundle\Model\PlanInterface;
-use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
-use Softspring\PlatformBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -44,11 +44,6 @@ class SubscriptionController extends AbstractController
 
     /**
      * SubscribeController constructor.
-     *
-     * @param SubscriptionManagerInterface $subscriptionManager
-     * @param PlanManagerInterface         $planManager
-     * @param EventDispatcherInterface     $eventDispatcher
-     * @param EntityManagerInterface       $em
      */
     public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em)
     {
@@ -58,12 +53,6 @@ class SubscriptionController extends AbstractController
         $this->em = $em;
     }
 
-    /**
-     * @param SubscriptionCustomerInterface $customer
-     * @param Request                       $request
-     *
-     * @return Response
-     */
     public function overview(SubscriptionCustomerInterface $customer, Request $request): Response
     {
         $viewData = new \ArrayObject([
@@ -75,12 +64,6 @@ class SubscriptionController extends AbstractController
         return $this->render('@SfsSubscription/customer/subscription/overview.html.twig', $viewData->getArrayCopy());
     }
 
-    /**
-     * @param SubscriptionInterface $subscription
-     * @param Request               $request
-     *
-     * @return Response
-     */
     public function details(SubscriptionInterface $subscription, Request $request): Response
     {
         $viewData = new \ArrayObject([
@@ -92,11 +75,6 @@ class SubscriptionController extends AbstractController
         return $this->render('@SfsSubscription/customer/subscription/details.html.twig', $viewData->getArrayCopy());
     }
 
-    /**
-     * @param SubscriptionInterface $subscription
-     *
-     * @return Response
-     */
     public function cancel(SubscriptionInterface $subscription): Response
     {
         // TODO DISPATCH EVENT
@@ -111,11 +89,6 @@ class SubscriptionController extends AbstractController
         return $this->redirectToRoute('sfs_subscription_customer_subscription_details', ['subscription' => $subscription]);
     }
 
-    /**
-     * @param SubscriptionInterface $subscription
-     *
-     * @return Response
-     */
     public function reactivate(SubscriptionInterface $subscription): Response
     {
         // TODO DISPATCH EVENT
@@ -130,13 +103,6 @@ class SubscriptionController extends AbstractController
         return $this->redirectToRoute('sfs_subscription_customer_subscription_details', ['subscription' => $subscription]);
     }
 
-    /**
-     * @param SubscriptionCustomerInterface $customer
-     * @param SubscriptionInterface         $subscription
-     * @param Request                       $request
-     *
-     * @return Response
-     */
     public function chooseUpgrade(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription, Request $request): Response
     {
         $repo = $this->planManager->getRepository();
@@ -158,14 +124,6 @@ class SubscriptionController extends AbstractController
         return $this->render('@SfsSubscription/customer/subscription/choose_upgrade.html.twig', $viewData->getArrayCopy());
     }
 
-    /**
-     * @param SubscriptionCustomerInterface $customer
-     * @param SubscriptionInterface         $subscription
-     * @param PlanInterface                 $plan
-     * @param Request                       $request
-     *
-     * @return Response
-     */
     public function upgradePlan(SubscriptionCustomerInterface $customer, SubscriptionInterface $subscription, PlanInterface $plan, Request $request): Response
     {
         $oldPlan = $subscription->getPlan();
@@ -177,11 +135,12 @@ class SubscriptionController extends AbstractController
         try {
             /** @var SubscriptionInterface $activeSubscription */
             $activeSubscription = $customer->getActiveSubscriptions()->last();
-            if ($activeSubscription->getStatus() == SubscriptionInterface::STATUS_TRIALING) {
+            if (SubscriptionInterface::STATUS_TRIALING == $activeSubscription->getStatus()) {
                 $this->subscriptionManager->finishTrial($subscription, $plan);
 
                 if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_TRIAL_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
                     $this->subscriptionManager->saveEntity($subscription);
+
                     return $response;
                 }
             } else {
@@ -189,12 +148,14 @@ class SubscriptionController extends AbstractController
 
                 if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_PLAN_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
                     $this->subscriptionManager->saveEntity($subscription);
+
                     return $response;
                 }
             }
 
             if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
                 $this->subscriptionManager->saveEntity($subscription);
+
                 return $response;
             }
         } catch (SubscriptionException $e) {

@@ -2,8 +2,8 @@
 
 namespace Softspring\SubscriptionBundle\EventListener;
 
-use Softspring\PlatformBundle\Manager\AdapterManagerInterface;
 use Softspring\CustomerBundle\Manager\CustomerManagerInterface;
+use Softspring\PlatformBundle\Manager\AdapterManagerInterface;
 use Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent;
 use Softspring\SubscriptionBundle\SfsSubscriptionEvents;
@@ -30,10 +30,6 @@ class StripeSubscriptionListener implements EventSubscriberInterface
 
     /**
      * StripeSubscriptionListener constructor.
-     *
-     * @param AdapterManagerInterface  $api
-     * @param RouterInterface          $router
-     * @param CustomerManagerInterface $customerManager
      */
     public function __construct(AdapterManagerInterface $api, RouterInterface $router, CustomerManagerInterface $customerManager)
     {
@@ -43,27 +39,26 @@ class StripeSubscriptionListener implements EventSubscriberInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public static function getSubscribedEvents()
     {
         return [
             SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_INITIALIZE => [
-                ['onSubscribeInitializeEnsureClientPayment', 0]
+                ['onSubscribeInitializeEnsureClientPayment', 0],
             ],
             SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_INITIALIZE => [
-                ['onUpgradeInitializeEnsureClientPayment', 0]
+                ['onUpgradeInitializeEnsureClientPayment', 0],
             ],
         ];
     }
 
     /**
-     * @param PreSubscribeGetResponseEvent $event
      * @throws \Exception
      */
     public function onSubscribeInitializeEnsureClientPayment(PreSubscribeGetResponseEvent $event)
     {
-        if ($this->api->name() !== 'stripe') {
+        if ('stripe' !== $this->api->name()) {
             throw new \Exception('This listener should not be instanced with any other driver');
         }
 
@@ -84,12 +79,11 @@ class StripeSubscriptionListener implements EventSubscriberInterface
     }
 
     /**
-     * @param UpgradeGetResponseEvent $event
      * @throws \Exception
      */
     public function onUpgradeInitializeEnsureClientPayment(UpgradeGetResponseEvent $event)
     {
-        if ($this->api->name() !== 'stripe') {
+        if ('stripe' !== $this->api->name()) {
             throw new \Exception('This listener should not be instanced with any other driver');
         }
 
@@ -104,7 +98,7 @@ class StripeSubscriptionListener implements EventSubscriberInterface
         $clientData = $this->api->get('customer')->get($client);
 
         if (!$clientData->default_source) {
-            $url = $this->router->generate('sfs_subscription_subscribe_add_card', ['_account'=>$client, 'plan' => $plan]);
+            $url = $this->router->generate('sfs_subscription_subscribe_add_card', ['_account' => $client, 'plan' => $plan]);
             $event->setResponse(new RedirectResponse($url));
         }
     }

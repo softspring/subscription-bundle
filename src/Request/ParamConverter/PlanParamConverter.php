@@ -4,8 +4,8 @@ namespace Softspring\SubscriptionBundle\Request\ParamConverter;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
-use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class PlanParamConverter implements ParamConverterInterface
@@ -17,7 +17,6 @@ class PlanParamConverter implements ParamConverterInterface
 
     /**
      * PlanParamConverter constructor.
-     * @param PlanManagerInterface $manager
      */
     public function __construct(PlanManagerInterface $manager)
     {
@@ -33,6 +32,6 @@ class PlanParamConverter implements ParamConverterInterface
 
     public function supports(ParamConverter $configuration)
     {
-        return $configuration->getClass() === PlanInterface::class;
+        return PlanInterface::class === $configuration->getClass();
     }
 }

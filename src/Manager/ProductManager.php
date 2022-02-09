@@ -18,8 +18,6 @@ class ProductManager implements ProductManagerInterface
 
     /**
      * PlanManager constructor.
-     *
-     * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
     {
@@ -31,9 +29,6 @@ class ProductManager implements ProductManagerInterface
         return ProductInterface::class;
     }
 
-    /**
-     *
-     */
     public function syncAll(): void
     {
 //        $dbProducts = new ArrayCollection($this->getRepository()->findAll());
@@ -54,11 +49,11 @@ class ProductManager implements ProductManagerInterface
 //            }
 //
 //            $dbProduct->setName($platformProduct->getName());
-////            $dbProduct->setActive($platformProduct->getActive());
-////            $dbProduct->setAmount($platformProduct->getAmount());
-////            $dbProduct->setCurrency($platformProduct->getCurrency());
+// //            $dbProduct->setActive($platformProduct->getActive());
+// //            $dbProduct->setAmount($platformProduct->getAmount());
+// //            $dbProduct->setCurrency($platformProduct->getCurrency());
 //            $dbProduct->setTestMode($platformProduct->isTesting());
-////            $dbProduct->setInterval($platformProduct->getInterval());
+// //            $dbProduct->setInterval($platformProduct->getInterval());
 //            $dbProduct->setPlatformData($platformProduct->getPlatformNativeArray());
 //            $dbProduct->setPlatformLastSync(new \DateTime('now'));
 //            $dbProduct->setPlatformConflict(false);

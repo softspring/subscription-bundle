@@ -6,5 +6,4 @@ use Softspring\SubscriptionBundle\Model\SubscriptionItem;
 
 class SubscriptionItemBaseExample extends SubscriptionItem
 {
-
 }

@@ -4,8 +4,8 @@ namespace Softspring\SubscriptionBundle\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Model\CustomerSubscriptionsTrait as ModelCustomerSubscriptionsTrait;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 
 trait CustomerSubscriptionsTrait
 {

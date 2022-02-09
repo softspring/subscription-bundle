@@ -4,8 +4,8 @@ namespace Softspring\SubscriptionBundle\Request\ParamConverter;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
-use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class SubscriptionParamConverter implements ParamConverterInterface
@@ -17,7 +17,6 @@ class SubscriptionParamConverter implements ParamConverterInterface
 
     /**
      * SubscriptionParamConverter constructor.
-     * @param SubscriptionManagerInterface $manager
      */
     public function __construct(SubscriptionManagerInterface $manager)
     {
@@ -33,6 +32,6 @@ class SubscriptionParamConverter implements ParamConverterInterface
 
     public function supports(ParamConverter $configuration)
     {
-        return $configuration->getClass() === SubscriptionInterface::class;
+        return SubscriptionInterface::class === $configuration->getClass();
     }
 }

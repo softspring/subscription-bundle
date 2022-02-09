@@ -18,8 +18,6 @@ class ProductCreateForm extends AbstractType implements ProductCreateFormInterfa
 
     /**
      * ProductCreateForm constructor.
-     *
-     * @param ProductManagerInterface $productManager
      */
     public function __construct(ProductManagerInterface $productManager)
     {

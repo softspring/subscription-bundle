@@ -5,7 +5,7 @@ namespace Softspring\SubscriptionBundle\Model;
 use Doctrine\Common\Collections\Collection;
 
 /**
- * Trait ClientSubscriptionsTrait
+ * Trait ClientSubscriptionsTrait.
  */
 trait CustomerSubscriptionsTrait
 {
@@ -22,9 +22,6 @@ trait CustomerSubscriptionsTrait
         return $this->subscriptions;
     }
 
-    /**
-     * @param SubscriptionInterface $subscription
-     */
     public function addSubscription(SubscriptionInterface $subscription): void
     {
         if (!$this->subscriptions->contains($subscription)) {

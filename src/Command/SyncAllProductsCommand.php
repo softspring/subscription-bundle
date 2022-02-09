@@ -16,8 +16,6 @@ class SyncAllProductsCommand extends Command
 
     /**
      * SyncAllProductsCommand constructor.
-     *
-     * @param ProductManagerInterface $productManager
      */
     public function __construct(ProductManagerInterface $productManager)
     {

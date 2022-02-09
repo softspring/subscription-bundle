@@ -7,10 +7,6 @@ use Softspring\SubscriptionBundle\Model\PlanInterface;
 
 interface PlanManagerInterface extends CrudlEntityManagerInterface
 {
-    /**
-     * @param string $plan
-     * @return PlanInterface|null
-     */
     public function convert(string $plan): ?PlanInterface;
 
 //    /**
@@ -23,9 +19,6 @@ interface PlanManagerInterface extends CrudlEntityManagerInterface
 //     */
 //    public function syncToPlatform(PlanInterface $plan): void;
 
-    /**
-     *
-     */
     public function syncAll(): void;
 
     /**

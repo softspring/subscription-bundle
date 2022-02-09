@@ -6,5 +6,4 @@ use Softspring\SubscriptionBundle\Model\Plan;
 
 class PlanBaseExample extends Plan
 {
-
 }

@@ -6,24 +6,17 @@ use Doctrine\Common\Collections\Collection;
 
 interface ProductInterface
 {
-    const TYPE_SERVICE = 1;
+    public const TYPE_SERVICE = 1;
 
-    const TYPE_GOOD_GENERAL = 10;
-    const TYPE_GOOD_PHYSICAL = 11;
-    const TYPE_GOOD_DIGITAL = 12;
+    public const TYPE_GOOD_GENERAL = 10;
+    public const TYPE_GOOD_PHYSICAL = 11;
+    public const TYPE_GOOD_DIGITAL = 12;
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string;
 
-    /**
-     * @param string|null $name
-     */
     public function setName(?string $name): void;
 
     /**
-     * @return int|null
      * @todo review if needed
      */
     public function getType(): ?int;

@@ -16,8 +16,6 @@ class ProductController extends AbstractController
 
     /**
      * ProductController constructor.
-     *
-     * @param ProductManagerInterface $productManager
      */
     public function __construct(ProductManagerInterface $productManager)
     {

@@ -18,8 +18,6 @@ class PlanCreateForm extends AbstractType implements PlanCreateFormInterface
 
     /**
      * PlanCreateForm constructor.
-     *
-     * @param PlanManagerInterface $planManager
      */
     public function __construct(PlanManagerInterface $planManager)
     {

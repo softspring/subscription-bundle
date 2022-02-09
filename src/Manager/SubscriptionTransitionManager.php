@@ -17,8 +17,6 @@ class SubscriptionTransitionManager implements SubscriptionTransitionManagerInte
 
     /**
      * SubscriptionTransitionManager constructor.
-     *
-     * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
     {

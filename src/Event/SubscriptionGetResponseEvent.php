@@ -17,8 +17,6 @@ class SubscriptionGetResponseEvent extends GetResponseEvent
 
     /**
      * SubscriptionGetResponseEvent constructor.
-     * @param SubscriptionInterface $subscription
-     * @param Request $request
      */
     public function __construct(SubscriptionInterface $subscription, Request $request)
     {
@@ -26,9 +24,6 @@ class SubscriptionGetResponseEvent extends GetResponseEvent
         $this->subscription = $subscription;
     }
 
-    /**
-     * @return SubscriptionInterface
-     */
     public function getSubscription(): SubscriptionInterface
     {
         return $this->subscription;

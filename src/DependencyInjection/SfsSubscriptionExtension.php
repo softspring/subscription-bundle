@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class SfsSubscriptionExtension extends Extension
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {

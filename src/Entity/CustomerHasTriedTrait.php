@@ -15,17 +15,11 @@ trait CustomerHasTriedTrait
      */
     protected $tried = false;
 
-    /**
-     * @return bool
-     */
     public function hasTried(): bool
     {
         return $this->tried;
     }
 
-    /**
-     * @param bool $tried
-     */
     public function setTried(bool $tried): void
     {
         $this->tried = $tried;

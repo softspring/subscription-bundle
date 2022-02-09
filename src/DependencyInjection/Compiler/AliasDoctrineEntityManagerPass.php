@@ -12,7 +12,7 @@ class AliasDoctrineEntityManagerPass implements CompilerPassInterface
         $emName = $container->getParameter('sfs_subscription.entity_manager_name');
 
         $container->addAliases([
-            'sfs_subscription.entity_manager' => 'doctrine.orm.'.$emName.'_entity_manager'
+            'sfs_subscription.entity_manager' => 'doctrine.orm.'.$emName.'_entity_manager',
         ]);
     }
 }

@@ -11,6 +11,14 @@
         "softspring/customer-bundle": "^4.0",
         "softspring/doctrine-templates": "^4.0"
     },
+    "require-dev": {
+        "symfony/http-kernel": "^4.4 || ^5.3 || ^6.0",
+        "symfony/dependency-injection": "^4.4 || ^5.3 || ^6.0",
+        "phpunit/phpunit": "^9.1",
+        "doctrine/common": "^2.12",
+        "softspring/platform-bundle": "^4.0",
+        "friendsofphp/php-cs-fixer": "9999999-dev"
+    },
     "autoload": {
         "psr-4": {
             "Softspring\\SubscriptionBundle\\": "src/"
@@ -34,12 +42,5 @@
         "softspring/core-bundle": "Use softspring core bundle",
         "softspring/platform-bundle": "Integrate external platforms",
         "softspring/stripe-platform": "Integrate stripe platform"
-    },
-    "require-dev": {
-        "symfony/http-kernel": "^4.4 || ^5.3 || ^6.0",
-        "symfony/dependency-injection": "^4.4 || ^5.3 || ^6.0",
-        "phpunit/phpunit": "^9.1",
-        "doctrine/common": "^2.12",
-        "softspring/platform-bundle": "^4.0"
     }
 }

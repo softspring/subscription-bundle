@@ -2,10 +2,10 @@
 
 namespace Softspring\SubscriptionBundle\Tests\Model;
 
-use Softspring\SubscriptionBundle\Model\PlanHasProductInterface;
-use Softspring\SubscriptionBundle\Tests\Model\Examples\PlanBaseExample;
 use PHPUnit\Framework\TestCase;
+use Softspring\SubscriptionBundle\Model\PlanHasProductInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Tests\Model\Examples\PlanBaseExample;
 use Softspring\SubscriptionBundle\Tests\Model\Examples\PlanWithProductExample;
 use Softspring\SubscriptionBundle\Tests\Model\Examples\ProductBaseExample;
 

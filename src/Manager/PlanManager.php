@@ -38,9 +38,6 @@ class PlanManager implements PlanManagerInterface
 
     /**
      * PlanManager constructor.
-     *
-     * @param EntityManagerInterface       $em
-     * @param ProductManagerInterface|null $productManager
      */
     public function __construct(EntityManagerInterface $em, ?ProductManagerInterface $productManager)
     {
@@ -48,17 +45,11 @@ class PlanManager implements PlanManagerInterface
         $this->productManager = $productManager;
     }
 
-    /**
-     * @param AdapterManagerInterface|null $adapterManager
-     */
     public function setAdapterManager(?AdapterManagerInterface $adapterManager): void
     {
         $this->adapterManager = $adapterManager;
     }
 
-    /**
-     * @param PlatformProviderInterface|null $platformProvider
-     */
     public function setPlatformProvider(?PlatformProviderInterface $platformProvider): void
     {
         $this->platformProvider = $platformProvider;
@@ -75,7 +66,7 @@ class PlanManager implements PlanManagerInterface
         $class = $metadata->getReflectionClass()->name;
 
         /** @var PlanInterface $entity */
-        $entity = new $class;
+        $entity = new $class();
 
         return $entity;
     }
@@ -85,9 +76,6 @@ class PlanManager implements PlanManagerInterface
         return $this->getRepository()->findOneBy(['id' => $plan]);
     }
 
-    /**
-     *
-     */
     public function syncAll(): void
     {
         if (!$this->adapterManager) {
@@ -108,8 +96,8 @@ class PlanManager implements PlanManagerInterface
             $transformer = $adapter->getTransformer();
 
             foreach ($platformPlans as $platformPlan) {
-                $dbPlan = $dbPlans->filter(function(PlanInterface $plan) use ($platform, $platformProvider, $platformPlan) {
-                    /** @var PlatformObjectInterface $plan */
+                $dbPlan = $dbPlans->filter(function (PlanInterface $plan) use ($platform, $platformProvider, $platformPlan) {
+                    /* @var PlatformObjectInterface $plan */
 
                     if ($platformPlan instanceof \Stripe\Plan) {
                         return $plan->getPlatformId() == $platformPlan->id && $platformProvider->getPlatform($plan) == $platform;

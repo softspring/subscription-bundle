@@ -7,8 +7,8 @@ use Softspring\CrudlBundle\Manager\CrudlEntityManagerTrait;
 use Softspring\SubscriptionBundle\Event\SubscriptionEvent;
 use Softspring\SubscriptionBundle\Event\SubscriptionUpgradeEvent;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
-use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionItemInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionMultiPlanInterface;
@@ -32,10 +32,6 @@ class SubscriptionManager implements SubscriptionManagerInterface
 
     /**
      * SubscriptionManager constructor.
-     *
-     * @param EntityManagerInterface           $em
-     * @param SubscriptionItemManagerInterface $itemManager
-     * @param EventDispatcherInterface         $eventDispatcher
      */
     public function __construct(EntityManagerInterface $em, SubscriptionItemManagerInterface $itemManager, EventDispatcherInterface $eventDispatcher)
     {
@@ -44,9 +40,6 @@ class SubscriptionManager implements SubscriptionManagerInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * @return SubscriptionItemManagerInterface
-     */
     public function getItemManager(): SubscriptionItemManagerInterface
     {
         return $this->itemManager;
@@ -58,7 +51,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function subscribe(SubscriptionCustomerInterface $customer, PlanInterface $plan, int $quantity = 1): SubscriptionInterface
     {
@@ -83,7 +76,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
 
     public function addPlan(SubscriptionInterface $subscription, PlanInterface $plan, int $quantity = 1): SubscriptionItemInterface
     {
-        if (! $subscription instanceof SubscriptionMultiPlanInterface) {
+        if (!$subscription instanceof SubscriptionMultiPlanInterface) {
             throw new SubscriptionException('Can not add a plan to a single plan subscription');
         }
 
@@ -116,7 +109,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function trial(SubscriptionCustomerInterface $customer, PlanInterface $plan, int $days): SubscriptionInterface
     {
@@ -124,7 +117,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function cancelRenovation(SubscriptionInterface $subscription): SubscriptionInterface
     {
@@ -136,7 +129,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function uncancelRenovation(SubscriptionInterface $subscription): SubscriptionInterface
     {
@@ -148,7 +141,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function cancel(SubscriptionInterface $subscription): SubscriptionInterface
     {
@@ -160,7 +153,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function sync(SubscriptionInterface $subscription): SubscriptionInterface
     {
@@ -172,7 +165,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function upgrade(SubscriptionInterface $subscription, PlanInterface $plan): SubscriptionInterface
     {
@@ -190,16 +183,15 @@ class SubscriptionManager implements SubscriptionManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function finishTrial(SubscriptionInterface $subscription, PlanInterface $plan): SubscriptionInterface
     {
-        if ($subscription->getStatus() != SubscriptionInterface::STATUS_TRIALING) {
+        if (SubscriptionInterface::STATUS_TRIALING != $subscription->getStatus()) {
             throw new SubscriptionException('Subscription is not trialing now');
         }
 
         /** @var SubscriptionResponse $subscriptionResponse */
         $subscriptionResponse = $this->api->get('subscription')->finishTrial($subscription, $plan);
-
     }
 }

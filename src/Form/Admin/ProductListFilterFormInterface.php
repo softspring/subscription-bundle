@@ -6,5 +6,4 @@ use Softspring\CrudlBundle\Form\EntityListFilterFormInterface;
 
 interface ProductListFilterFormInterface extends EntityListFilterFormInterface
 {
-
 }

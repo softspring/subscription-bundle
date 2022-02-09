@@ -3,9 +3,9 @@
 namespace Softspring\SubscriptionBundle\Controller\Admin;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Softspring\PlatformBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
-use Softspring\PlatformBundle\Exception\SubscriptionException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,8 +18,6 @@ class SubscriptionController extends AbstractController
 
     /**
      * SubscriptionController constructor.
-     *
-     * @param SubscriptionManagerInterface $subscriptionManager
      */
     public function __construct(SubscriptionManagerInterface $subscriptionManager)
     {
@@ -99,19 +97,19 @@ class SubscriptionController extends AbstractController
         $qb = $this->subscriptionManager->getRepository()->createQueryBuilder('s');
         $qb->leftJoin('s.plan', 'p');
         $qb->select('SUM(p.amount) AS total');
-        $qb->where('s.status < '. SubscriptionInterface::STATUS_CANCELED);
+        $qb->where('s.status < '.SubscriptionInterface::STATUS_CANCELED);
         $qb->where('p.interval = 30');
         $monthlyIncomes = $qb->getQuery()->getSingleScalarResult();
 
         $qb = $this->subscriptionManager->getRepository()->createQueryBuilder('s');
         $qb->leftJoin('s.plan', 'p');
         $qb->select('SUM(p.amount) AS total');
-        $qb->where('s.status < '. SubscriptionInterface::STATUS_CANCELED);
+        $qb->where('s.status < '.SubscriptionInterface::STATUS_CANCELED);
         $qb->where('p.interval = 365');
         $yearlyIncomes = $qb->getQuery()->getSingleScalarResult();
 
         return $this->render('@SfsSubscription/admin/subscription/widget-expected-monthly-incomes.html.twig', [
-            'incomes' => $monthlyIncomes + ($yearlyIncomes? $yearlyIncomes/12 : 0),
+            'incomes' => $monthlyIncomes + ($yearlyIncomes ? $yearlyIncomes / 12 : 0),
         ]);
     }
 
@@ -120,19 +118,19 @@ class SubscriptionController extends AbstractController
         $qb = $this->subscriptionManager->getRepository()->createQueryBuilder('s');
         $qb->leftJoin('s.plan', 'p');
         $qb->select('SUM(p.amount) AS total');
-        $qb->where('s.status < '. SubscriptionInterface::STATUS_CANCELED);
+        $qb->where('s.status < '.SubscriptionInterface::STATUS_CANCELED);
         $qb->where('p.interval = 30');
         $monthlyIncomes = $qb->getQuery()->getSingleScalarResult();
 
         $qb = $this->subscriptionManager->getRepository()->createQueryBuilder('s');
         $qb->leftJoin('s.plan', 'p');
         $qb->select('SUM(p.amount) AS total');
-        $qb->where('s.status < '. SubscriptionInterface::STATUS_CANCELED);
+        $qb->where('s.status < '.SubscriptionInterface::STATUS_CANCELED);
         $qb->where('p.interval = 365');
         $yearlyIncomes = $qb->getQuery()->getSingleScalarResult();
 
         return $this->render('@SfsSubscription/admin/subscription/widget-expected-yearly-incomes.html.twig', [
-            'incomes' => $monthlyIncomes*12 + $yearlyIncomes,
+            'incomes' => $monthlyIncomes * 12 + $yearlyIncomes,
         ]);
     }
 }

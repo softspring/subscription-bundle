@@ -7,9 +7,6 @@ use Softspring\SubscriptionBundle\Model\ProductInterface;
 
 interface ProductManagerInterface extends CrudlEntityManagerInterface
 {
-    /**
-     *
-     */
     public function syncAll(): void;
 
     /**

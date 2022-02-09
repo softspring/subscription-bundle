@@ -28,11 +28,6 @@ class UpgradeGetResponseEvent extends GetResponseEvent
 
     /**
      * UpgradeGetResponseEvent constructor.
-     *
-     * @param SubscriptionInterface $subscription
-     * @param PlanInterface         $oldPlan
-     * @param PlanInterface         $newPlan
-     * @param Request|null          $request
      */
     public function __construct(SubscriptionInterface $subscription, PlanInterface $oldPlan, PlanInterface $newPlan, ?Request $request)
     {
@@ -42,25 +37,16 @@ class UpgradeGetResponseEvent extends GetResponseEvent
         $this->newPlan = $newPlan;
     }
 
-    /**
-     * @return SubscriptionInterface
-     */
     public function getSubscription(): SubscriptionInterface
     {
         return $this->subscription;
     }
 
-    /**
-     * @return PlanInterface
-     */
     public function getNewPlan(): PlanInterface
     {
         return $this->newPlan;
     }
 
-    /**
-     * @return PlanInterface
-     */
     public function getOldPlan(): PlanInterface
     {
         return $this->oldPlan;

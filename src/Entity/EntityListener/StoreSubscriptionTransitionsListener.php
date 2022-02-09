@@ -18,8 +18,6 @@ class StoreSubscriptionTransitionsListener
 
     /**
      * StoreSubscriptionTransitionsListener constructor.
-     *
-     * @param SubscriptionTransitionManagerInterface $transtionManager
      */
     public function __construct(SubscriptionTransitionManagerInterface $transtionManager)
     {
@@ -36,8 +34,6 @@ class StoreSubscriptionTransitionsListener
     }
 
     /**
-     * @param PreUpdateEventArgs $eventArgs
-     *
      * @throws \Exception
      */
     public function preUpdate(Subscription $subscription, PreUpdateEventArgs $eventArgs)
@@ -54,8 +50,6 @@ class StoreSubscriptionTransitionsListener
     }
 
     /**
-     * @param LifecycleEventArgs $eventArgs
-     *
      * @throws \Exception
      */
     public function prePersist(Subscription $subscription, LifecycleEventArgs $eventArgs)

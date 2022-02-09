@@ -16,8 +16,6 @@ class SyncAllPlansCommand extends Command
 
     /**
      * SyncAllPlansCommand constructor.
-     *
-     * @param PlanManagerInterface $planManager
      */
     public function __construct(PlanManagerInterface $planManager)
     {

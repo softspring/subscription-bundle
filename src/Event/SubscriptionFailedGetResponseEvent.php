@@ -3,9 +3,9 @@
 namespace Softspring\SubscriptionBundle\Event;
 
 use Softspring\CoreBundle\Event\GetResponseTrait;
-use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
-use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\PlatformBundle\Exception\SubscriptionException;
+use Softspring\SubscriptionBundle\Model\PlanInterface;
+use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class SubscriptionFailedGetResponseEvent extends GetResponseEvent
@@ -29,11 +29,6 @@ class SubscriptionFailedGetResponseEvent extends GetResponseEvent
 
     /**
      * SubscriptionFailedGetResponseEvent constructor.
-     *
-     * @param SubscriptionCustomerInterface $client
-     * @param PlanInterface                 $plan
-     * @param SubscriptionException         $exception
-     * @param Request|null                  $request
      */
     public function __construct(SubscriptionCustomerInterface $client, PlanInterface $plan, SubscriptionException $exception, ?Request $request)
     {
@@ -43,25 +38,16 @@ class SubscriptionFailedGetResponseEvent extends GetResponseEvent
         $this->exception = $exception;
     }
 
-    /**
-     * @return SubscriptionCustomerInterface
-     */
     public function getClient(): SubscriptionCustomerInterface
     {
         return $this->client;
     }
 
-    /**
-     * @return PlanInterface
-     */
     public function getPlan(): PlanInterface
     {
         return $this->plan;
     }
 
-    /**
-     * @return SubscriptionException
-     */
     public function getException(): SubscriptionException
     {
         return $this->exception;

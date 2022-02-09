@@ -36,19 +36,19 @@ class SubscriptionListFilterForm extends EntityListFilterForm implements Subscri
                 'canceled' => SubscriptionInterface::STATUS_CANCELED,
                 'suspended' => SubscriptionInterface::STATUS_SUSPENDED,
                 'expired' => SubscriptionInterface::STATUS_EXPIRED,
-            ]
+            ],
         ]);
 
         $builder->add('submit', SubmitType::class, [
-            'label' => 'admin_subscriptions.list.filter_form.actions.search'
+            'label' => 'admin_subscriptions.list.filter_form.actions.search',
         ]);
     }
 
     public function getOrder(Request $request): array
     {
         if (class_exists(RequestParam::class)) {
-            $order = RequestParam::getQueryValidParam($request, self::getOrderFieldParamName(), 'startDate', ['id','startDate']);
-            $sort = RequestParam::getQueryValidParam($request, self::getOrderDirectionParamName(), 'desc', ['asc','desc']);
+            $order = RequestParam::getQueryValidParam($request, self::getOrderFieldParamName(), 'startDate', ['id', 'startDate']);
+            $sort = RequestParam::getQueryValidParam($request, self::getOrderDirectionParamName(), 'desc', ['asc', 'desc']);
 
             return [$order => $sort];
         }

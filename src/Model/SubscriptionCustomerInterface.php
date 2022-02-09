@@ -7,9 +7,6 @@ use Softspring\CustomerBundle\Model\CustomerInterface;
 
 interface SubscriptionCustomerInterface extends CustomerInterface
 {
-    /**
-     * @return string|null
-     */
     public function getEmail(): ?string;
 
     /**
@@ -17,9 +14,6 @@ interface SubscriptionCustomerInterface extends CustomerInterface
      */
     public function getSubscriptions(): Collection;
 
-    /**
-     * @param SubscriptionInterface $subscription
-     */
     public function addSubscription(SubscriptionInterface $subscription): void;
 
     /**

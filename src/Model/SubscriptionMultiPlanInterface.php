@@ -11,20 +11,9 @@ interface SubscriptionMultiPlanInterface
      */
     public function getItems(): Collection;
 
-    /**
-     * @param SubscriptionItemInterface $item
-     */
     public function addItem(SubscriptionItemInterface $item): void;
 
-    /**
-     * @param SubscriptionItemInterface $item
-     */
     public function removeItem(SubscriptionItemInterface $item): void;
 
-    /**
-     * @param PlanInterface $plan
-     *
-     * @return Collection
-     */
     public function getItemsForPlan(PlanInterface $plan): Collection;
 }

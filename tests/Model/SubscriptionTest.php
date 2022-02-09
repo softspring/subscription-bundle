@@ -47,7 +47,7 @@ class SubscriptionTest extends TestCase
         $subscription->setCancelScheduled($cancelScheduledDate);
         $this->assertEquals($cancelScheduledDate->format('Y-m-d H:i:s'), $subscription->getCancelScheduled()->format('Y-m-d H:i:s'));
 
-        //$this->assertNull($subscription->getTransitions()); todo transitions go to interface/trait elements
+        // $this->assertNull($subscription->getTransitions()); todo transitions go to interface/trait elements
     }
 
     public function testMultiPlan()

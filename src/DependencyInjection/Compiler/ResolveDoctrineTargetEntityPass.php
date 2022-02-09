@@ -4,7 +4,6 @@ namespace Softspring\SubscriptionBundle\DependencyInjection\Compiler;
 
 use Doctrine\ORM\Mapping\MappingException;
 use Softspring\CoreBundle\DependencyInjection\Compiler\AbstractResolveDoctrineTargetEntityPass;
-use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;
 use Softspring\SubscriptionBundle\Model\InvoiceInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\ProductInterface;
@@ -18,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class ResolveDoctrineTargetEntityPass extends AbstractResolveDoctrineTargetEntityPass
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getEntityManagerName(ContainerBuilder $container): string
     {
@@ -26,8 +25,6 @@ class ResolveDoctrineTargetEntityPass extends AbstractResolveDoctrineTargetEntit
     }
 
     /**
-     * @param ContainerBuilder $container
-     *
      * @throws MappingException
      * @throws \ReflectionException
      */

@@ -9,7 +9,8 @@ interface SubscriptionInterface
     /**
      * TODO MAP NEXT STATUSES:
      *      Paypal: APPROVAL_PENDING
-     *      Stripe: incomplete, incomplete_expired
+     *      Stripe: incomplete, incomplete_expired.
+     *
      * @see https://developer.paypal.com/docs/api/subscriptions/v1/#subscriptions-get-response
      * @see https://stripe.com/docs/api/subscriptions/object#subscription_object-status
      */
@@ -17,44 +18,44 @@ interface SubscriptionInterface
     /**
      * Subscription is in trial period
      * Stripe: trialing
-     * Paypal:
+     * Paypal:.
      */
-    const STATUS_TRIALING = 10;
+    public const STATUS_TRIALING = 10;
 
     /**
      * Subscription is active and up to date
      * Stripe: active
-     * Paypal: ACTIVE, APPROVED
+     * Paypal: ACTIVE, APPROVED.
      */
-    const STATUS_ACTIVE = 15;
+    public const STATUS_ACTIVE = 15;
 
     /**
      * Subscription has pending payments
      * Stripe: unpaid, past_due
-     * Paypal:
+     * Paypal:.
      */
-    const STATUS_UNPAID = 18;
+    public const STATUS_UNPAID = 18;
 
     /**
      * Subscription is cancelled, but still active
      * Stripe:
-     * Paypal: CANCELLED
+     * Paypal: CANCELLED.
      */
-    const STATUS_CANCELED = 21;
+    public const STATUS_CANCELED = 21;
 
     /**
      * Subscription is suspended temporary
      * Stripe:
-     * Paypal: SUSPENDED
+     * Paypal: SUSPENDED.
      */
-    const STATUS_SUSPENDED = 30;
+    public const STATUS_SUSPENDED = 30;
 
     /**
      * Subscription is expired, and no active anymore
      * Stripe: canceled
-     * Paypal: EXPIRED
+     * Paypal: EXPIRED.
      */
-    const STATUS_EXPIRED = 35;
+    public const STATUS_EXPIRED = 35;
 
     public function getCustomer(): ?SubscriptionCustomerInterface;
 
@@ -83,8 +84,5 @@ interface SubscriptionInterface
      */
     public function getTransitions(): Collection;
 
-    /**
-     * @param SubscriptionTransitionInterface $transition
-     */
     public function addTransition(SubscriptionTransitionInterface $transition): void;
 }

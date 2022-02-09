@@ -18,8 +18,6 @@ class PlanUpdateForm extends AbstractType implements PlanUpdateFormInterface
 
     /**
      * PlanCreateForm constructor.
-     *
-     * @param PlanManagerInterface $planManager
      */
     public function __construct(PlanManagerInterface $planManager)
     {

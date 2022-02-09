@@ -16,8 +16,6 @@ class PlanController extends AbstractController
 
     /**
      * PlanController constructor.
-     *
-     * @param PlanManagerInterface $planManager
      */
     public function __construct(PlanManagerInterface $planManager)
     {

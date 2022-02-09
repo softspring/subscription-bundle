@@ -19,9 +19,6 @@ trait ProductPlansRelationTrait
         return $this->plans;
     }
 
-    /**
-     * @param PlanInterface $plan
-     */
     public function addPlan(PlanInterface $plan): void
     {
         if (!$this->plans->contains($plan)) {
@@ -33,9 +30,6 @@ trait ProductPlansRelationTrait
         }
     }
 
-    /**
-     * @param PlanInterface $plan
-     */
     public function removePlan(PlanInterface $plan): void
     {
         if ($this->plans->contains($plan)) {

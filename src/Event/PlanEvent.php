@@ -15,8 +15,6 @@ class PlanEvent extends RequestEvent
 
     /**
      * PlanEvent constructor.
-     * @param PlanInterface $plan
-     * @param Request|null $request
      */
     public function __construct(PlanInterface $plan, ?Request $request)
     {
@@ -24,9 +22,6 @@ class PlanEvent extends RequestEvent
         $this->plan = $plan;
     }
 
-    /**
-     * @return PlanInterface
-     */
     public function getPlan(): PlanInterface
     {
         return $this->plan;
