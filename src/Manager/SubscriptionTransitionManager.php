@@ -10,10 +10,7 @@ class SubscriptionTransitionManager implements SubscriptionTransitionManagerInte
 {
     use CrudlEntityManagerTrait;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
+    protected EntityManagerInterface $em;
 
     /**
      * SubscriptionTransitionManager constructor.

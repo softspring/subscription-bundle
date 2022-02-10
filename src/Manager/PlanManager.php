@@ -16,10 +16,7 @@ class PlanManager implements PlanManagerInterface
 {
     use CrudlEntityManagerTrait;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
+    protected EntityManagerInterface $em;
 
     /**
      * @var ProductManagerInterface|null
