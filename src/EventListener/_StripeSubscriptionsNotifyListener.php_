@@ -26,7 +26,7 @@ class StripeSubscriptionsNotifyListener implements EventSubscriberInterface
     /**
      * @inheritDoc
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SfsCustomerEvents::NOTIFY => [['onNotify', 0]],

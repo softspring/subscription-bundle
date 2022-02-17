@@ -41,7 +41,7 @@ class StripeSubscriptionListener implements EventSubscriberInterface
     /**
      * {@inheritDoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_INITIALIZE => [
