@@ -30,9 +30,6 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "4.1-dev"
-        }
     },
     "conflict": {
         "stripe/stripe-php": "<6.40.0"
