@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Form\Admin;
 
-use Softspring\CrudlBundle\Form\EntityCreateFormInterface;
+use Softspring\Component\CrudlController\Form\EntityCreateFormInterface;
 
 interface PlanCreateFormInterface extends EntityCreateFormInterface
 {

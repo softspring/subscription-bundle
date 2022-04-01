@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Manager;
 
-use Softspring\CrudlBundle\Manager\CrudlEntityManagerInterface;
+use Softspring\Component\CrudlController\Manager\CrudlEntityManagerInterface;
 use Softspring\SubscriptionBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionCustomerInterface;

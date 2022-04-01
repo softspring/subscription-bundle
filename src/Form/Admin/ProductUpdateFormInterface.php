@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Form\Admin;
 
-use Softspring\CrudlBundle\Form\EntityUpdateFormInterface;
+use Softspring\Component\CrudlController\Form\EntityUpdateFormInterface;
 
 interface ProductUpdateFormInterface extends EntityUpdateFormInterface
 {

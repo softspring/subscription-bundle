@@ -110,22 +110,22 @@ class SfsSubscriptionEvents
     public const ADMIN_PRODUCTS_LIST_VIEW = 'sfs_subscription.admin.products.list_view';
 
     /**
-     * @Event("Softspring\CrudlBundle\Event\GetResponseEntityEvent")
+     * @Event("Softspring\Component\CrudlController\Event\GetResponseEntityEvent")
      */
     public const ADMIN_PRODUCTS_CREATE_INITIALIZE = 'sfs_subscription.admin.products.create_initialize';
 
     /**
-     * @Event("Softspring\CrudlBundle\Event\GetResponseFormEvent")
+     * @Event("Softspring\Component\CrudlController\Event\GetResponseFormEvent")
      */
     public const ADMIN_PRODUCTS_CREATE_FORM_VALID = 'sfs_subscription.admin.products.create_form_valid';
 
     /**
-     * @Event("Softspring\CrudlBundle\Event\GetResponseEntityEvent")
+     * @Event("Softspring\Component\CrudlController\Event\GetResponseEntityEvent")
      */
     public const ADMIN_PRODUCTS_CREATE_SUCCESS = 'sfs_subscription.admin.products.create_success';
 
     /**
-     * @Event("Softspring\CrudlBundle\Event\GetResponseFormEvent")
+     * @Event("Softspring\Component\CrudlController\Event\GetResponseFormEvent")
      */
     public const ADMIN_PRODUCTS_CREATE_FORM_INVALID = 'sfs_subscription.admin.products.create_form_invalid';
 
@@ -140,22 +140,22 @@ class SfsSubscriptionEvents
     public const ADMIN_PLANS_LIST_VIEW = 'sfs_subscription.admin.plans.list_view';
 
     /**
-     * @Event("Softspring\CrudlBundle\Event\GetResponseEntityEvent")
+     * @Event("Softspring\Component\CrudlController\Event\GetResponseEntityEvent")
      */
     public const ADMIN_PLANS_CREATE_INITIALIZE = 'sfs_subscription.admin.plans.create_initialize';
 
     /**
-     * @Event("Softspring\CrudlBundle\Event\GetResponseFormEvent")
+     * @Event("Softspring\Component\CrudlController\Event\GetResponseFormEvent")
      */
     public const ADMIN_PLANS_CREATE_FORM_VALID = 'sfs_subscription.admin.plans.create_form_valid';
 
     /**
-     * @Event("Softspring\CrudlBundle\Event\GetResponseEntityEvent")
+     * @Event("Softspring\Component\CrudlController\Event\GetResponseEntityEvent")
      */
     public const ADMIN_PLANS_CREATE_SUCCESS = 'sfs_subscription.admin.plans.create_success';
 
     /**
-     * @Event("Softspring\CrudlBundle\Event\GetResponseFormEvent")
+     * @Event("Softspring\Component\CrudlController\Event\GetResponseFormEvent")
      */
     public const ADMIN_PLANS_CREATE_FORM_INVALID = 'sfs_subscription.admin.plans.create_form_invalid';
 
@@ -165,7 +165,7 @@ class SfsSubscriptionEvents
     public const ADMIN_PLANS_CREATE_VIEW = 'sfs_subscription.admin.plans.create_view';
 
     /**
-     * @Event("Softspring\CrudlBundle\Event\FilterEvent")
+     * @Event("Softspring\Component\CrudlController\Event\FilterEvent")
      */
     public const ADMIN_SUBSCRIPTIONS_LIST_FILTER = 'sfs_subscription.admin.subscriptions.list_filter';
 

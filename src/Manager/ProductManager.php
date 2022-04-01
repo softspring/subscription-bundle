@@ -4,7 +4,7 @@ namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\CrudlBundle\Manager\CrudlEntityManagerTrait;
+use Softspring\Component\CrudlController\Manager\CrudlEntityManagerTrait;
 use Softspring\SubscriptionBundle\Model\ProductInterface;
 
 class ProductManager implements ProductManagerInterface

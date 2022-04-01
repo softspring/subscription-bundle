@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Manager;
 
-use Softspring\CrudlBundle\Manager\DefaultCrudlEntityManager;
+use Softspring\Component\CrudlController\Manager\DefaultCrudlEntityManager;
 
 class SubscriptionItemManager extends DefaultCrudlEntityManager implements SubscriptionItemManagerInterface
 {

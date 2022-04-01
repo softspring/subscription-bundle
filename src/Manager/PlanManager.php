@@ -5,7 +5,7 @@ namespace Softspring\SubscriptionBundle\Manager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\CrudlBundle\Manager\CrudlEntityManagerTrait;
+use Softspring\Component\CrudlController\Manager\CrudlEntityManagerTrait;
 use Softspring\PlatformBundle\Adapter\PlanAdapterInterface;
 use Softspring\PlatformBundle\Manager\AdapterManagerInterface;
 use Softspring\PlatformBundle\Model\PlatformObjectInterface;

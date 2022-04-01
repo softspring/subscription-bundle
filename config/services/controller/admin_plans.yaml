@@ -23,7 +23,7 @@ services:
         class: 'Softspring\SubscriptionBundle\Form\Admin\PlanUpdateForm'
 
     sfs_subscription.admin.plan.controller:
-        class: Softspring\CrudlBundle\Controller\CrudlController
+        class: Softspring\Component\CrudlController\Controller\CrudlController
         public: true
         calls:
             - { method: setContainer, arguments: ['@service_container'] }
