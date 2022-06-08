@@ -4,8 +4,8 @@ namespace Softspring\SubscriptionBundle\Controller;
 
 use App\Entity\CustomerSource;
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\CoreBundle\Controller\Traits\DispatchGetResponseTrait;
-use Softspring\CoreBundle\Event\ViewEvent;
+use Softspring\Component\Events\DispatchGetResponseTrait;
+use Softspring\Component\Events\ViewEvent;
 use Softspring\CustomerBundle\Manager\SourceManagerInterface;
 use Softspring\CustomerBundle\Model\SourceInterface;
 use Softspring\PlatformBundle\Exception\SubscriptionException;

@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Event;
 
-use Softspring\CoreBundle\Event\GetResponseTrait;
+use Softspring\Component\Events\GetResponseTrait;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Symfony\Component\HttpFoundation\Request;

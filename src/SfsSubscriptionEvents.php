@@ -45,7 +45,7 @@ class SfsSubscriptionEvents
     public const SUBSCRIPTION_UPGRADE = 'sfs_subscription.subscription.Upgrade';
 
     /**
-     * @Event("Softspring\CoreBundle\Event\ViewEvent")
+     * @Event("Softspring\Component\Events\ViewEvent")
      */
     public const SUBSCRIPTION_PRICING_LIST_VIEW = 'sfs_subscription.subscription.pricing.list_view';
 
@@ -105,7 +105,7 @@ class SfsSubscriptionEvents
     public const SUBSCRIPTION_UPGRADE_FAILED = 'sfs_subscription.subscription.upgrade.failed';
 
     /**
-     * @Event("Softspring\CoreBundle\Event\ViewEvent")
+     * @Event("Softspring\Component\Events\ViewEvent")
      */
     public const ADMIN_PRODUCTS_LIST_VIEW = 'sfs_subscription.admin.products.list_view';
 
@@ -130,12 +130,12 @@ class SfsSubscriptionEvents
     public const ADMIN_PRODUCTS_CREATE_FORM_INVALID = 'sfs_subscription.admin.products.create_form_invalid';
 
     /**
-     * @Event("Softspring\CoreBundle\Event\ViewEvent")
+     * @Event("Softspring\Component\Events\ViewEvent")
      */
     public const ADMIN_PRODUCTS_CREATE_VIEW = 'sfs_subscription.admin.products.create_view';
 
     /**
-     * @Event("Softspring\CoreBundle\Event\ViewEvent")
+     * @Event("Softspring\Component\Events\ViewEvent")
      */
     public const ADMIN_PLANS_LIST_VIEW = 'sfs_subscription.admin.plans.list_view';
 
@@ -160,7 +160,7 @@ class SfsSubscriptionEvents
     public const ADMIN_PLANS_CREATE_FORM_INVALID = 'sfs_subscription.admin.plans.create_form_invalid';
 
     /**
-     * @Event("Softspring\CoreBundle\Event\ViewEvent")
+     * @Event("Softspring\Component\Events\ViewEvent")
      */
     public const ADMIN_PLANS_CREATE_VIEW = 'sfs_subscription.admin.plans.create_view';
 
@@ -170,12 +170,12 @@ class SfsSubscriptionEvents
     public const ADMIN_SUBSCRIPTIONS_LIST_FILTER = 'sfs_subscription.admin.subscriptions.list_filter';
 
     /**
-     * @Event("Softspring\CoreBundle\Event\ViewEvent")
+     * @Event("Softspring\Component\Events\ViewEvent")
      */
     public const ADMIN_SUBSCRIPTIONS_LIST_VIEW = 'sfs_subscription.admin.subscriptions.list_view';
 
     /**
-     * @Event("Softspring\CoreBundle\Event\ViewEvent")
+     * @Event("Softspring\Component\Events\ViewEvent")
      */
     public const ADMIN_SUBSCRIPTIONS_READ_VIEW = 'sfs_subscription.admin.subscriptions.read_view';
 }

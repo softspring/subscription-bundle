@@ -2,7 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Event;
 
-use Softspring\CoreBundle\Event\RequestEvent;
+use Softspring\Component\Events\RequestEvent;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
 use Symfony\Component\HttpFoundation\Request;
 

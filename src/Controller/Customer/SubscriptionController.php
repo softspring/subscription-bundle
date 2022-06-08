@@ -3,7 +3,7 @@
 namespace Softspring\SubscriptionBundle\Controller\Customer;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Softspring\CoreBundle\Controller\Traits\DispatchGetResponseTrait;
+use Softspring\Component\Events\DispatchGetResponseTrait;
 use Softspring\PlatformBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Event\UpgradeFailedGetResponseEvent;
 use Softspring\SubscriptionBundle\Event\UpgradeGetResponseEvent;

@@ -9,7 +9,8 @@
         "php": ">=7.4",
         "softspring/crudl-controller": "^5.0",
         "softspring/customer-bundle": "^5.0",
-        "softspring/doctrine-templates": "^5.0"
+        "softspring/doctrine-templates": "^5.0",
+        "softspring/events": "^5.0"
     },
     "require-dev": {
         "symfony/http-kernel": "^5.4 || ^6.0",
