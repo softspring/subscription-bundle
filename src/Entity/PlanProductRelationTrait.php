@@ -12,6 +12,7 @@ trait PlanProductRelationTrait
 
     /**
      * @var ProductInterface|null
+     *
      * @ORM\ManyToOne(targetEntity="Softspring\SubscriptionBundle\Model\ProductInterface", inversedBy="plans")
      */
     protected $product;

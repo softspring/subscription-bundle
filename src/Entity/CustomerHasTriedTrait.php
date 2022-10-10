@@ -11,6 +11,7 @@ trait CustomerHasTriedTrait
 {
     /**
      * @var bool
+     *
      * @ORM\Column(name="has_tried", type="boolean", nullable=false, options={"default"=false})
      */
     protected $tried = false;

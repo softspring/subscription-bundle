@@ -12,6 +12,7 @@ trait SubscriptionSinglePlanTrait
 
     /**
      * @var PlanInterface|null
+     *
      * @ORM\ManyToOne(targetEntity="Softspring\SubscriptionBundle\Model\PlanInterface")
      * @ORM\JoinColumn(name="plan_id")
      */

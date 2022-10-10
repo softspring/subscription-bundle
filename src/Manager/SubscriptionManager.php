@@ -170,7 +170,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
     public function upgrade(SubscriptionInterface $subscription, PlanInterface $plan): SubscriptionInterface
     {
         if ($subscription instanceof SubscriptionMultiPlanInterface) {
-        // TODO IMPLEMENT THIS
+            // TODO IMPLEMENT THIS
         } elseif ($subscription instanceof SubscriptionSinglePlanInterface) {
             $oldPlan = $subscription->getPlan();
             $subscription->setPlan($plan);

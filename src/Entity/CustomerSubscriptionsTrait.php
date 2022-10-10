@@ -13,6 +13,7 @@ trait CustomerSubscriptionsTrait
 
     /**
      * @var SubscriptionInterface[]|Collection
+     *
      * @ORM\OneToMany(targetEntity="Softspring\SubscriptionBundle\Model\SubscriptionInterface", mappedBy="customer", cascade={"persist"})
      */
     protected $subscriptions;

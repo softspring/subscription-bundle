@@ -13,6 +13,7 @@ trait SubscriptionMultiPlanTrait
 
     /**
      * @var Collection|SubscriptionItemInterface[]
+     *
      * @ORM\OneToMany(targetEntity="Softspring\SubscriptionBundle\Model\SubscriptionItemInterface", mappedBy="subscription", cascade={"persist"}, orphanRemoval=true)
      */
     protected $items;

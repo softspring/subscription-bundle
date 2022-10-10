@@ -13,6 +13,7 @@ trait ProductPlansRelationTrait
 
     /**
      * @var Collection|PlanInterface[]
+     *
      * @ORM\OneToMany(targetEntity="Softspring\SubscriptionBundle\Model\PlanInterface", mappedBy="product")
      */
     protected $plans;
