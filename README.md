@@ -5,6 +5,7 @@
 [![License](https://poser.pugx.org/softspring/subscription-bundle/license.svg)](https://packagist.org/packages/softspring/subscription-bundle)
 [![Total Downloads](https://poser.pugx.org/softspring/subscription-bundle/downloads)](https://packagist.org/packages/softspring/subscription-bundle)
 [![Build status](https://github.com/softspring/subscription-bundle/actions/workflows/php.yml/badge.svg?branch=5.0)](https://github.com/softspring/subscription-bundle/actions/workflows/php.yml)
+![Coverage](https://raw.githubusercontent.com/softspring/subscription-bundle/5.0/.github/badges/coverage.svg)
 
 ## Installation
 
