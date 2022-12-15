@@ -13,8 +13,8 @@
         "softspring/events": "^5.0"
     },
     "require-dev": {
-        "symfony/http-kernel": "^5.4 || ^6.0",
-        "symfony/dependency-injection": "^5.4 || ^6.0",
+        "symfony/http-kernel": "^5.4|^6.0",
+        "symfony/dependency-injection": "^5.4|^6.0",
         "phpunit/phpunit": "^9.5",
         "doctrine/common": "^2.12",
         "softspring/platform-bundle": "^5.0",
