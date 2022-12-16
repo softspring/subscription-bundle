@@ -6,7 +6,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "softspring/crudl-controller": "^5.0",
         "softspring/customer-bundle": "^5.0",
         "softspring/doctrine-templates": "^5.0",
