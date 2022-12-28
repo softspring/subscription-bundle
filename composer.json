@@ -30,8 +30,6 @@
             "Softspring\\SubscriptionBundle\\Tests\\": "tests/"
         }
     },
-    "extra": {
-    },
     "conflict": {
         "stripe/stripe-php": "<6.40.0"
     },
@@ -40,5 +38,8 @@
         "softspring/core-bundle": "Use softspring core bundle",
         "softspring/platform-bundle": "Integrate external platforms",
         "softspring/stripe-platform": "Integrate stripe platform"
+    },
+    "config": {
+        "sort-packages": true
     }
 }
