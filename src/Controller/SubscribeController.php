@@ -3,7 +3,9 @@
 namespace Softspring\SubscriptionBundle\Controller;
 
 use App\Entity\CustomerSource;
+use ArrayObject;
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
 use Softspring\Component\Events\DispatchGetResponseTrait;
 use Softspring\Component\Events\ViewEvent;
 use Softspring\CustomerBundle\Manager\SourceManagerInterface;
@@ -28,41 +30,13 @@ class SubscribeController extends AbstractController
 {
     use DispatchGetResponseTrait;
 
-    /**
-     * @var SubscriptionManagerInterface
-     */
-    protected $subscriptionManager;
-
-    /**
-     * @var PlanManagerInterface
-     */
-    protected $planManager;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
-    /**
-     * @var SourceManagerInterface
-     */
-    protected $sourcesManager;
-
-    /**
-     * SubscribeController constructor.
-     */
-    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em, SourceManagerInterface $sourcesManager)
-    {
-        $this->subscriptionManager = $subscriptionManager;
-        $this->planManager = $planManager;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->em = $em;
-        $this->sourcesManager = $sourcesManager;
+    public function __construct(
+        protected SubscriptionManagerInterface $subscriptionManager,
+        protected PlanManagerInterface $planManager,
+        protected EventDispatcherInterface $eventDispatcher,
+        protected EntityManagerInterface $em,
+        protected SourceManagerInterface $sourcesManager,
+    ) {
     }
 
     public function choosePlan(SubscriptionCustomerInterface $customer): Response
@@ -70,7 +44,7 @@ class SubscribeController extends AbstractController
         $repo = $this->planManager->getRepository();
         $plans = $repo->findBy(['active' => true, 'online' => true]);
 
-        $viewData = new \ArrayObject([
+        $viewData = new ArrayObject([
             'customer' => $customer,
             'plans' => $plans,
         ]);
@@ -119,7 +93,7 @@ class SubscribeController extends AbstractController
         /** @var PlanInterface $plan */
         $plan = $this->planManager->convert($plan);
 
-        if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_INITIALIZE, new PreSubscribeGetResponseEvent($customer, $plan, $request))) {
+        if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_INITIALIZE, new PreSubscribeGetResponseEvent($customer, $plan, $request))) instanceof Response) {
             return $response;
         }
 
@@ -129,7 +103,7 @@ class SubscribeController extends AbstractController
             if ($subscription && SubscriptionInterface::STATUS_TRIALING == $subscription->getStatus()) {
                 $this->subscriptionManager->finishTrial($customer, $subscription, $plan);
 
-                if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
+                if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) instanceof Response) {
                     $this->subscriptionManager->saveEntity($subscription);
 
                     return $response;
@@ -137,16 +111,16 @@ class SubscribeController extends AbstractController
             } else {
                 $subscription = $this->subscriptionManager->subscribe($customer, $plan);
 
-                if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
+                if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) instanceof Response) {
                     $this->subscriptionManager->saveEntity($subscription);
 
                     return $response;
                 }
             }
 
-            throw new \RuntimeException('After subscription success, SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS event must set a response to continue');
+            throw new RuntimeException('After subscription success, SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_SUCCESS event must set a response to continue');
         } catch (SubscriptionException $e) {
-            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_FAILED, new SubscriptionFailedGetResponseEvent($customer, $plan, $e, $request))) {
+            if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_SUBSCRIBE_FAILED, new SubscriptionFailedGetResponseEvent($customer, $plan, $e, $request))) instanceof Response) {
                 return $response;
             }
 
@@ -160,25 +134,25 @@ class SubscribeController extends AbstractController
         $plan = $this->planManager->convert($plan);
 
         // TODO check if plan allows trial mode
-//        if (! $plan->isTrialEnabled()) {
-//            return $this->redirectToRoute('sfs_subscription_subscribe_choose_plan');
-//        }
+        //        if (! $plan->isTrialEnabled()) {
+        //            return $this->redirectToRoute('sfs_subscription_subscribe_choose_plan');
+        //        }
 
-        if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_INITIALIZE, new PreSubscribeGetResponseEvent($customer, $plan, $request))) {
+        if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_INITIALIZE, new PreSubscribeGetResponseEvent($customer, $plan, $request))) instanceof Response) {
             return $response;
         }
 
         try {
             $subscription = $this->subscriptionManager->trial($customer, $plan);
-            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) {
+            if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_SUCCESS, new SubscriptionGetResponseEvent($subscription, $request))) instanceof Response) {
                 $this->subscriptionManager->saveEntity($subscription);
 
                 return $response;
             }
 
-            throw new \RuntimeException('After subscription success, SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_SUCCESS event must set a response to continue');
+            throw new RuntimeException('After subscription success, SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_SUCCESS event must set a response to continue');
         } catch (SubscriptionException $e) {
-            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_FAILED, new SubscriptionFailedGetResponseEvent($customer, $plan, $e, $request))) {
+            if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_TRIAL_FAILED, new SubscriptionFailedGetResponseEvent($customer, $plan, $e, $request))) instanceof Response) {
                 return $response;
             }
 

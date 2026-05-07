@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Event;
 
 use Softspring\Component\Events\GetResponseTrait;
@@ -11,30 +13,13 @@ class UpgradeGetResponseEvent extends GetResponseEvent
 {
     use GetResponseTrait;
 
-    /**
-     * @var SubscriptionInterface
-     */
-    protected $subscription;
-
-    /**
-     * @var PlanInterface
-     */
-    protected $oldPlan;
-
-    /**
-     * @var PlanInterface
-     */
-    protected $newPlan;
-
-    /**
-     * UpgradeGetResponseEvent constructor.
-     */
-    public function __construct(SubscriptionInterface $subscription, PlanInterface $oldPlan, PlanInterface $newPlan, ?Request $request)
-    {
+    public function __construct(
+        protected SubscriptionInterface $subscription,
+        protected PlanInterface $oldPlan,
+        protected PlanInterface $newPlan,
+        ?Request $request,
+    ) {
         parent::__construct($request);
-        $this->subscription = $subscription;
-        $this->oldPlan = $oldPlan;
-        $this->newPlan = $newPlan;
     }
 
     public function getSubscription(): SubscriptionInterface

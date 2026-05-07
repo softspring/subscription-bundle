@@ -35,7 +35,7 @@ trait CustomerSubscriptionsTrait
      */
     public function getActiveSubscriptions(): Collection
     {
-        return $this->getSubscriptions()->filter(function (SubscriptionInterface $subscription) {
+        return $this->getSubscriptions()->filter(function (SubscriptionInterface $subscription): bool {
             return in_array($subscription->getStatus(), [
                 SubscriptionInterface::STATUS_ACTIVE,
                 SubscriptionInterface::STATUS_TRIALING,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Command;
 
 use Softspring\SubscriptionBundle\Manager\ProductManagerInterface;
@@ -9,26 +11,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncAllProductsCommand extends Command
 {
-    /**
-     * @var ProductManagerInterface
-     */
-    protected $productManager;
-
-    /**
-     * SyncAllProductsCommand constructor.
-     */
-    public function __construct(ProductManagerInterface $productManager)
+    public function __construct(protected ProductManagerInterface $productManager)
     {
         parent::__construct();
-        $this->productManager = $productManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('sfs_subscription:products:sync-all');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->productManager->syncAll();
         $output->writeln('Synced all products');

@@ -1,25 +1,46 @@
 {
     "name": "softspring/subscription-bundle",
-    "description": "This bundle provides subscription features.",
+    "description": "Subscription plans, subscription lifecycle, and admin subscription flows for Symfony applications",
+    "license": "AGPL-3.0-or-later",
     "type": "symfony-bundle",
-    "license": "MIT",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
-        "php": ">=8.0",
-        "softspring/crudl-controller": "^5.0",
-        "softspring/customer-bundle": "^5.0",
-        "softspring/doctrine-templates": "^5.0",
-        "softspring/events": "^5.0"
+        "php": ">=8.4",
+        "doctrine/doctrine-bundle": "^2.10 || ^3.0 || ^4.0",
+        "doctrine/orm": "^2.10 || ^3.0 || ^4.0",
+        "softspring/crudl-controller": "^5.0 || ^6.0@dev",
+        "softspring/customer-bundle": "^5.0 || ^6.0@dev",
+        "softspring/doctrine-templates": "^5.0 || ^6.0@dev",
+        "softspring/events": "^5.0 || ^6.0@dev",
+        "softspring/platform-bundle": "^5.0 || ^6.0@dev",
+        "symfony/config": "^6.4 || ^7.4 || ^8.0",
+        "symfony/console": "^6.4 || ^7.4 || ^8.0",
+        "symfony/dependency-injection": "^6.4 || ^7.4 || ^8.0",
+        "symfony/form": "^6.4 || ^7.4 || ^8.0",
+        "symfony/framework-bundle": "^6.4 || ^7.4 || ^8.0",
+        "symfony/http-foundation": "^6.4 || ^7.4 || ^8.0",
+        "symfony/http-kernel": "^6.4 || ^7.4 || ^8.0",
+        "symfony/routing": "^6.4 || ^7.4 || ^8.0",
+        "symfony/security-bundle": "^6.4 || ^7.4 || ^8.0",
+        "symfony/translation": "^6.4 || ^7.4 || ^8.0",
+        "symfony/twig-bundle": "^6.4 || ^7.4 || ^8.0",
+        "twig/twig": "^3.4"
     },
     "require-dev": {
-        "symfony/http-kernel": "^5.4|^6.0",
-        "symfony/dependency-injection": "^5.4|^6.0",
-        "phpunit/phpunit": "^9.5",
-        "doctrine/common": "^2.12",
-        "softspring/platform-bundle": "^5.0",
-        "friendsofphp/php-cs-fixer": "9999999-dev"
+        "ergebnis/composer-normalize": "^2.50",
+        "friendsofphp/php-cs-fixer": "^3.94",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^12.5",
+        "rector/rector": "^2.3",
+        "symfony/yaml": "^6.4 || ^7.4 || ^8.0"
     },
+    "conflict": {
+        "stripe/stripe-php": "<6.40.0"
+    },
+    "suggest": {
+        "softspring/stripe-platform": "Integrate stripe platform"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Softspring\\SubscriptionBundle\\": "src/"
@@ -30,16 +51,40 @@
             "Softspring\\SubscriptionBundle\\Tests\\": "tests/"
         }
     },
-    "conflict": {
-        "stripe/stripe-php": "<6.40.0"
-    },
-    "suggest": {
-        "softspring/admin-bundle": "Use softspring admin templates",
-        "softspring/core-bundle": "Use softspring core bundle",
-        "softspring/platform-bundle": "Integrate external platforms",
-        "softspring/stripe-platform": "Integrate stripe platform"
-    },
     "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        },
         "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-6.0": "6.0.x-dev"
+        }
+    },
+    "scripts": {
+        "fix": [
+            "vendor/bin/rector process src tests",
+            "vendor/bin/php-cs-fixer fix --sequential",
+            "composer normalize"
+        ],
+        "run-tests": [
+            "composer validate --strict --no-check-lock --ansi",
+            "XDEBUG_MODE=coverage vendor/bin/phpunit",
+            "vendor/bin/rector process src tests --dry-run",
+            "vendor/bin/phpstan analyse src tests --level 5",
+            "vendor/bin/php-cs-fixer fix --dry-run --diff --sequential",
+            "vendor/bin/yaml-lint .github/ -vvv --parse-tags",
+            "vendor/bin/yaml-lint config/ -vvv --parse-tags",
+            "vendor/bin/yaml-lint translations/ -vvv --parse-tags"
+        ],
+        "test": [
+            "composer update --no-scripts --ansi",
+            "@run-tests"
+        ],
+        "test-bc": [
+            "composer update --no-scripts --ansi --prefer-lowest --prefer-stable",
+            "@run-tests"
+        ]
     }
 }

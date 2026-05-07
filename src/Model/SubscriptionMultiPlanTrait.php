@@ -33,7 +33,7 @@ trait SubscriptionMultiPlanTrait
 
     public function getItemsForPlan(PlanInterface $plan): Collection
     {
-        return $this->items->filter(function (SubscriptionItemInterface $item) use ($plan) {
+        return $this->items->filter(function (SubscriptionItemInterface $item) use ($plan): bool {
             return $item->getPlan() === $plan;
         });
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Form\Admin;
 
 use Softspring\PlatformBundle\Model\PlatformObjectInterface;
@@ -11,20 +13,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductCreateForm extends AbstractType implements ProductCreateFormInterface
 {
-    /**
-     * @var ProductManagerInterface
-     */
-    protected $productManager;
-
-    /**
-     * ProductCreateForm constructor.
-     */
-    public function __construct(ProductManagerInterface $productManager)
+    public function __construct(protected ProductManagerInterface $productManager)
     {
-        $this->productManager = $productManager;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => ProductInterface::class,
@@ -33,7 +26,7 @@ class ProductCreateForm extends AbstractType implements ProductCreateFormInterfa
         ]);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name');
         $builder->add('type');

@@ -1,18 +1,51 @@
-# SfsSubscriptionBundle
+# Subscription Bundle
 
-[![Latest Stable Version](https://poser.pugx.org/softspring/subscription-bundle/v/stable.svg)](https://packagist.org/packages/softspring/subscription-bundle)
-[![Latest Unstable Version](https://poser.pugx.org/softspring/subscription-bundle/v/unstable.svg)](https://packagist.org/packages/softspring/subscription-bundle)
-[![License](https://poser.pugx.org/softspring/subscription-bundle/license.svg)](https://packagist.org/packages/softspring/subscription-bundle)
-[![Total Downloads](https://poser.pugx.org/softspring/subscription-bundle/downloads)](https://packagist.org/packages/softspring/subscription-bundle)
-[![Build status](https://github.com/softspring/subscription-bundle/actions/workflows/php.yml/badge.svg?branch=5.0)](https://github.com/softspring/subscription-bundle/actions/workflows/php.yml)
-![Coverage](https://raw.githubusercontent.com/softspring/subscription-bundle/5.0/.github/badges/coverage.svg)
+[![Latest Stable](https://img.shields.io/packagist/v/softspring/subscription-bundle?label=stable&style=flat-square)](https://packagist.org/packages/softspring/subscription-bundle)
+[![Latest Unstable](https://img.shields.io/packagist/v/softspring/subscription-bundle?label=unstable&style=flat-square&include_prereleases)](https://packagist.org/packages/softspring/subscription-bundle)
+[![License](https://img.shields.io/packagist/l/softspring/subscription-bundle?style=flat-square)](LICENSE)
+[![PHP Version](https://img.shields.io/packagist/dependency-v/softspring/subscription-bundle/php?style=flat-square)](composer.json)
+[![Downloads](https://img.shields.io/packagist/dt/softspring/subscription-bundle?style=flat-square)](https://packagist.org/packages/softspring/subscription-bundle)
+[![CI](https://img.shields.io/github/actions/workflow/status/softspring/subscription-bundle/ci.yml?branch=6.0&style=flat-square&label=CI)](https://github.com/softspring/subscription-bundle/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/codecov/c/github/softspring/subscription-bundle?branch=6.0&style=flat-square)](https://codecov.io/gh/softspring/subscription-bundle)
 
-## Installation
+Subscription plans, subscription lifecycle, upgrade flows, and admin subscription management for Symfony applications.
 
-### Applications that use Symfony Flex
+## What It Provides
 
-Open a command console, enter your project directory and execute:
+- subscription plan and product model contracts with Doctrine mapping support
+- subscription creation, trial, upgrade, cancellation, and reactivation flows
+- admin controllers for plans, products, and subscriptions
+- Stripe-oriented integration points through the platform layer
+- Twig templates and translations for customer and admin subscription screens
 
-```console
-$ composer require softspring/subscription-bundle
+## Armonic
+
+This package is part of [Armonic](https://softspring.es/en/armonic).
+
+## Package Files
+
+- [Features](FEATURES.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security](SECURITY.md)
+
+## Contributing
+
+Use the standard package commands before sending changes:
+
+```bash
+composer fix
+composer test
+composer test-bc
 ```
+
+[See the contributing guide](CONTRIBUTING.md).
+
+[Report issues](https://github.com/softspring/subscription-bundle/issues) and [send Pull Requests](https://github.com/softspring/subscription-bundle/pulls)
+
+## Security
+
+Please report vulnerabilities privately. See [SECURITY.md](SECURITY.md).
+
+## License
+
+This package is free and released under the [AGPL-3.0 license](LICENSE).

@@ -2,6 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Tests\Model;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionMultiPlanInterface;
@@ -12,13 +13,13 @@ use Softspring\SubscriptionBundle\Tests\Model\Examples\SubscriptionMultiPlanExam
 
 class SubscriptionTest extends TestCase
 {
-    public function testInterfaces()
+    public function testInterfaces(): void
     {
         $this->assertInstanceOf(SubscriptionInterface::class, new SubscriptionMultiPlanExample());
         $this->assertInstanceOf(SubscriptionMultiPlanInterface::class, new SubscriptionMultiPlanExample());
     }
 
-    public function testMultiPlanGetterAndSetters()
+    public function testMultiPlanGetterAndSetters(): void
     {
         $subscription = new SubscriptionMultiPlanExample();
 
@@ -35,22 +36,22 @@ class SubscriptionTest extends TestCase
         $subscription->setStatus(SubscriptionInterface::STATUS_ACTIVE);
         $this->assertEquals(SubscriptionInterface::STATUS_ACTIVE, $subscription->getStatus());
 
-        $startDate = new \DateTime('now');
+        $startDate = new DateTime('now');
         $subscription->setStartDate($startDate);
         $this->assertEquals($startDate->format('Y-m-d H:i:s'), $subscription->getStartDate()->format('Y-m-d H:i:s'));
 
-        $endDate = new \DateTime('+1 month');
+        $endDate = new DateTime('+1 month');
         $subscription->setEndDate($endDate);
         $this->assertEquals($endDate->format('Y-m-d H:i:s'), $subscription->getEndDate()->format('Y-m-d H:i:s'));
 
-        $cancelScheduledDate = new \DateTime('+1 month');
+        $cancelScheduledDate = new DateTime('+1 month');
         $subscription->setCancelScheduled($cancelScheduledDate);
         $this->assertEquals($cancelScheduledDate->format('Y-m-d H:i:s'), $subscription->getCancelScheduled()->format('Y-m-d H:i:s'));
 
         // $this->assertNull($subscription->getTransitions()); todo transitions go to interface/trait elements
     }
 
-    public function testMultiPlan()
+    public function testMultiPlan(): void
     {
         $subscription = new SubscriptionMultiPlanExample();
 

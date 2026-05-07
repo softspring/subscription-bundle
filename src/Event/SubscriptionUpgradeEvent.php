@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Event;
 
 use Softspring\SubscriptionBundle\Model\PlanInterface;
@@ -7,15 +9,9 @@ use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 
 class SubscriptionUpgradeEvent extends SubscriptionEvent
 {
-    /**
-     * @var PlanInterface
-     */
-    protected $oldPlan;
+    protected PlanInterface $oldPlan;
 
-    /**
-     * @var PlanInterface
-     */
-    protected $newPlan;
+    protected PlanInterface $newPlan;
 
     public function __construct(SubscriptionInterface $subscription, PlanInterface $oldPlan, PlanInterface $newPlan)
     {

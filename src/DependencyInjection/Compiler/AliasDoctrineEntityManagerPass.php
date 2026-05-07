@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -7,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class AliasDoctrineEntityManagerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $emName = $container->getParameter('sfs_subscription.entity_manager_name');
 

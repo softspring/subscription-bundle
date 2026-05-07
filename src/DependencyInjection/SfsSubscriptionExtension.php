@@ -6,14 +6,12 @@ use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class SfsSubscriptionExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $processor = new Processor();
         $configuration = new Configuration();
@@ -45,5 +43,9 @@ class SfsSubscriptionExtension extends Extension
 
         $loader->load('controller/admin_subscriptions.yaml');
         $loader->load('controller/subscribe.yaml');
+
+        if (interface_exists(ValueResolverInterface::class)) {
+            $loader->load('request_value_resolver.yaml');
+        }
     }
 }

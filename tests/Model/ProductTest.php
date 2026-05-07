@@ -10,12 +10,12 @@ use Softspring\SubscriptionBundle\Tests\Model\Examples\ProductBaseExample;
 
 class ProductTest extends TestCase
 {
-    public function testInterfaces()
+    public function testInterfaces(): void
     {
         $this->assertInstanceOf(ProductInterface::class, new ProductBaseExample());
     }
 
-    public function testBasePlanGetterAndSetters()
+    public function testBasePlanGetterAndSetters(): void
     {
         $product = new ProductBaseExample();
 
@@ -28,7 +28,7 @@ class ProductTest extends TestCase
         $this->assertEquals(ProductInterface::TYPE_GOOD_DIGITAL, $product->getType());
     }
 
-    public function testPlans()
+    public function testPlans(): void
     {
         $product = new ProductBaseExample();
         $plan1 = new PlanBaseExample();

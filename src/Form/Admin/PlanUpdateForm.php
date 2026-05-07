@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Form\Admin;
 
 use Softspring\PlatformBundle\Model\PlatformObjectInterface;
@@ -11,20 +13,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlanUpdateForm extends AbstractType implements PlanUpdateFormInterface
 {
-    /**
-     * @var PlanManagerInterface
-     */
-    protected $planManager;
-
-    /**
-     * PlanCreateForm constructor.
-     */
-    public function __construct(PlanManagerInterface $planManager)
+    public function __construct(protected PlanManagerInterface $planManager)
     {
-        $this->planManager = $planManager;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => PlanInterface::class,
@@ -33,7 +26,7 @@ class PlanUpdateForm extends AbstractType implements PlanUpdateFormInterface
         ]);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name');
         $builder->add('product');

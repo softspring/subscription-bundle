@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Model;
+
+use DateTime;
 
 interface SubscriptionTransitionInterface
 {
@@ -8,9 +12,9 @@ interface SubscriptionTransitionInterface
 
     public function getSubscription(): ?SubscriptionInterface;
 
-    public function setDate(?\DateTime $date): void;
+    public function setDate(?DateTime $date): void;
 
-    public function getDate(): ?\DateTime;
+    public function getDate(): ?DateTime;
 
     public function setStatus(?int $status): void;
 

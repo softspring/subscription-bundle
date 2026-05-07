@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Model;
 
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 
 interface SubscriptionInterface
@@ -67,17 +70,17 @@ interface SubscriptionInterface
 
     public function getStatusString(): ?string;
 
-    public function getStartDate(): ?\DateTime;
+    public function getStartDate(): ?DateTime;
 
-    public function setStartDate(?\DateTime $startDate): void;
+    public function setStartDate(?DateTime $startDate): void;
 
-    public function getEndDate(): ?\DateTime;
+    public function getEndDate(): ?DateTime;
 
-    public function setEndDate(?\DateTime $endDate): void;
+    public function setEndDate(?DateTime $endDate): void;
 
-    public function getCancelScheduled(): ?\DateTime;
+    public function getCancelScheduled(): ?DateTime;
 
-    public function setCancelScheduled(?\DateTime $endDate): void;
+    public function setCancelScheduled(?DateTime $endDate): void;
 
     /**
      * @return Collection|SubscriptionTransitionInterface[]

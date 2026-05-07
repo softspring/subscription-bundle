@@ -3,6 +3,8 @@
 namespace Softspring\SubscriptionBundle\DependencyInjection\Compiler;
 
 use Doctrine\ORM\Mapping\MappingException;
+use ReflectionClass;
+use ReflectionException;
 use Softspring\CoreBundle\DependencyInjection\Compiler\AbstractResolveDoctrineTargetEntityPass;
 use Softspring\SubscriptionBundle\Model\InvoiceInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
@@ -16,9 +18,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ResolveDoctrineTargetEntityPass extends AbstractResolveDoctrineTargetEntityPass
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function getEntityManagerName(ContainerBuilder $container): string
     {
         return $container->getParameter('sfs_subscription.entity_manager_name');
@@ -26,13 +25,13 @@ class ResolveDoctrineTargetEntityPass extends AbstractResolveDoctrineTargetEntit
 
     /**
      * @throws MappingException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         // check subscription model
         $subscriptionClass = $container->getParameter('sfs_subscription.subscription.class');
-        $subscriptionReflection = new \ReflectionClass($subscriptionClass);
+        $subscriptionReflection = new ReflectionClass($subscriptionClass);
         if (!$subscriptionReflection->implementsInterface(SubscriptionSinglePlanInterface::class) && !$subscriptionReflection->implementsInterface(SubscriptionMultiPlanInterface::class)) {
             throw new MappingException(sprintf('Subscription %s class must implement %s or %s interfaces', $subscriptionClass, SubscriptionSinglePlanInterface::class, SubscriptionMultiPlanInterface::class));
         }

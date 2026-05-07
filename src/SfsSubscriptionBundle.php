@@ -15,7 +15,7 @@ class SfsSubscriptionBundle extends Bundle
         return \dirname(__DIR__);
     }
 
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 
@@ -27,10 +27,7 @@ class SfsSubscriptionBundle extends Bundle
         $container->addCompilerPass(new ResolveDoctrineTargetEntityPass());
     }
 
-    /**
-     * @param string|bool $enablingParameter
-     */
-    private function addRegisterMappingsPass(ContainerBuilder $container, array $mappings, $enablingParameter = false)
+    private function addRegisterMappingsPass(ContainerBuilder $container, array $mappings, string|bool $enablingParameter = false): void
     {
         $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings, ['sfs_subscription.entity_manager_name'], $enablingParameter));
     }

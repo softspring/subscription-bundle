@@ -11,13 +11,13 @@ use Softspring\SubscriptionBundle\Tests\Model\Examples\ProductBaseExample;
 
 class PlanTest extends TestCase
 {
-    public function testInterfaces()
+    public function testInterfaces(): void
     {
         $this->assertInstanceOf(PlanInterface::class, new PlanBaseExample());
         $this->assertInstanceOf(PlanHasProductInterface::class, new PlanWithProductExample());
     }
 
-    public function testBasePlanGetterAndSetters()
+    public function testBasePlanGetterAndSetters(): void
     {
         $plan = new PlanBaseExample();
 
@@ -45,7 +45,7 @@ class PlanTest extends TestCase
         $this->assertTrue($plan->isOnline());
     }
 
-    public function testPlanWithProductGetterAndSetters()
+    public function testPlanWithProductGetterAndSetters(): void
     {
         $plan = new PlanWithProductExample();
 

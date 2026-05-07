@@ -10,12 +10,12 @@ use Softspring\SubscriptionBundle\Tests\Model\Examples\SubscriptionMultiPlanExam
 
 class SubscriptionItemTest extends TestCase
 {
-    public function testInterfaces()
+    public function testInterfaces(): void
     {
         $this->assertInstanceOf(SubscriptionItemInterface::class, new SubscriptionItemBaseExample());
     }
 
-    public function testBasePlanGetterAndSetters()
+    public function testBasePlanGetterAndSetters(): void
     {
         $item = new SubscriptionItemBaseExample();
 

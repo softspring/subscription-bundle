@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Manager;
 
 use Softspring\Component\CrudlController\Manager\CrudlEntityManagerInterface;
@@ -55,15 +57,15 @@ interface SubscriptionManagerInterface extends CrudlEntityManagerInterface
     /**
      * @return SubscriptionInterface
      */
-    public function createEntity();
+    public function createEntity(): object;
 
     /**
      * @param SubscriptionInterface $entity
      */
-    public function saveEntity($entity): void;
+    public function saveEntity(object $entity): void;
 
     /**
      * @param SubscriptionInterface $entity
      */
-    public function deleteEntity($entity): void;
+    public function deleteEntity(object $entity): void;
 }

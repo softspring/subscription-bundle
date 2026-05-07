@@ -8,16 +8,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class StripeSubscriptionsNotifyListener implements EventSubscriberInterface
 {
-    /**
-     * @var SubscriptionManagerInterface
-     */
-    protected $subscriptionManager;
+    protected SubscriptionManagerInterface $subscriptionManager;
 
-    /**
-     * StripeSubscriptionsNotifyListener constructor.
-     *
-     * @param SubscriptionManagerInterface $subscriptionManager
-     */
     public function __construct(SubscriptionManagerInterface $subscriptionManager)
     {
         $this->subscriptionManager = $subscriptionManager;

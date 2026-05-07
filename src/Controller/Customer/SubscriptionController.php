@@ -2,6 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Controller\Customer;
 
+use ArrayObject;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\Component\Events\DispatchGetResponseTrait;
 use Softspring\PlatformBundle\Exception\SubscriptionException;
@@ -22,40 +23,17 @@ class SubscriptionController extends AbstractController
 {
     use DispatchGetResponseTrait;
 
-    /**
-     * @var SubscriptionManagerInterface
-     */
-    protected $subscriptionManager;
-
-    /**
-     * @var PlanManagerInterface
-     */
-    protected $planManager;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
-    /**
-     * SubscribeController constructor.
-     */
-    public function __construct(SubscriptionManagerInterface $subscriptionManager, PlanManagerInterface $planManager, EventDispatcherInterface $eventDispatcher, EntityManagerInterface $em)
-    {
-        $this->subscriptionManager = $subscriptionManager;
-        $this->planManager = $planManager;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->em = $em;
+    public function __construct(
+        protected SubscriptionManagerInterface $subscriptionManager,
+        protected PlanManagerInterface $planManager,
+        protected EventDispatcherInterface $eventDispatcher,
+        protected EntityManagerInterface $em,
+    ) {
     }
 
     public function overview(SubscriptionCustomerInterface $customer, Request $request): Response
     {
-        $viewData = new \ArrayObject([
+        $viewData = new ArrayObject([
             'customer' => $customer,
         ]);
 
@@ -66,7 +44,7 @@ class SubscriptionController extends AbstractController
 
     public function details(SubscriptionInterface $subscription, Request $request): Response
     {
-        $viewData = new \ArrayObject([
+        $viewData = new ArrayObject([
             'subscription' => $subscription,
         ]);
 
@@ -108,7 +86,7 @@ class SubscriptionController extends AbstractController
         $repo = $this->planManager->getRepository();
         $plans = $repo->findBy(['active' => true, 'online' => true]);
 
-        $viewData = new \ArrayObject([
+        $viewData = new ArrayObject([
             'customer' => $customer,
             'plans' => $plans,
             'subscription' => $subscription,
@@ -128,7 +106,7 @@ class SubscriptionController extends AbstractController
     {
         $oldPlan = $subscription->getPlan();
 
-        if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_INITIALIZE, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
+        if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_INITIALIZE, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) instanceof Response) {
             return $response;
         }
 
@@ -138,7 +116,7 @@ class SubscriptionController extends AbstractController
             if (SubscriptionInterface::STATUS_TRIALING == $activeSubscription->getStatus()) {
                 $this->subscriptionManager->finishTrial($subscription, $plan);
 
-                if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_TRIAL_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
+                if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_TRIAL_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) instanceof Response) {
                     $this->subscriptionManager->saveEntity($subscription);
 
                     return $response;
@@ -146,20 +124,20 @@ class SubscriptionController extends AbstractController
             } else {
                 $this->subscriptionManager->upgrade($subscription, $plan);
 
-                if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_PLAN_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
+                if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_PLAN_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) instanceof Response) {
                     $this->subscriptionManager->saveEntity($subscription);
 
                     return $response;
                 }
             }
 
-            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) {
+            if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_SUCCESS, new UpgradeGetResponseEvent($subscription, $oldPlan, $plan, $request))) instanceof Response) {
                 $this->subscriptionManager->saveEntity($subscription);
 
                 return $response;
             }
         } catch (SubscriptionException $e) {
-            if ($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_FAILED, new UpgradeFailedGetResponseEvent($subscription, $plan, $e, $request))) {
+            if (($response = $this->dispatchGetResponse(SfsSubscriptionEvents::SUBSCRIPTION_UPGRADE_FAILED, new UpgradeFailedGetResponseEvent($subscription, $plan, $e, $request))) instanceof Response) {
                 return $response;
             }
         }

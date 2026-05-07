@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Event;
 
 use Softspring\Component\Events\GetResponseTrait;
@@ -10,18 +12,9 @@ class SubscriptionGetResponseEvent extends GetResponseEvent
 {
     use GetResponseTrait;
 
-    /**
-     * @var SubscriptionInterface
-     */
-    protected $subscription;
-
-    /**
-     * SubscriptionGetResponseEvent constructor.
-     */
-    public function __construct(SubscriptionInterface $subscription, Request $request)
+    public function __construct(protected SubscriptionInterface $subscription, Request $request)
     {
         parent::__construct($request);
-        $this->subscription = $subscription;
     }
 
     public function getSubscription(): SubscriptionInterface

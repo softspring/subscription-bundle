@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,14 +12,8 @@ class SubscriptionTransitionManager implements SubscriptionTransitionManagerInte
 {
     use CrudlEntityManagerTrait;
 
-    protected EntityManagerInterface $em;
-
-    /**
-     * SubscriptionTransitionManager constructor.
-     */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(protected EntityManagerInterface $em)
     {
-        $this->em = $em;
     }
 
     public function getTargetClass(): string

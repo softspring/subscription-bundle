@@ -3,7 +3,6 @@
 namespace Softspring\SubscriptionBundle\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\Component\CrudlController\Manager\CrudlEntityManagerTrait;
 use Softspring\PlatformBundle\Adapter\PlanAdapterInterface;
@@ -11,35 +10,20 @@ use Softspring\PlatformBundle\Manager\AdapterManagerInterface;
 use Softspring\PlatformBundle\Model\PlatformObjectInterface;
 use Softspring\PlatformBundle\Provider\PlatformProviderInterface;
 use Softspring\SubscriptionBundle\Model\PlanInterface;
+use Stripe\Plan;
 
 class PlanManager implements PlanManagerInterface
 {
     use CrudlEntityManagerTrait;
 
-    protected EntityManagerInterface $em;
+    protected ?PlatformProviderInterface $platformProvider = null;
 
-    /**
-     * @var ProductManagerInterface|null
-     */
-    protected $productManager;
+    protected ?AdapterManagerInterface $adapterManager = null;
 
-    /**
-     * @var PlatformProviderInterface|null
-     */
-    protected $platformProvider;
-
-    /**
-     * @var AdapterManagerInterface|null
-     */
-    protected $adapterManager;
-
-    /**
-     * PlanManager constructor.
-     */
-    public function __construct(EntityManagerInterface $em, ?ProductManagerInterface $productManager)
-    {
-        $this->em = $em;
-        $this->productManager = $productManager;
+    public function __construct(
+        protected EntityManagerInterface $em,
+        protected ?ProductManagerInterface $productManager,
+    ) {
     }
 
     public function setAdapterManager(?AdapterManagerInterface $adapterManager): void
@@ -57,17 +41,6 @@ class PlanManager implements PlanManagerInterface
         return PlanInterface::class;
     }
 
-    public function createEntity()
-    {
-        $metadata = $this->em->getClassMetadata($this->getClass());
-        $class = $metadata->getReflectionClass()->name;
-
-        /** @var PlanInterface $entity */
-        $entity = new $class();
-
-        return $entity;
-    }
-
     public function convert(string $plan): ?PlanInterface
     {
         return $this->getRepository()->findOneBy(['id' => $plan]);
@@ -81,9 +54,7 @@ class PlanManager implements PlanManagerInterface
 
         $dbPlans = $this->getRepository()->findAll();
 
-        if (!$dbPlans instanceof Collection) {
-            $dbPlans = new ArrayCollection($dbPlans);
-        }
+        $dbPlans = new ArrayCollection($dbPlans);
 
         $platformProvider = $this->platformProvider;
 
@@ -93,10 +64,10 @@ class PlanManager implements PlanManagerInterface
             $transformer = $adapter->getTransformer();
 
             foreach ($platformPlans as $platformPlan) {
-                $dbPlan = $dbPlans->filter(function (PlanInterface $plan) use ($platform, $platformProvider, $platformPlan) {
+                $dbPlan = $dbPlans->filter(function (PlanInterface $plan) use ($platform, $platformProvider, $platformPlan): bool {
                     /* @var PlatformObjectInterface $plan */
 
-                    if ($platformPlan instanceof \Stripe\Plan) {
+                    if ($platformPlan instanceof Plan) {
                         return $plan->getPlatformId() == $platformPlan->id && $platformProvider->getPlatform($plan) == $platform;
                     }
 

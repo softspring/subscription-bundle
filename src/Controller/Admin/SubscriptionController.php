@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Controller\Admin;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Softspring\PlatformBundle\Exception\SubscriptionException;
 use Softspring\SubscriptionBundle\Manager\SubscriptionManagerInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
@@ -11,34 +12,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SubscriptionController extends AbstractController
 {
-    /**
-     * @var SubscriptionManagerInterface
-     */
-    protected $subscriptionManager;
-
-    /**
-     * SubscriptionController constructor.
-     */
-    public function __construct(SubscriptionManagerInterface $subscriptionManager)
+    public function __construct(protected SubscriptionManagerInterface $subscriptionManager)
     {
-        $this->subscriptionManager = $subscriptionManager;
     }
 
-    /**
-     * @Security(expression="is_granted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_SYNC', subscription)")
-     */
     public function sync(SubscriptionInterface $subscription): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_SYNC', $subscription);
+
         $this->subscriptionManager->sync($subscription);
 
         return $this->redirectToRoute('sfs_subscription_admin_subscriptions_read', ['subscription' => $subscription]);
     }
 
-    /**
-     * @Security(expression="is_granted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_CANCEL_RENOVATION', subscription)")
-     */
     public function cancelRenovation(SubscriptionInterface $subscription): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_CANCEL_RENOVATION', $subscription);
+
         // TODO DISPATCH EVENT
 
         try {
@@ -51,11 +41,10 @@ class SubscriptionController extends AbstractController
         return $this->redirectToRoute('sfs_subscription_admin_subscriptions_read', ['subscription' => $subscription]);
     }
 
-    /**
-     * @Security(expression="is_granted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_UNCANCEL_RENOVATION', subscription)")
-     */
     public function uncancelRenovation(SubscriptionInterface $subscription): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_UNCANCEL_RENOVATION', $subscription);
+
         // TODO DISPATCH EVENT
 
         try {
@@ -68,11 +57,10 @@ class SubscriptionController extends AbstractController
         return $this->redirectToRoute('sfs_subscription_admin_subscriptions_read', ['subscription' => $subscription]);
     }
 
-    /**
-     * @Security(expression="is_granted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_CANCEL_NOW', subscription)")
-     */
     public function cancelNow(SubscriptionInterface $subscription): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_SUBSCRIPTION_ADMIN_SUBSCRIPTIONS_CANCEL_NOW', $subscription);
+
         // TODO DISPATCH EVENT
 
         try {

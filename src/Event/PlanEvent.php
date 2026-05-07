@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Event;
 
 use Softspring\Component\Events\RequestEvent;
@@ -8,18 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PlanEvent extends RequestEvent
 {
-    /**
-     * @var PlanInterface
-     */
-    protected $plan;
-
-    /**
-     * PlanEvent constructor.
-     */
-    public function __construct(PlanInterface $plan, ?Request $request)
+    public function __construct(protected PlanInterface $plan, ?Request $request)
     {
         parent::__construct($request);
-        $this->plan = $plan;
     }
 
     public function getPlan(): PlanInterface

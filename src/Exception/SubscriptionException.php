@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Exception;
 
-class SubscriptionException extends \Exception
+use Exception;
+
+class SubscriptionException extends Exception
 {
 }

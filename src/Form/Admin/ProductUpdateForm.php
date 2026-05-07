@@ -10,7 +10,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductUpdateForm extends AbstractType implements ProductUpdateFormInterface
 {
-    public function configureOptions(OptionsResolver $resolver)
+    public function __construct(protected ProductManagerInterface $productManager)
+    {
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => ProductInterface::class,
@@ -19,7 +23,7 @@ class ProductUpdateForm extends AbstractType implements ProductUpdateFormInterfa
         ]);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name');
         $builder->add('type');

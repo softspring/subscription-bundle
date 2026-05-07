@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Softspring\SubscriptionBundle\Request\ValueResolver\PlanValueResolver:
+        tags: ['controller.argument_value_resolver']
+
+    Softspring\SubscriptionBundle\Request\ValueResolver\SubscriptionValueResolver:
+        tags: ['controller.argument_value_resolver']

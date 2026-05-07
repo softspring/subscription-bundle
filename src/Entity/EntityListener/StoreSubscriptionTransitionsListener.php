@@ -2,41 +2,29 @@
 
 namespace Softspring\SubscriptionBundle\Entity\EntityListener;
 
+use DateTime;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Exception;
 use Softspring\SubscriptionBundle\Manager\SubscriptionTransitionManagerInterface;
 use Softspring\SubscriptionBundle\Model\Subscription;
-use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionTransitionInterface;
 
 class StoreSubscriptionTransitionsListener
 {
-    /**
-     * @var SubscriptionTransitionManagerInterface
-     */
-    protected $transtionManager;
-
-    /**
-     * StoreSubscriptionTransitionsListener constructor.
-     */
-    public function __construct(SubscriptionTransitionManagerInterface $transtionManager)
+    public function __construct(protected SubscriptionTransitionManagerInterface $transtionManager)
     {
-        $this->transtionManager = $transtionManager;
     }
 
-    public function postLoad(Subscription $subscription, LifecycleEventArgs $eventArgs)
+    public function postLoad(Subscription $subscription, LifecycleEventArgs $eventArgs): void
     {
-        $subscription = $eventArgs->getObject();
-
-        if (!$subscription instanceof SubscriptionInterface) {
-            return;
-        }
+        $eventArgs->getObject();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    public function preUpdate(Subscription $subscription, PreUpdateEventArgs $eventArgs)
+    public function preUpdate(Subscription $subscription, PreUpdateEventArgs $eventArgs): void
     {
         if (!$eventArgs->hasChangedField('status')) {
             return;
@@ -45,19 +33,19 @@ class StoreSubscriptionTransitionsListener
         /** @var SubscriptionTransitionInterface $transition */
         $transition = $this->transtionManager->createEntity();
         $transition->setStatus($eventArgs->getNewValue('status'));
-        $transition->setDate(new \DateTime('now'));
+        $transition->setDate(new DateTime('now'));
         $subscription->addTransition($transition);
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    public function prePersist(Subscription $subscription, LifecycleEventArgs $eventArgs)
+    public function prePersist(Subscription $subscription, LifecycleEventArgs $eventArgs): void
     {
         /** @var SubscriptionTransitionInterface $transition */
         $transition = $this->transtionManager->createEntity();
         $transition->setStatus($subscription->getStatus());
-        $transition->setDate(new \DateTime('now'));
+        $transition->setDate(new DateTime('now'));
         $subscription->addTransition($transition);
     }
 }

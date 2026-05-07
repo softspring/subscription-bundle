@@ -2,6 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\EventListener;
 
+use Exception;
 use Softspring\CustomerBundle\Manager\CustomerManagerInterface;
 use Softspring\PlatformBundle\Manager\AdapterManagerInterface;
 use Softspring\SubscriptionBundle\Event\PreSubscribeGetResponseEvent;
@@ -13,34 +14,13 @@ use Symfony\Component\Routing\RouterInterface;
 
 class StripeSubscriptionListener implements EventSubscriberInterface
 {
-    /**
-     * @var AdapterManagerInterface
-     */
-    protected $api;
-
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
-
-    /**
-     * @var CustomerManagerInterface
-     */
-    protected $customerManager;
-
-    /**
-     * StripeSubscriptionListener constructor.
-     */
-    public function __construct(AdapterManagerInterface $api, RouterInterface $router, CustomerManagerInterface $customerManager)
-    {
-        $this->api = $api;
-        $this->router = $router;
-        $this->customerManager = $customerManager;
+    public function __construct(
+        protected AdapterManagerInterface $api,
+        protected RouterInterface $router,
+        protected CustomerManagerInterface $customerManager,
+    ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -54,19 +34,19 @@ class StripeSubscriptionListener implements EventSubscriberInterface
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    public function onSubscribeInitializeEnsureClientPayment(PreSubscribeGetResponseEvent $event)
+    public function onSubscribeInitializeEnsureClientPayment(PreSubscribeGetResponseEvent $event): void
     {
         if ('stripe' !== $this->api->name()) {
-            throw new \Exception('This listener should not be instanced with any other driver');
+            throw new Exception('This listener should not be instanced with any other driver');
         }
 
         $client = $event->getClient();
 
-//        if (!$client->getPlatformId()) {
-//            // $this->customerManager->createInPlatform($client);
-//        }
+        //        if (!$client->getPlatformId()) {
+        //            // $this->customerManager->createInPlatform($client);
+        //        }
 
         $plan = $event->getPlan();
 
@@ -79,19 +59,19 @@ class StripeSubscriptionListener implements EventSubscriberInterface
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    public function onUpgradeInitializeEnsureClientPayment(UpgradeGetResponseEvent $event)
+    public function onUpgradeInitializeEnsureClientPayment(UpgradeGetResponseEvent $event): void
     {
         if ('stripe' !== $this->api->name()) {
-            throw new \Exception('This listener should not be instanced with any other driver');
+            throw new Exception('This listener should not be instanced with any other driver');
         }
 
         $client = $event->getSubscription()->getCustomer();
 
-//        if (!$client->getPlatformId()) {
-//            // $this->customerManager->createInPlatform($client);
-//        }
+        //        if (!$client->getPlatformId()) {
+        //            // $this->customerManager->createInPlatform($client);
+        //        }
 
         $plan = $event->getNewPlan();
 

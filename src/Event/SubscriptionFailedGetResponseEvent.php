@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Event;
 
 use Softspring\Component\Events\GetResponseTrait;
@@ -12,30 +14,13 @@ class SubscriptionFailedGetResponseEvent extends GetResponseEvent
 {
     use GetResponseTrait;
 
-    /**
-     * @var SubscriptionCustomerInterface
-     */
-    protected $client;
-
-    /**
-     * @var PlanInterface
-     */
-    protected $plan;
-
-    /**
-     * @var SubscriptionException
-     */
-    protected $exception;
-
-    /**
-     * SubscriptionFailedGetResponseEvent constructor.
-     */
-    public function __construct(SubscriptionCustomerInterface $client, PlanInterface $plan, SubscriptionException $exception, ?Request $request)
-    {
+    public function __construct(
+        protected SubscriptionCustomerInterface $client,
+        protected PlanInterface $plan,
+        protected SubscriptionException $exception,
+        ?Request $request,
+    ) {
         parent::__construct($request);
-        $this->client = $client;
-        $this->plan = $plan;
-        $this->exception = $exception;
     }
 
     public function getClient(): SubscriptionCustomerInterface

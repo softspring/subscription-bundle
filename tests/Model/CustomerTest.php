@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Tests\Model;
 
 use Doctrine\Common\Collections\Collection;
@@ -11,12 +13,12 @@ use Softspring\SubscriptionBundle\Tests\Model\Examples\SubscriptionMultiPlanExam
 
 class CustomerTest extends TestCase
 {
-    public function testInterfaces()
+    public function testInterfaces(): void
     {
         $this->assertInstanceOf(SubscriptionCustomerInterface::class, new CustomerExample());
     }
 
-    public function testCustomerSubscriptions()
+    public function testCustomerSubscriptions(): void
     {
         $customer = new CustomerExample();
 

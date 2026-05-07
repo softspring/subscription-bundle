@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\SubscriptionBundle\Command;
 
 use Softspring\SubscriptionBundle\Manager\PlanManagerInterface;
@@ -9,26 +11,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncAllPlansCommand extends Command
 {
-    /**
-     * @var PlanManagerInterface
-     */
-    protected $planManager;
-
-    /**
-     * SyncAllPlansCommand constructor.
-     */
-    public function __construct(PlanManagerInterface $planManager)
+    public function __construct(protected PlanManagerInterface $planManager)
     {
         parent::__construct();
-        $this->planManager = $planManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('sfs_subscription:plans:sync-all');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->planManager->syncAll();
         $output->writeln('Synced all plans');

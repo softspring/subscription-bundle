@@ -19,25 +19,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class SubscriptionManager implements SubscriptionManagerInterface
 {
     use CrudlEntityManagerTrait;
+    public $api;
 
-    /**
-     * @var SubscriptionItemManagerInterface
-     */
-    protected $itemManager;
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
-    /**
-     * SubscriptionManager constructor.
-     */
-    public function __construct(EntityManagerInterface $em, SubscriptionItemManagerInterface $itemManager, EventDispatcherInterface $eventDispatcher)
-    {
-        $this->em = $em;
-        $this->itemManager = $itemManager;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(
+        protected EntityManagerInterface $em,
+        protected SubscriptionItemManagerInterface $itemManager,
+        protected EventDispatcherInterface $eventDispatcher,
+    ) {
     }
 
     public function getItemManager(): SubscriptionItemManagerInterface
@@ -50,9 +38,6 @@ class SubscriptionManager implements SubscriptionManagerInterface
         return SubscriptionInterface::class;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function subscribe(SubscriptionCustomerInterface $customer, PlanInterface $plan, int $quantity = 1): SubscriptionInterface
     {
         /** @var SubscriptionInterface $subscription */
@@ -108,17 +93,11 @@ class SubscriptionManager implements SubscriptionManagerInterface
         return $subscription;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function trial(SubscriptionCustomerInterface $customer, PlanInterface $plan, int $days): SubscriptionInterface
     {
         // TODO REVIEW THIS
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function cancelRenovation(SubscriptionInterface $subscription): SubscriptionInterface
     {
         $this->eventDispatcher->dispatch(new SubscriptionEvent($subscription), SfsSubscriptionEvents::SUBSCRIPTION_CANCEL_RENOVATION);
@@ -128,9 +107,6 @@ class SubscriptionManager implements SubscriptionManagerInterface
         return $subscription;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function uncancelRenovation(SubscriptionInterface $subscription): SubscriptionInterface
     {
         $this->eventDispatcher->dispatch(new SubscriptionEvent($subscription), SfsSubscriptionEvents::SUBSCRIPTION_UNCANCEL_RENOVATION);
@@ -140,9 +116,6 @@ class SubscriptionManager implements SubscriptionManagerInterface
         return $subscription;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function cancel(SubscriptionInterface $subscription): SubscriptionInterface
     {
         $this->eventDispatcher->dispatch(new SubscriptionEvent($subscription), SfsSubscriptionEvents::SUBSCRIPTION_CANCEL);
@@ -152,9 +125,6 @@ class SubscriptionManager implements SubscriptionManagerInterface
         return $subscription;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function sync(SubscriptionInterface $subscription): SubscriptionInterface
     {
         $this->eventDispatcher->dispatch(new SubscriptionEvent($subscription), SfsSubscriptionEvents::SUBSCRIPTION_SYNC);
@@ -164,9 +134,6 @@ class SubscriptionManager implements SubscriptionManagerInterface
         return $subscription;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function upgrade(SubscriptionInterface $subscription, PlanInterface $plan): SubscriptionInterface
     {
         if ($subscription instanceof SubscriptionMultiPlanInterface) {
@@ -182,16 +149,12 @@ class SubscriptionManager implements SubscriptionManagerInterface
         return $subscription;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function finishTrial(SubscriptionInterface $subscription, PlanInterface $plan): SubscriptionInterface
     {
         if (SubscriptionInterface::STATUS_TRIALING != $subscription->getStatus()) {
             throw new SubscriptionException('Subscription is not trialing now');
         }
 
-        /** @var SubscriptionResponse $subscriptionResponse */
-        $subscriptionResponse = $this->api->get('subscription')->finishTrial($subscription, $plan);
+        $this->api->get('subscription')->finishTrial($subscription, $plan);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Softspring\SubscriptionBundle\Model;
 
+use DateTime;
+
 class SubscriptionTransition implements SubscriptionTransitionInterface
 {
     use SubscriptionStatusStringTrait;
@@ -31,14 +33,14 @@ class SubscriptionTransition implements SubscriptionTransitionInterface
         $this->subscription = $subscription;
     }
 
-    public function getDate(): ?\DateTime
+    public function getDate(): ?DateTime
     {
-        return $this->date ? \DateTime::createFromFormat('U', $this->date) : null;
+        return $this->date ? DateTime::createFromFormat('U', $this->date) : null;
     }
 
-    public function setDate(?\DateTime $date): void
+    public function setDate(?DateTime $date): void
     {
-        $this->date = $date instanceof \DateTime ? $date->format('U') : null;
+        $this->date = $date instanceof DateTime ? $date->format('U') : null;
     }
 
     public function getStatus(): ?int

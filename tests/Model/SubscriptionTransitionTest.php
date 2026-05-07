@@ -2,6 +2,7 @@
 
 namespace Softspring\SubscriptionBundle\Tests\Model;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
 use Softspring\SubscriptionBundle\Model\SubscriptionInterface;
 use Softspring\SubscriptionBundle\Model\SubscriptionTransitionInterface;
@@ -10,12 +11,12 @@ use Softspring\SubscriptionBundle\Tests\Model\Examples\SubscriptionTransitionExa
 
 class SubscriptionTransitionTest extends TestCase
 {
-    public function testInterfaces()
+    public function testInterfaces(): void
     {
         $this->assertInstanceOf(SubscriptionTransitionInterface::class, new SubscriptionTransitionExample());
     }
 
-    public function testBasePlanGetterAndSetters()
+    public function testBasePlanGetterAndSetters(): void
     {
         $transition = new SubscriptionTransitionExample();
 
@@ -28,7 +29,7 @@ class SubscriptionTransitionTest extends TestCase
         $transition->setSubscription($subscription);
         $this->assertEquals($subscription, $transition->getSubscription());
 
-        $date = new \DateTime('now');
+        $date = new DateTime('now');
         $transition->setDate($date);
         $this->assertEquals($date->format('Y-m-d H:i:s'), $transition->getDate()->format('Y-m-d H:i:s'));
 
@@ -36,7 +37,7 @@ class SubscriptionTransitionTest extends TestCase
         $this->assertEquals(SubscriptionInterface::STATUS_EXPIRED, $transition->getStatus());
     }
 
-    public function testStatusNames()
+    public function testStatusNames(): void
     {
         $transition = new SubscriptionTransitionExample();
 
