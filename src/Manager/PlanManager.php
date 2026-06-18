@@ -48,7 +48,7 @@ class PlanManager implements PlanManagerInterface
 
     public function syncAll(): void
     {
-        if (!$this->adapterManager) {
+        if (!$this->adapterManager instanceof AdapterManagerInterface) {
             return;
         }
 
