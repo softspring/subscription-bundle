@@ -6,7 +6,7 @@
 [![PHP Version](https://img.shields.io/packagist/dependency-v/softspring/subscription-bundle/php?style=flat-square)](composer.json)
 [![Downloads](https://img.shields.io/packagist/dt/softspring/subscription-bundle?style=flat-square)](https://packagist.org/packages/softspring/subscription-bundle)
 [![CI](https://img.shields.io/github/actions/workflow/status/softspring/subscription-bundle/ci.yml?branch=6.0&style=flat-square&label=CI)](https://github.com/softspring/subscription-bundle/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/codecov/c/github/softspring/subscription-bundle?branch=6.0&style=flat-square)](https://codecov.io/gh/softspring/subscription-bundle)
+[![Coverage](https://img.shields.io/codecov/c/github/softspring/subscription-bundle?branch=6.0&style=flat-square)](https://app.codecov.io/gh/softspring/subscription-bundle/tree/6.0)
 
 Subscription plans, subscription lifecycle, upgrade flows, and admin subscription management for Symfony applications.
 
