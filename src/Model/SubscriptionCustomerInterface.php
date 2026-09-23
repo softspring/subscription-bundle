@@ -11,15 +11,9 @@ interface SubscriptionCustomerInterface extends CustomerInterface
 {
     public function getEmail(): ?string;
 
-    /**
-     * @return Collection|SubscriptionInterface[]
-     */
     public function getSubscriptions(): Collection;
 
     public function addSubscription(SubscriptionInterface $subscription): void;
 
-    /**
-     * @return Collection|SubscriptionInterface[]
-     */
     public function getActiveSubscriptions(): Collection;
 }

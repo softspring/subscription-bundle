@@ -8,9 +8,6 @@ use Doctrine\Common\Collections\Collection;
 
 interface SubscriptionMultiPlanInterface
 {
-    /**
-     * @return SubscriptionItemInterface[]|Collection
-     */
     public function getItems(): Collection;
 
     public function addItem(SubscriptionItemInterface $item): void;

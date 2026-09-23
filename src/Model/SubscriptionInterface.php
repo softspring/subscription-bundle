@@ -82,9 +82,6 @@ interface SubscriptionInterface
 
     public function setCancelScheduled(?DateTime $endDate): void;
 
-    /**
-     * @return Collection|SubscriptionTransitionInterface[]
-     */
     public function getTransitions(): Collection;
 
     public function addTransition(SubscriptionTransitionInterface $transition): void;

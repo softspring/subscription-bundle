@@ -23,8 +23,5 @@ interface ProductInterface
      */
     public function getType(): ?int;
 
-    /**
-     * @return Collection|PlanInterface[]
-     */
     public function getPlans(): Collection;
 }

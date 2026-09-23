@@ -11,9 +11,6 @@ trait ProductPlansRelationTrait
      */
     protected $plans;
 
-    /**
-     * @return Collection|PlanInterface[]
-     */
     public function getPlans(): Collection
     {
         return $this->plans;

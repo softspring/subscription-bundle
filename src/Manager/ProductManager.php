@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Softspring\SubscriptionBundle\Manager;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\Component\CrudlController\Manager\CrudlEntityManagerTrait;
 use Softspring\SubscriptionBundle\Model\ProductInterface;

@@ -14,9 +14,6 @@ trait CustomerSubscriptionsTrait
      */
     protected $subscriptions;
 
-    /**
-     * @return Collection|SubscriptionInterface[]
-     */
     public function getSubscriptions(): Collection
     {
         return $this->subscriptions;
@@ -30,9 +27,6 @@ trait CustomerSubscriptionsTrait
         }
     }
 
-    /**
-     * @return Collection|SubscriptionInterface[]
-     */
     public function getActiveSubscriptions(): Collection
     {
         return $this->getSubscriptions()->filter(function (SubscriptionInterface $subscription): bool {
