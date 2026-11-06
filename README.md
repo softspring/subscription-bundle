@@ -10,6 +10,10 @@
 
 Subscription plans, subscription lifecycle, upgrade flows, and admin subscription management for Symfony applications.
 
+## Documentation
+
+[Armonic documentation](https://armonic.softspring.es/6.0/bundles/subscription-bundle)
+
 ## What It Provides
 
 - subscription plan and product model contracts with Doctrine mapping support
