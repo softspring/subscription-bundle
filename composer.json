@@ -7,10 +7,10 @@
         "php": ">=8.4",
         "doctrine/doctrine-bundle": "^2.10 || ^3.0 || ^4.0",
         "doctrine/orm": "^2.10 || ^3.0 || ^4.0",
-        "softspring/crudl-controller": "^5.0 || ^6.0@dev",
+        "softspring/crudl-controller": "6.1.*@dev",
         "softspring/customer-bundle": "^5.0 || ^6.0@dev",
-        "softspring/doctrine-templates": "^5.0 || ^6.0@dev",
-        "softspring/events": "^5.0 || ^6.0@dev",
+        "softspring/doctrine-templates": "6.1.*@dev",
+        "softspring/events": "6.1.*@dev",
         "softspring/platform-bundle": "^5.0 || ^6.0@dev",
         "symfony/config": "^6.4 || ^7.4 || ^8.0",
         "symfony/console": "^6.4 || ^7.4 || ^8.0",
@@ -60,7 +60,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-6.0": "6.0.x-dev"
+            "dev-6.0": "6.0.x-dev",
+            "dev-6.1": "6.1.x-dev"
         }
     },
     "scripts": {
