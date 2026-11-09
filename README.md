@@ -12,7 +12,7 @@ Subscription plans, subscription lifecycle, upgrade flows, and admin subscriptio
 
 ## Documentation
 
-[Armonic documentation](https://armonic.softspring.es/6.0/bundles/subscription-bundle)
+Armonic usage documentation is deferred while this package is reviewed for an update and continued use.
 
 ## What It Provides
 
